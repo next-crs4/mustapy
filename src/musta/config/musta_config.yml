@@ -1,0 +1,12 @@
+io:
+  working_dir: /volumes/workdir
+  input_dir: /volumes/inputs
+  output_dir: /volumes/outputs
+  resources_dir: /volumes/resources
+  config_dir: /volumes/config
+
+pipeline:
+  url: https://github.com/solida-core/musta
+  tag: v1.1
+  config_file: /volumes/workdir/config/config.yaml
+  samples_file: /volumes/samples.yml
