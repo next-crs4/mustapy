@@ -7,6 +7,15 @@ from importlib import import_module
 
 SUBMOD_NAMES = [
     "demo",
+    "call",
+    "annotate",
+    "detect",
+    "pathway",
+    "heterogeneity",
+    "signature",
+    "full",
+    "variants",
+    "analysis",
 ]
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]

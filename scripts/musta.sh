@@ -42,5 +42,4 @@ CMD="docker run "
 [ $help_flag -eq 0 ] && [ -f "$SAMPLESFILE" ] && CMD="${CMD} -v ${SAMPLESFILE}:/volumes/samples.yml"
 
 CMD="${CMD} musta:Dockerfile musta ${PARAMS}"
-echo $CMD
 eval $CMD

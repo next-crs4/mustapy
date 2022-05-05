@@ -5,6 +5,7 @@ end-to-end pipeline to detect, classify and interpret mutations in cancer
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
+- [Usage](#usage)
 
 ## Overview
 Accurate detection and comprehensive analysis of somatic variants are a major task in cancer sample data analysis, 
@@ -87,3 +88,64 @@ musta -w /path/to/workdir demo -d
 
 [Back](#contents)
 
+
+## Usage
+
+### Show help
+
+```shell
+musta -h
+
+
+usage: musta [-h] [--workdir PATH] [--config_file PATH] [--logfile PATH]
+             [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+             {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
+             ...
+
+End-to-end pipeline to detect, classify and interpret mutations in cancer
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --config_file PATH, -c PATH
+                        configuration file
+  --logfile PATH        log file (default=stderr)
+  --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        logger level.
+
+subcommands:
+  valid subcommands
+
+  {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
+                        sub-command description
+    demo                
+                        Demo run on data from 
+                        https://github.com/solida-core/test-data-somatic
+    call                
+                        Variant Calling
+                        Calls somatic SNVs and indels. 
+    annotate            
+                        Variant Annotation
+                        Functional annotation of called somatic variants 
+    detect              
+                        Driver Gene Detection
+                        Identification of cancer driver genes 
+    pathway             
+                        Pathway Analysis
+                        Check for enrichment of known oncogenic pathways.
+    heterogeneity       
+                        Estimation of Tumor Heterogeneity
+                        Inferring tumor clonality by clustering variant allele frequencies.
+    signature           
+                        Deconvolution of Mutational Signatures
+                        De-novo extraction of mutational signatures  followed  by refitting
+    full                
+                        Run the whole workflow, 
+                        from Variant Calling to Deconvolution of Mutational Signatures
+    variants            
+                        Run Variant Calling and Variants Annotation steps
+    analysis            
+                        Run from  Driver Gene Detection to Deconvolution of Mutational Signatures mu
+
+```
