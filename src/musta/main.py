@@ -6,7 +6,7 @@ from comoda import a_logger, LOG_LEVELS, a_handler
 from importlib import import_module
 
 SUBMOD_NAMES = [
-    "test",
+    "demo",
 ]
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]
@@ -23,25 +23,25 @@ class App(object):
                                          formatter_class=argparse.RawTextHelpFormatter,
                                          description=__description__)
 
-        parser.add_argument('--input-dir', '-i',
-                            type=str, metavar='PATH',
-                            help='input folder path')
-
-        parser.add_argument('--output-dir', '-o',
-                            type=str, metavar='PATH',
-                            help='output folder path')
-
-        parser.add_argument('--work-dir', '-w',
+        # parser.add_argument('--input-dir', '-i',
+        #                     type=str, metavar='PATH',
+        #                     help='input folder path')
+        #
+        # parser.add_argument('--output-dir', '-o',
+        #                     type=str, metavar='PATH',
+        #                     help='output folder path')
+        #
+        parser.add_argument('--workdir', '-w',
                             type=str, metavar='PATH',
                             help='working folder path')
-
-        parser.add_argument('--reference-dir', '-r',
-                            type=str, metavar='PATH',
-                            help='reference folder path')
-
-        parser.add_argument('--samples', '-s',
-                            type=str, metavar='PATH',
-                            help='sample list file in YAML format')
+        #
+        # parser.add_argument('--reference-dir', '-r',
+        #                     type=str, metavar='PATH',
+        #                     help='reference folder path')
+        #
+        # parser.add_argument('--samples', '-s',
+        #                     type=str, metavar='PATH',
+        #                     help='sample list file in YAML format')
 
         parser.add_argument('--config_file', '-c',
                             type=str, metavar='PATH',
@@ -73,6 +73,8 @@ def main(argv):
     args = parser.parse_args(argv)
     logger = a_logger('main', level=args.loglevel, filename=args.logfile)
     logger.addHandler(a_handler())
+
+    logger.info("{} v{} - {}".format(__appname__, __version__, __description__))
 
     args.func(logger, args)
 

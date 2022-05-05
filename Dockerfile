@@ -9,16 +9,8 @@ WORKDIR /code
 COPY . /code
 
 RUN mkdir /config
-RUN mkdir /musta
 
 ADD /config/* /config/
-
-#ADD /app/musta-test.py /usr/local/bin/musta-test.py
-#ADD /app/musta.py /usr/local/bin/musta.py
-#RUN chmod +x /usr/local/bin/musta-test.py
-#RUN chmod +x /usr/local/bin/musta.py
-#RUN ln -s /usr/local/bin/musta-test.py /usr/local/bin/musta-test
-#RUN ln -s /usr/local/bin/musta.py /usr/local/bin/musta
 
 ENV PATH /opt/conda/bin:$PATH
 
@@ -44,9 +36,6 @@ RUN conda install -y -c conda-forge mamba && \
 RUN sh /config/create_paths.sh
 
 RUN cd /code/src && make install && cd /code
-
-#RUN sh /config/install-pipelines.sh
-#RUN sh /config/get-test-data.sh
 
 USER appuser
 ENV PATH /opt/conda/envs/snakemake/bin:$PATH

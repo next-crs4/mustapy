@@ -1,12 +1,27 @@
 io:
-  working_dir: /volumes/workdir
-  input_dir: /volumes/inputs
-  output_dir: /volumes/outputs
-  resources_dir: /volumes/resources
-  config_dir: /volumes/config
+  workdir_root_path: /volumes/workdir
+  input_folder_name: inputs
+  output_folder_name: results
+  resources_folder_name: resources
+  samples_file: /volumes/samples.yml
+  temp_folder_path: /volumes/tmp
 
 pipeline:
   url: https://github.com/solida-core/musta
-  tag: v1.1
-  config_file: /volumes/workdir/config/config.yaml
-  samples_file: /volumes/samples.yml
+  tag: v1.2.0.1
+  name: musta
+  branch: master
+  workflow_folder_name: workflow
+  config_folder_name: config
+  snakefile: Snakefile
+  config_file: config.yaml
+  samples_file: samples.yaml
+
+demo:
+  url: https://github.com/solida-core/test-data-somatic.git
+  demo_root_path: /volumes/workdir/test-data-somatic
+  data_folder_name: data
+  bam_folder_name: bam
+  resources_folder_name: resources
+  reference_filename: chr22.fa.gz
+  bed_filename: chr22_testbed.bed

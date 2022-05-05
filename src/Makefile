@@ -1,4 +1,3 @@
-MUSTA_DIR=${HOME}/musta
 TARGETS=all install build clean uninstall
 
 all:
@@ -15,11 +14,6 @@ clean:
 	find . -regex '.*\(\.pyc\|\.pyo\)' -exec rm -fv {} \;
 	rm -rf dist *.egg-info
 
-config:
-	mkdir -p ${MUSTA_DIR}
-	if [ ! -f ${MUSTA_DIR}/musta_config.yml ]; then \
-		cp musta/config/musta_config.yml ${MUSTA_DIR}; \
-	fi
 
 uninstall:
 		/opt/conda/envs/snakemake/bin/pip uninstall -y musta

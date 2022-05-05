@@ -1,10 +1,4 @@
 #!/bin/bash
 
-_musta  \
---input-dir /volumes/inputs \
---output-dir /volumes/outputs \
---work-dir /volumes/workdir \
---reference-dir /volumes/references \
---samples /volumes/samples.yml \
---logfile /volumes/log/musta.log "${@}"
+_musta  --logfile /volumes/logs/musta.log "${@}"
 
