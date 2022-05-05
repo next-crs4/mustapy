@@ -71,7 +71,7 @@ git clone https://github.com/next-crs4/musta.git
 
 2 - Cd into the Musta directory:
 ```shell
-cd musta`
+cd musta
 ```
 
 3 - Bring up the Musta framework
@@ -95,8 +95,9 @@ musta -w /path/to/workdir demo -d
 
 ```shell
 musta -h
+```
 
-
+```shell
 usage: musta [-h] [--workdir PATH] [--config_file PATH] [--logfile PATH]
              [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
              {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
@@ -146,6 +147,8 @@ subcommands:
     variants            
                         Run Variant Calling and Variants Annotation steps
     analysis            
-                        Run from  Driver Gene Detection to Deconvolution of Mutational Signatures mu
+                        Run from  Driver Gene Detection to Deconvolution of Mutational Signatures
 
 ```
+
+[Back](#contents)
