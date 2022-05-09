@@ -1,12 +1,14 @@
 import os
 import sys
+import shutil
 from .utils.config import Config
 from .utils.pipeline import Pipeline
 from .utils.pipeline import Config as cfg
 from .utils.samples import Samples
-
+from .utils import gunzip
 from comoda import ensure_dir
 from git import Repo
+
 
 class DemoWorkflow(object):
     def __init__(self, args=None, logger=None):
@@ -34,13 +36,24 @@ class DemoWorkflow(object):
                                           )
 
         self.resources = dict(
-            reference=os.path.join(self.demo_path,
-                                   self.demo_conf.get('resources_folder_name'),
-                                   self.demo_conf.get('reference_filename')),
-            bed=os.path.join(self.demo_path,
-                             self.demo_conf.get('resources_folder_name'),
-                             self.demo_conf.get('bed_filename')),
+            base=dict(
+                reference=os.path.join(self.demo_path,
+                                       self.demo_conf.get('resources_folder_name'),
+                                       self.demo_conf.get('reference_filename')),
+                bed=os.path.join(self.demo_path,
+                                 self.demo_conf.get('resources_folder_name'),
+                                 self.demo_conf.get('bed_filename')),
+            ),
 
+            gatk_params=dict(
+                germline=os.path.join(self.demo_path,
+                                      self.demo_conf.get('resources_folder_name'),
+                                      self.demo_conf.get('germline_filename')),
+
+                exac=os.path.join(self.demo_path,
+                                  self.demo_conf.get('resources_folder_name'),
+                                  self.demo_conf.get('exac_filename')),
+            )
         )
 
         self.paths = dict(
@@ -66,7 +79,6 @@ class DemoWorkflow(object):
                                               self.pipe_conf.get('config_folder_name'),
                                               self.pipe_conf.get('samples_file'))
 
-
         self.pipe_cfg = None
 
         self.samples = None
@@ -75,23 +87,19 @@ class DemoWorkflow(object):
             self.logger.error('{} already exists, aborting (use --force/-f to overwrite'.format(self.demo_path))
             sys.exit()
 
-        ensure_dir(self.demo_path, force=self.force)
-
     def init_config_file(self):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,
                             logger=self.logger)
         self.pipe_cfg.reset_run_mode()
         self.pipe_cfg.set_samples_file(samples_file=self.pipe_samples_file)
-        self.pipe_cfg.set_resources_section(resources=self.resources)
+        self.pipe_cfg.set_resources_section(resources=self.resources.get('base'))
         self.pipe_cfg.set_paths_section(paths=self.paths)
-        self.logger.info("after: {}".format(self.pipe_cfg.conf))
+        self.pipe_cfg.set_gatk_section(gatk_params=self.resources.get('gatk_params'))
         self.pipe_cfg.write()
 
     def init_samples_file(self):
         self.samples = Samples(self.pipe_samples_file, self.logger)
-        self.logger.info("before: {}".format(self.samples.conf))
         self.samples.set_bam_path(self.demo_bam_path)
-        self.logger.info("after: {}".format(self.samples.conf))
         self.samples.write()
 
     def get_demo_data(self):
@@ -116,7 +124,17 @@ class DemoWorkflow(object):
                         logger=self.logger)
 
         self.logger.info('Getting test data from {}'.format(self.demo_url))
+        ensure_dir(self.demo_path, force=self.force)
         repo = self.get_demo_data()
+
+        gunzip(self.resources.get('gatk_params').get('germline') + ".gz",
+               self.resources.get('gatk_params').get('germline'))
+
+        gunzip(self.resources.get('gatk_params').get('exac') + ".gz",
+               self.resources.get('gatk_params').get('exac'))
+
+        gunzip(self.resources.get('base').get('reference') + ".gz",
+               self.resources.get('base').get('reference'))
 
         self.init_config_file()
         self.init_samples_file()
@@ -146,6 +164,7 @@ def make_parser(parser):
     parser.add_argument('--dry_run', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
+
 
 def implementation(logger, args):
     logger.info(help_doc.replace('\n',''))

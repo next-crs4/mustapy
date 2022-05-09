@@ -3,7 +3,9 @@ from snakedeploy.deploy import deploy
 from pathlib import Path
 from .config import ConfigurationFromYamlFile
 
+from git import Repo
 from .yaml import dump as dump_config
+
 
 class Pipeline(object):
     def __init__(self, url, name, tag, branch, workdir, force=False, logger=None):
@@ -16,12 +18,13 @@ class Pipeline(object):
         self.force = force
         self.logger = logger
 
-        deploy(source_url=self.url,
-               name=self.name,
-               tag=self.tag,
-               branch=self.branch,
-               dest_path=Path(self.workdir),
-               force=self.force)
+        self.repo = Repo.clone_from(self.url, self.workdir)
+        # deploy(source_url=self.url,
+        #        name=self.name,
+        #        tag=self.tag,
+        #        branch=self.branch,
+        #        dest_path=Path(self.workdir),
+        #        force=self.force)
 
     def run(self,
             snakefile,
@@ -29,7 +32,8 @@ class Pipeline(object):
 
         snakemake(snakefile=snakefile,
                   workdir=self.workdir,
-                  dryrun=dryrun)
+                  dryrun=dryrun,
+                  use_conda=True)
 
 
 class Config(ConfigurationFromYamlFile):
@@ -56,7 +60,6 @@ class Config(ConfigurationFromYamlFile):
 
     def reset_run_mode(self, run_mode=None):
         run_section = self.get_run_section()
-        self.logger.info("run: {}".format(self.conf['run']))
         if run_mode and run_mode in run_section:
             self.conf['run'][run_mode] = False
 
@@ -64,19 +67,14 @@ class Config(ConfigurationFromYamlFile):
             for rm in run_section.keys():
                 self.conf['run'][rm] = False
 
-        self.logger.info("run: {}".format(self.conf['run']))
-
     def set_run_mode(self, run_mode=None):
         run_section = self.get_run_section()
-        self.logger.info("run: {}".format(self.conf['run']))
         if run_mode and run_mode in run_section:
             self.conf['run'][run_mode] = str(True)
 
         else:
             for rm in run_section.keys():
                 self.conf['run'][rm] = str(True)
-
-        self.logger.info("run: {}".format(self.conf['run']))
 
     def set_samples_file(self, samples_file):
 
@@ -87,6 +85,14 @@ class Config(ConfigurationFromYamlFile):
 
     def set_paths_section(self, paths):
         self.set_section(section_label='paths', section_value=paths)
+
+    def set_gatk_section(self, gatk_params):
+
+        if gatk_params.get('germline'):
+            self.conf['params']['gatk']['germline'] = gatk_params.get('germline')
+
+        if gatk_params.get('exac'):
+            self.conf['params']['gatk']['exac'] = gatk_params.get('exac')
 
     def write(self):
         dump_config(self.conf, self.config_file)

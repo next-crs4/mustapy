@@ -23,5 +23,7 @@ demo:
   data_folder_name: data
   bam_folder_name: bam
   resources_folder_name: resources
-  reference_filename: chr22.fa.gz
+  reference_filename: chr22.fa
   bed_filename: chr22_testbed.bed
+  germline_filename: somatic-b37_af-only-gnomad.raw.sites.ucsc.chr22.vcf
+  exac_filename: somatic-b37_small_exac_common_3.ucsc.chr22.vcf

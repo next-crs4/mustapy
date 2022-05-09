@@ -11,6 +11,7 @@ help_doc = """
 Run from  Driver Gene Detection to Deconvolution of Mutational Signatures
 """
 
+
 def make_parser(parser):
 
     parser.add_argument('--force', '-f',
@@ -20,6 +21,7 @@ def make_parser(parser):
     parser.add_argument('--dry_run', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
+
 
 def implementation(logger, args):
     logger.info(help_doc.replace('\n',''))

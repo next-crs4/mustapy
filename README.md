@@ -82,8 +82,15 @@ make bootstrap
 
 4 - Run the demo mode
 
+4.1 DryRun
+
 ```shell
 musta -w /path/to/workdir demo -d
+```
+
+4.2 Run
+```shell
+musta -w /path/to/workdir demo
 ```
 
 [Back](#contents)
