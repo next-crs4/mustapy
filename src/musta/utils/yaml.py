@@ -2,11 +2,13 @@ import os
 import sys
 from ruamel.yaml import YAML
 
+
 def dump(data, filename, mode='w'):
     yaml = YAML()
     yaml.default_flow_style = False
     with open(filename, mode) as fn:
         yaml.dump(data, fn)
+
 
 def load(filename):
     """

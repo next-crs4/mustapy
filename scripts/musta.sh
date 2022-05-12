@@ -33,7 +33,8 @@ done
 
 
 [  -z "$WORKDIR" ] && [ $help_flag -eq 0 ] && echo "ERROR: -w | --workdir is a mandatory argument" && exit 1
-[  ! -d "$WORKDIR" ] && [ $help_flag -eq 0 ]&& echo "WARNING: ${WORKDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $WORKDIR
+[  ! -d "$WORKDIR" ] && [ $help_flag -eq 0 ] && echo "WARNING: ${WORKDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $WORKDIR
+#[  -d "$WORKDIR" ] && [ $help_flag -eq 0 ] && [ ! -z "$(ls -A ${WORKDIR})" ] && echo "ERROR: ${WORKDIR}  is not empty. Exiting..." && exit 1
 
 CMD="docker run "
 

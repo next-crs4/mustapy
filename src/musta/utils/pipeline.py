@@ -1,6 +1,6 @@
+import os
+import shutil
 from snakemake import snakemake
-from snakedeploy.deploy import deploy
-from pathlib import Path
 from .config import ConfigurationFromYamlFile
 
 from git import Repo
@@ -8,7 +8,7 @@ from .yaml import dump as dump_config
 
 
 class Pipeline(object):
-    def __init__(self, url, name, tag, branch, workdir, force=False, logger=None):
+    def __init__(self, url, name, tag, branch, workdir, outdir, report_file, stats_file, force=False, logger=None):
 
         self.url = url
         self.name = name
@@ -16,24 +16,30 @@ class Pipeline(object):
         self.branch = branch
         self.workdir = workdir
         self.force = force
+        self.outdir = outdir
+        self.report_file = report_file
+        self.stats_file = stats_file
         self.logger = logger
 
-        self.repo = Repo.clone_from(self.url, self.workdir)
-        # deploy(source_url=self.url,
-        #        name=self.name,
-        #        tag=self.tag,
-        #        branch=self.branch,
-        #        dest_path=Path(self.workdir),
-        #        force=self.force)
+        if os.path.exists(self.workdir):
+            shutil.rmtree(self.workdir)
 
-    def run(self,
-            snakefile,
-            dryrun):
+        self.repo = Repo.clone_from(self.url, self.workdir)
+
+    def run(self, snakefile, dryrun):
 
         snakemake(snakefile=snakefile,
                   workdir=self.workdir,
                   dryrun=dryrun,
+                  forceall=self.force,
+                  force_incomplete=self.force,
+                  stats=self.stats_file,
                   use_conda=True)
+
+        snakemake(snakefile=snakefile,
+                  workdir=self.workdir,
+                  report=self.report_file,
+                  )
 
 
 class Config(ConfigurationFromYamlFile):

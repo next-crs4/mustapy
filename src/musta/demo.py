@@ -1,6 +1,5 @@
 import os
 import sys
-import shutil
 from .utils.config import Config
 from .utils.pipeline import Pipeline
 from .utils.pipeline import Config as cfg
@@ -26,6 +25,10 @@ class DemoWorkflow(object):
         self.input_dir = os.path.join(self.workdir, self.io_conf.get('input_folder_name'))
         self.output_dir = os.path.join(self.workdir, self.io_conf.get('output_folder_name'))
         self.tmp_dir = self.io_conf.get('temp_folder_path')
+        self.musta_dir = os.path.join(self.workdir, self.io_conf.get('musta_folder_name'))
+
+        if not os.path.exists(self.output_dir):
+            ensure_dir(self.output_dir)
 
         self.demo_conf = self.conf.get_demo_section()
         self.demo_url = self.demo_conf.get('url')
@@ -57,7 +60,8 @@ class DemoWorkflow(object):
         )
 
         self.paths = dict(
-            workdir=self.workdir,
+            workdir=self.musta_dir,
+            results_dir=self.output_dir,
             tmp_dir=self.tmp_dir
         )
 
@@ -67,25 +71,24 @@ class DemoWorkflow(object):
         self.pipe_name = self.pipe_conf.get('name')
         self.pipe_branch = self.pipe_conf.get('branch')
 
-        self.pipe_snakefile = os.path.join(self.workdir,
+        self.pipe_snakefile = os.path.join(self.musta_dir,
                                            self.pipe_conf.get('workflow_folder_name'),
                                            self.pipe_conf.get('snakefile'))
 
-        self.pipe_config_file = os.path.join(self.workdir,
+        self.pipe_config_file = os.path.join(self.musta_dir,
                                              self.pipe_conf.get('config_folder_name'),
                                              self.pipe_conf.get('config_file'))
 
-        self.pipe_samples_file = os.path.join(self.workdir,
+        self.pipe_samples_file = os.path.join(self.musta_dir,
                                               self.pipe_conf.get('config_folder_name'),
                                               self.pipe_conf.get('samples_file'))
 
+        self.pipe_report_file = os.path.join(self.output_dir,
+                                             self.pipe_conf.get('report_file'))
+
+        self.pipe_stats_file = os.path.join(self.output_dir,
+                                            self.pipe_conf.get('stats_file'))
         self.pipe_cfg = None
-
-        self.samples = None
-
-        if os.path.exists(self.demo_path) and not self.force:
-            self.logger.error('{} already exists, aborting (use --force/-f to overwrite'.format(self.demo_path))
-            sys.exit()
 
     def init_config_file(self):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,
@@ -105,7 +108,10 @@ class DemoWorkflow(object):
     def get_demo_data(self):
 
         try:
-            repo = Repo.clone_from(self.demo_url, self.demo_path)
+            if os.path.exists(self.demo_path):
+                repo = Repo(self.demo_path)
+            else:
+                repo = Repo.clone_from(self.demo_url, self.demo_path)
         except Exception as e:
             self.logger.error(str(e))
             sys.exit()
@@ -119,12 +125,14 @@ class DemoWorkflow(object):
                         name=self.pipe_name,
                         tag=self.pipe_tag,
                         branch=self.pipe_branch,
-                        workdir=self.workdir,
+                        workdir=self.musta_dir,
+                        outdir=self.output_dir,
+                        report_file=self.pipe_report_file,
+                        stats_file=self.pipe_stats_file,
                         force=self.force,
                         logger=self.logger)
 
         self.logger.info('Getting test data from {}'.format(self.demo_url))
-        ensure_dir(self.demo_path, force=self.force)
         repo = self.get_demo_data()
 
         gunzip(self.resources.get('gatk_params').get('germline') + ".gz",
@@ -136,7 +144,10 @@ class DemoWorkflow(object):
         gunzip(self.resources.get('base').get('reference') + ".gz",
                self.resources.get('base').get('reference'))
 
+        self.logger.info('Initializing  Config file')
         self.init_config_file()
+
+        self.logger.info('Initializing  Samples file')
         self.init_samples_file()
 
         self.logger.info('Running')
@@ -149,11 +160,11 @@ class DemoWorkflow(object):
                  dryrun=self.dry_run)
 
 
-
 help_doc = """
 Demo run on data from 
 https://github.com/solida-core/test-data-somatic
 """
+
 
 def make_parser(parser):
 
