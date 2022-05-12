@@ -36,10 +36,11 @@ class Pipeline(object):
                   stats=self.stats_file,
                   use_conda=True)
 
-        snakemake(snakefile=snakefile,
-                  workdir=self.workdir,
-                  report=self.report_file,
-                  )
+        if not dryrun:
+            snakemake(snakefile=snakefile,
+                      workdir=self.workdir,
+                      report=self.report_file,
+                      )
 
 
 class Config(ConfigurationFromYamlFile):
