@@ -20,6 +20,7 @@ SUBMOD_NAMES = [
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]
 
+
 class App(object):
     def __init__(self):
         self.supported_submodules = []
@@ -32,30 +33,26 @@ class App(object):
                                          formatter_class=argparse.RawTextHelpFormatter,
                                          description=__description__)
 
-        # parser.add_argument('--input-dir', '-i',
-        #                     type=str, metavar='PATH',
-        #                     help='input folder path')
-        #
-        # parser.add_argument('--output-dir', '-o',
-        #                     type=str, metavar='PATH',
-        #                     help='output folder path')
-        #
+        parser.add_argument('--inputs', '-i',
+                            type=str, metavar='PATH',
+                            help='input folder path')
+
         parser.add_argument('--workdir', '-w',
                             type=str, metavar='PATH',
                             help='working folder path')
-        #
-        # parser.add_argument('--reference-dir', '-r',
-        #                     type=str, metavar='PATH',
-        #                     help='reference folder path')
-        #
-        # parser.add_argument('--samples', '-s',
-        #                     type=str, metavar='PATH',
-        #                     help='sample list file in YAML format')
+
+        parser.add_argument('--reference-dir', '-r',
+                            type=str, metavar='PATH',
+                            help='reference folder path')
+
+        parser.add_argument('--samples', '-s',
+                            type=str, metavar='PATH',
+                            help='sample list file in YAML format')
 
         parser.add_argument('--config_file', '-c',
                             type=str, metavar='PATH',
-                           help='configuration file',
-                           default='/code/src/musta/config/musta_config.yml')
+                            help='configuration file',
+                            default='/code/src/musta/config/musta_config.yml')
 
         parser.add_argument('--logfile', type=str, metavar='PATH',
                             help='log file (default=stderr)')
@@ -86,4 +83,3 @@ def main(argv):
     logger.info("{} v{} - {}".format(__appname__, __version__, __description__))
 
     args.func(logger, args)
-

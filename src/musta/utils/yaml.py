@@ -37,6 +37,7 @@ class DetailsFromYamlFile:
     """
     Retrieve details from a yaml file
     """
+
     def __init__(self, yaml_file, logger):
         self.logger = logger
         if os.path.isfile(yaml_file):

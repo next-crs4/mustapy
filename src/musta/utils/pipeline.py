@@ -8,7 +8,9 @@ from .yaml import dump as dump_config
 
 
 class Pipeline(object):
-    def __init__(self, url, name, tag, branch, workdir, outdir, report_file, stats_file, force=False, logger=None):
+    def __init__(self, url, name, tag, branch, workdir, outdir,
+                 report_file, stats_file,
+                 force=False, logger=None):
 
         self.url = url
         self.name = name
