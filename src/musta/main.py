@@ -33,22 +33,6 @@ class App(object):
                                          formatter_class=argparse.RawTextHelpFormatter,
                                          description=__description__)
 
-        parser.add_argument('--inputs', '-i',
-                            type=str, metavar='PATH',
-                            help='input folder path')
-
-        parser.add_argument('--workdir', '-w',
-                            type=str, metavar='PATH',
-                            help='working folder path')
-
-        parser.add_argument('--reference-dir', '-r',
-                            type=str, metavar='PATH',
-                            help='reference folder path')
-
-        parser.add_argument('--samples', '-s',
-                            type=str, metavar='PATH',
-                            help='sample list file in YAML format')
-
         parser.add_argument('--config_file', '-c',
                             type=str, metavar='PATH',
                             help='configuration file',

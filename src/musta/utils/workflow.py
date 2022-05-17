@@ -9,7 +9,7 @@ from comoda import ensure_dir
 class Workflow(object):
     def __init__(self, args=None, logger=None):
         self.logger = logger
-        self.dry_run = args.dry_run
+        self.dryrun = args.dryrun
         self.force = args.force
 
         self.logger.info("Reading configuration file")
@@ -19,7 +19,7 @@ class Workflow(object):
         self.logger.info("Setting paths")
         self.io_conf = self.conf.get_io_section()
         self.workdir = args.workdir if args.workdir else self.io_conf.get('workdir_root_path')
-        self.input_dir = os.path.join(self.workdir, self.io_conf.get('input_folder_name'))
+        self.input_dir = self.io_conf.get('inputs_root_path')
         self.output_dir = os.path.join(self.workdir, self.io_conf.get('output_folder_name'))
         self.tmp_dir = self.io_conf.get('temp_folder_path')
         self.musta_dir = os.path.join(self.workdir, self.io_conf.get('musta_folder_name'))

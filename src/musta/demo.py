@@ -89,6 +89,11 @@ https://github.com/solida-core/test-data-somatic
 
 
 def make_parser(parser):
+
+    parser.add_argument('--workdir', '-w',
+                        type=str, metavar='PATH',
+                        help='working folder path')
+
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
                         help='force all output files to be re-created')

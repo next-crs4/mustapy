@@ -1,7 +1,7 @@
 io:
   workdir_root_path: /volumes/workdir
   musta_folder_name: musta
-  input_folder_name: inputs
+  inputs_root_path: /volumes/inputs
   output_folder_name: outputs
   resources_folder_name: resources
   samples_file: /volumes/samples.yml
