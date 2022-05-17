@@ -5,7 +5,7 @@ end-to-end pipeline to detect, classify and interpret mutations in cancer
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
-- [Usage](#usage)
+- [Tutorial](#tutorial)
 
 ## Overview
 Accurate detection and comprehensive analysis of somatic variants are a major task in cancer sample data analysis, 
@@ -80,24 +80,51 @@ cd musta
 make bootstrap
 ```
 
-4 - Run the demo mode
+4 - Run the demo 
 
 4.1 DryRun
 
 ```shell
-musta -w /path/to/workdir demo -d
+musta demo -w /path/to/workdir -d
 ```
 
 4.2 Run
 ```shell
-musta -w /path/to/workdir demo
+musta demo -w /path/to/workdir
 ```
 
 [Back](#contents)
 
 
-## Usage
+## Tutorial
+In order to test **Musta**, users can download demo dataset from [https://github.com/solida-core/test-data-somatic](https://github.com/solida-core/test-data-somatic)
 
+```yaml
+patientA:
+  normal_sample_name:
+    - N1
+  tumor_sample_name:
+    - A25
+  normal_bam:
+    - path/to/test-data-somatic/data/bam/N1.chr22.bam
+  tumor_bam:
+    - path/to/test-data-somatic/data/bam/A25.chr22.bam
+  vcf:
+    - path/to/test-data-somatic/data/bam/A25.chr22.vcf
+  maf:
+    - path/to/test-data-somatic/data/bam/A25.chr22.maf
+patientB:
+  normal_sample_name:
+  tumor_sample_name:
+    - B33
+  normal_bam:
+  tumor_bam:
+    - path/to/test-data-somatic/data/bam/B33.chr22.bam
+  vcf:
+    - path/to/test-data-somatic/data/bam/B33.chr22.vcf
+  maf:
+    - path/to/test-data-somatic/data/bam/B33.chr22.maf 
+```
 ### Show help
 
 ```shell
@@ -105,7 +132,7 @@ musta -h
 ```
 
 ```shell
-usage: musta [-h] [--workdir PATH] [--config_file PATH] [--logfile PATH]
+usage: musta [-h] [--config_file PATH] [--logfile PATH]
              [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
              {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
              ...
@@ -114,8 +141,6 @@ End-to-end pipeline to detect, classify and interpret mutations in cancer
 
 optional arguments:
   -h, --help            show this help message and exit
-  --workdir PATH, -w PATH
-                        working folder path
   --config_file PATH, -c PATH
                         configuration file
   --logfile PATH        log file (default=stderr)
@@ -159,3 +184,76 @@ subcommands:
 ```
 
 [Back](#contents)
+
+### Variant Calling
+Calls somatic SNVs and indels following the [GATK Best Practices for somatic variant calling](https://gatk.broadinstitute.org/hc/en-us/articles/360035894731-Somatic-short-variant-discovery-SNVs-Indels-)
+
+![Variant Calling](docs/images/call-workflow.png)
+
+This step requires BAM files for each input tumor and normal sample. 
+
+#### samples.yml
+
+```yaml
+patientA:
+  normal_sample_name:
+    - N1
+  tumor_sample_name:
+    - A25
+  normal_bam:
+    - path/to/test-data-somatic/data/bam/N1.chr22.bam
+  tumor_bam:
+    - path/to/test-data-somatic/data/bam/A25.chr22.bam
+patientB:
+  normal_sample_name:
+  tumor_sample_name:
+    - B33
+  normal_bam:
+  tumor_bam:
+    - path/to/test-data-somatic/data/bam/B33.chr22.bam
+```
+
+#### musta call -h
+
+```shell
+usage: musta call [-h] --workdir PATH --samples-file PATH --reference-file
+                  PATH --bed-file PATH --variant-file PATH --germline-resource
+                  PATH [--force] [--dryrun]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --reference-file PATH, -r PATH
+                        reference FASTA file
+  --bed-file PATH, -b PATH
+                        reference FASTA file
+  --variant-file PATH, -v PATH
+                        VCF file containing variants and allele frequencies
+  --germline-resource PATH, -g PATH
+                        Population vcf of germline sequencing containing
+                        allele fractions.
+  --force, -f           force all output files to be re-created
+  --dryrun, -d          Workflow will be only described.
+```
+
+#### Run
+
+```shell
+musta call -w /path/to/workdir \
+-s /path/to/samples.yml \
+-r /path/to/test-data-somatic/resources/chr22.fa \
+-v /path/to/test-data-somatic/resources/somatic-b37_small_exac_common_3.ucsc.chr22.vcf \
+-g /path/to/test-data-somatic/resources/somatic-b37_af-only-gnomad.raw.sites.ucsc.chr22.vcf \
+-b /path/to/test-data-somatic/resources/chr22_testbed.bed
+```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
