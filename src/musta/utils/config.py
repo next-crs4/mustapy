@@ -57,5 +57,11 @@ class Config(ConfigurationFromYamlFile):
         demo_section = self.get_section(label)
         return demo_section
 
+    def get_resources_section(self, label='resources'):
+        resources_section = self.get_section(label)
+        return resources_section
 
-
+    def get_ftp_section(self, label='ftp'):
+        resources_section = self.get_resources_section()
+        ftp_section = resources_section.get(label)
+        return ftp_section

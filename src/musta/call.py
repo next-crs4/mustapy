@@ -1,5 +1,3 @@
-import os.path
-
 from .utils.workflow import Workflow
 from .utils import overwrite
 

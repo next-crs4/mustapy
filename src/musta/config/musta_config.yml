@@ -3,7 +3,7 @@ io:
   musta_folder_name: musta
   inputs_root_path: /volumes/inputs
   output_folder_name: outputs
-  resources_folder_name: resources
+  resources_root_name: /volumes/resources
   samples_file: /volumes/samples.yml
   temp_folder_path: /volumes/tmp
 
@@ -19,6 +19,10 @@ pipeline:
   samples_file: samples.yaml
   report_file: report.html
   stats_file: stats.txt
+  results_folder_name: results
+  out_suffix:
+    call: _somatic_filtered_selected.vcf.gz
+
 
 demo:
   url: https://github.com/solida-core/test-data-somatic.git
@@ -30,3 +34,10 @@ demo:
   bed_filename: chr22_testbed.bed
   germline_filename: somatic-b37_af-only-gnomad.raw.sites.ucsc.chr22.vcf
   exac_filename: somatic-b37_small_exac_common_3.ucsc.chr22.vcf
+
+resources:
+  ftp:
+    host: ftp.broadinstitute.org
+    user: gsapubftp-anonymous
+    path: bundle/funcotator
+    filename: funcotator_dataSources.v1.7.20200521s.tar.gz

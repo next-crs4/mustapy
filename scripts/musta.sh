@@ -2,6 +2,7 @@
 PARAMS=""
 
 WORKDIR=""
+RESOURCESDIR=""
 SAMPLESFILE=""
 REFERENCE=""
 BEDFILE=""
@@ -23,6 +24,11 @@ case $1 in
   -w | --workdir)
     shift
     WORKDIR=$1
+    shift
+  ;;
+  -rd | --resources-dir)
+    shift
+    RESOURCESDIR=$1
     shift
   ;;
   -r | --reference-file)
@@ -60,11 +66,14 @@ esac
 done
 
 # CHECK ARGS
-[  -z "$WORKDIR" ] && [ $help_flag -eq 0 ] \
+[  -z "$WORKDIR" ] && [ $help_flag -eq 0 ] && [ -z "$RESOURCESDIR" ] \
 && echo "ERROR: -w | --workdir is a mandatory argument" && exit 1
 
-[  ! -d "$WORKDIR" ] && [ $help_flag -eq 0 ] \
+[  ! -d "$WORKDIR" ] && [ $help_flag -eq 0 ] && [ -z "$RESOURCESDIR" ] \
 && echo "WARNING: ${WORKDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $WORKDIR
+
+[  ! -z "$RESOURCESDIR" ] && [  ! -d "$RESOURCESDIR" ] \
+&& echo "WARNING: ${RESOURCESDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $RESOURCESDIR
 
 [  ! -z "$SAMPLESFILE" ] && [  ! -f "$SAMPLESFILE" ] \
 && [ $help_flag -eq 0 ] && echo "ERROR: ${SAMPLESFILE} does not exist or is not a file.  Exiting..." && exit 1
@@ -104,7 +113,12 @@ done
 && echo "Exiting..." && exit 1
 
 # check workdir
-[ $help_flag -eq 0 ] && CMD="${CMD} -v ${WORKDIR}:/volumes/workdir" && PARAMS="${PARAMS} -w /volumes/workdir"
+[ $help_flag -eq 0 ] && [ -z "$RESOURCESDIR" ] && CMD="${CMD} -v ${WORKDIR}:/volumes/workdir" && PARAMS="${PARAMS} -w /volumes/workdir"
+
+
+# check resources dir
+[ $help_flag -eq 0 ] && [ -d "$RESOURCESDIR" ] \
+&& CMD="${CMD} -v ${RESOURCESDIR}:/volumes/resources" && PARAMS="${PARAMS} -rd /volumes/resources"
 
 # check samples file
 [ $help_flag -eq 0 ] && [ -f "$SAMPLESFILE" ] \

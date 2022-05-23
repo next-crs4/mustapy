@@ -56,6 +56,12 @@ class Workflow(object):
 
         self.pipe_stats_file = os.path.join(self.output_dir,
                                             self.pipe_conf.get('stats_file'))
+
+        self.pipe_results_path = os.path.join(self.output_dir,
+                                              self.pipe_conf.get('results_folder_name'))
+
+        self.pipe_out_suffix = self.pipe_conf.get('out_suffix')
+
         self.pipe_cfg = None
         self.samples = None
         self.pipe = None
@@ -75,10 +81,17 @@ class Workflow(object):
         self.pipe_cfg.set_paths_section(paths=self.paths)
         self.pipe_cfg.write()
 
-    def init_samples_file(self, bam_path=None):
+    def init_samples_file(self,
+                          bam_path=None,
+                          vcf_path=None,
+                          results=None):
         self.samples = Samples(self.pipe_samples_file, self.logger)
         if bam_path:
             self.samples.set_bam_path(bam_path=bam_path)
+        if vcf_path:
+            self.samples.set_vcf_path(vcf_path=vcf_path)
+        if results:
+            self.samples.set_results(results=results)
         self.samples.write()
 
     def run(self):
