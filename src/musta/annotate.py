@@ -8,7 +8,6 @@ class AnnotateWorkflow(Workflow):
 
         self.samples_file = args.samples_file
         self.reference_file = args.reference_file
-        self.variant_file = args.variant_file
         self.data_source = args.data_source
         self.ref_version = args.ref_version
 
@@ -72,16 +71,6 @@ def make_parser(parser):
     parser.add_argument('--reference-file', '-r',
                         type=str, metavar='PATH',
                         help='reference FASTA file',
-                        required=True)
-
-    parser.add_argument('--bed-file', '-b',
-                        type=str, metavar='PATH',
-                        help='reference FASTA file',
-                        required=True)
-
-    parser.add_argument('--variant-file', '-v',
-                        type=str, metavar='PATH',
-                        help='VCF file containing variants and allele frequencies',
                         required=True)
 
     parser.add_argument('--data-source', '-ds',
