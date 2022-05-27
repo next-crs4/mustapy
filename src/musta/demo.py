@@ -56,14 +56,14 @@ class DemoWorkflow(Workflow):
         self.logger.info('Getting test data from {}'.format(self.demo_url))
         repo = self.get_demo_data()
 
-        gunzip(self.resources.get('gatk_params').get('germline') + ".gz",
-               self.resources.get('gatk_params').get('germline'))
+        gunzip(self.resources.get('gatk_params').get('germline') + ".tar.gz",
+               os.path.dirname(self.resources.get('gatk_params').get('germline')))
 
-        gunzip(self.resources.get('gatk_params').get('exac') + ".gz",
-               self.resources.get('gatk_params').get('exac'))
+        gunzip(self.resources.get('gatk_params').get('exac') + ".tar.gz",
+               os.path.dirname(self.resources.get('gatk_params').get('exac')))
 
-        gunzip(self.resources.get('base').get('reference') + ".gz",
-               self.resources.get('base').get('reference'))
+        gunzip(self.resources.get('base').get('reference') + ".tar.gz",
+               os.path.dirname(diself.resources.get('base').get('reference')))
 
         self.logger.info('Initializing  Config file')
         self.init_config_file(base=self.resources.get('base'),

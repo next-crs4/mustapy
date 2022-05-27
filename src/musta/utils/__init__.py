@@ -4,14 +4,13 @@ Utilities used by other modules.
 import os
 import subprocess
 import multiprocessing
-import gzip
+import tarfile
 import shutil
 
 
 def gunzip(src, dst):
-    with gzip.open(src, 'rb') as f_in:
-        with open(dst, 'wb') as f_out:
-            shutil.copyfileobj(f_in, f_out)
+    with tarfile.open(src, 'rb') as f_in:
+        f_in.extractall(dst)
 
 
 def get_cores():

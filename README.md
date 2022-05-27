@@ -257,3 +257,77 @@ Results in `/path/to/workdir/outputs/results`
 Logs in`/path/to/workdir/outputs/logs`
 
 Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
+
+### Variant Annotations
+Functional annotation of called somatic variants 
+
+This step requires a VCF file for each patient. 
+
+#### samples.yml
+
+```yaml
+patientA:
+  normal_sample_name:
+    - N1
+  tumor_sample_name:
+    - A25
+  normal_bam:
+  tumor_bam:
+  vcf:
+    - /path/to/test-data-somatic/data/vcf/patientA.chr22.vcf
+patientB:
+  normal_sample_name:
+  tumor_sample_name:
+    - B33
+  normal_bam:
+  tumor_bam:
+  vcf:
+    - /path/to/test-data-somatic/data/vcf/patientB.chr22.vcf
+```
+
+#### musta annotate -h
+
+```shell
+usage: musta annotate [-h] --workdir PATH --samples-file PATH --reference-file
+                      PATH --data-source PATH [--ref-version {hg19,hg38}]
+                      [--force] [--dry_run]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --reference-file PATH, -r PATH
+                        reference FASTA file
+  --data-source PATH, -ds PATH
+                        The path to a data source folder for Variant
+                        Annotations
+  --ref-version {hg19,hg38}, -rf {hg19,hg38}
+                        The version of the Human Genome reference to use.
+  --force, -f           overwrite directories and files if they exist in the
+                        destination
+  --dry_run, -d         Workflow will be only described.
+```
+
+#### Run
+
+```shell
+musta annotate -w /path/to/workdir \
+-s /path/to/samples.yml \
+-r /path/to/test-data-somatic/resources/chr22.fa \
+-ds /path/to/data-source \
+-rf gf19
+```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
