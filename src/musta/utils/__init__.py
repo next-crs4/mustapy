@@ -9,7 +9,7 @@ import shutil
 
 
 def gunzip(src, dst):
-    with tarfile.open(src, 'rb') as f_in:
+    with tarfile.open(src) as f_in:
         f_in.extractall(dst)
 
 

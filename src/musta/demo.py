@@ -63,7 +63,7 @@ class DemoWorkflow(Workflow):
                os.path.dirname(self.resources.get('gatk_params').get('exac')))
 
         gunzip(self.resources.get('base').get('reference') + ".tar.gz",
-               os.path.dirname(diself.resources.get('base').get('reference')))
+               os.path.dirname(eself.resources.get('base').get('reference')))
 
         self.logger.info('Initializing  Config file')
         self.init_config_file(base=self.resources.get('base'),
