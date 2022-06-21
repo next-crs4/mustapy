@@ -65,11 +65,50 @@ from Variant Calling to Deconvolution of Mutational Signatures
 
 def make_parser(parser):
 
+    parser.add_argument('--workdir', '-w',
+                        type=str, metavar='PATH',
+                        help='working folder path',
+                        required=True)
+
+    parser.add_argument('--samples-file', '-s',
+                        type=str, metavar='PATH',
+                        help='sample list file in YAML format',
+                        required=True)
+
+    parser.add_argument('--reference-file', '-r',
+                        type=str, metavar='PATH',
+                        help='reference FASTA file',
+                        required=True)
+
+    parser.add_argument('--bed-file', '-b',
+                        type=str, metavar='PATH',
+                        help='reference FASTA file',
+                        required=True)
+
+    parser.add_argument('--variant-file', '-v',
+                        type=str, metavar='PATH',
+                        help='VCF file containing variants and allele frequencies',
+                        required=True)
+
+    parser.add_argument('--germline-resource', '-g',
+                        type=str, metavar='PATH',
+                        help='Population vcf of germline sequencing containing allele fractions.',
+                        required=True)
+
+    parser.add_argument('--data-source', '-ds',
+                        type=str, metavar='PATH',
+                        help='The path to a data source folder for Variant Annotations',
+                        required=True)
+
+    parser.add_argument('--ref-version', '-rf',
+                        type=str, choices=['hg19', 'hg38'], default='hg19',
+                        help='The version of the Human Genome reference to use.')
+
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
-                        help='overwrite directories and files if they exist in the destination')
+                        help='force all output files to be re-created')
 
-    parser.add_argument('--dry_run', '-d',
+    parser.add_argument('--dryrun', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
 
