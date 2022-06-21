@@ -84,12 +84,15 @@ class Workflow(object):
     def init_samples_file(self,
                           bam_path=None,
                           vcf_path=None,
+                          maf_path=None,
                           results=None):
         self.samples = Samples(self.pipe_samples_file, self.logger)
         if bam_path:
             self.samples.set_bam_path(bam_path=bam_path)
         if vcf_path:
             self.samples.set_vcf_path(vcf_path=vcf_path)
+        if maf_path:
+            self.samples.set_maf_path(maf_path=maf_path)
         if results:
             self.samples.set_results(results=results)
         self.samples.write()

@@ -64,7 +64,6 @@ from Variant Calling to Deconvolution of Mutational Signatures
 
 
 def make_parser(parser):
-
     parser.add_argument('--workdir', '-w',
                         type=str, metavar='PATH',
                         help='working folder path',
@@ -106,9 +105,9 @@ def make_parser(parser):
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
-                        help='force all output files to be re-created')
+                        help='overwrite directories and files if they exist in the destination')
 
-    parser.add_argument('--dryrun', '-d',
+    parser.add_argument('--dry_run', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
 

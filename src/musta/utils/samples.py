@@ -31,6 +31,14 @@ class Samples(ConfigurationFromYamlFile):
                                                           os.path.basename(vcf))
                                              for vcf in vcfs]
 
+    def set_maf_path(self, maf_path):
+        for patient in self.get_patients():
+            mafs = self.conf[patient]['maf']
+            if mafs:
+                self.conf[patient]['maf'] = [os.path.join(maf_path,
+                                                          os.path.basename(maf))
+                                             for maf in mafs]
+
     def set_results(self, results):
         for patient in self.get_patients():
             if 'call' in results:
