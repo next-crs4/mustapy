@@ -51,12 +51,12 @@ class VariantsWorkflow(Workflow):
         self.logger.info('Running')
         self.logger.info('Variant Calling & variant Annotation')
 
-        self.pipe_cfg.set_run_mode(run_mode='call')
-        self.pipe_cfg.set_run_mode(run_mode='annotate')
+        self.pipe_cfg.set_run_mode(run_mode='all')
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun)
+                      dryrun=self.dryrun,
+                      until='annotate')
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results")
