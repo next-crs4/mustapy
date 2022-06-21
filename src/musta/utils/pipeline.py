@@ -28,15 +28,25 @@ class Pipeline(object):
 
         self.repo = Repo.clone_from(self.url, self.workdir)
 
-    def run(self, snakefile, dryrun):
+    def run(self, snakefile, dryrun, until=None):
 
-        snakemake(snakefile=snakefile,
-                  workdir=self.workdir,
-                  dryrun=dryrun,
-                  forceall=self.force,
-                  force_incomplete=self.force,
-                  stats=self.stats_file,
-                  use_conda=True)
+        if until:
+            snakemake(snakefile=snakefile,
+                      workdir=self.workdir,
+                      dryrun=dryrun,
+                      forceall=self.force,
+                      force_incomplete=self.force,
+                      stats=self.stats_file,
+                      use_conda=True,
+                      until=until)
+        else:
+            snakemake(snakefile=snakefile,
+                      workdir=self.workdir,
+                      dryrun=dryrun,
+                      forceall=self.force,
+                      force_incomplete=self.force,
+                      stats=self.stats_file,
+                      use_conda=True)
 
         if not dryrun:
             snakemake(snakefile=snakefile,
