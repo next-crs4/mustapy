@@ -79,16 +79,9 @@ class DemoWorkflow(Workflow):
         self.logger.info('Running')
         #self.logger.info('Variant Calling - command: \'call\'')
 
-        #self.pipe_cfg.set_run_mode(run_mode='call')
+        self.pipe_cfg.set_run_mode(run_mode='call')
         self.pipe_cfg.set_run_mode(run_mode='analysis')
         self.pipe_cfg.write()
-
-        # self.pipe.run(snakefile=self.pipe_snakefile,
-        #               dryrun=self.dryrun)
-        #
-        # self.pipe_cfg.reset_run_mode(run_mode='call')
-        # self.pipe_cfg.set_run_mode(run_mode='analysis')
-        # self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun)
