@@ -16,7 +16,10 @@ class DemoWorkflow(Workflow):
                                           self.demo_conf.get('data_folder_name'),
                                           self.demo_conf.get('bam_folder_name'),
                                           )
-
+        self.demo_maf_path = os.path.join(self.demo_path,
+                                          self.demo_conf.get('data_folder_name'),
+                                          self.demo_conf.get('maf_folder_name'),
+                                          )
         self.resources = dict(
             base=dict(
                 reference=os.path.join(self.demo_path,
@@ -70,16 +73,29 @@ class DemoWorkflow(Workflow):
                               gatk_params=self.resources.get('gatk_params'))
 
         self.logger.info('Initializing  Samples file')
-        self.init_samples_file(bam_path=self.demo_bam_path)
+        self.init_samples_file(bam_path=self.demo_bam_path,
+                               maf_path=self.demo_maf_path)
 
         self.logger.info('Running')
-        self.logger.info('Variant Calling - command: \'call\'')
+        #self.logger.info('Variant Calling - command: \'call\'')
 
-        self.pipe_cfg.set_run_mode(run_mode='call')
+        #self.pipe_cfg.set_run_mode(run_mode='call')
+        self.pipe_cfg.set_run_mode(run_mode='analysis')
         self.pipe_cfg.write()
+
+        # self.pipe.run(snakefile=self.pipe_snakefile,
+        #               dryrun=self.dryrun)
+        #
+        # self.pipe_cfg.reset_run_mode(run_mode='call')
+        # self.pipe_cfg.set_run_mode(run_mode='analysis')
+        # self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun)
+
+        self.logger.info("Logs in <WORKDIR>/outputs/logs")
+        self.logger.info("Results in <WORKDIR>/outputs/results")
+        self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
 help_doc = """

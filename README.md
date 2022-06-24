@@ -331,3 +331,41 @@ Logs in`/path/to/workdir/outputs/logs`
 Report in `/path/to/workdir/outputs/report.html`
 
 [Back](#contents)
+
+
+### Driver Gene Detection
+Identification of cancer driver genes based on positional clustering. 
+The output contains the list of genes ordered according to their p-values and a weighted scatter plot.
+
+This step requires a MAF file for each patient or cohort.
+
+#### samples.yml
+
+```yaml
+patientBRCA:
+  maf:
+    - /path/to/test-data-somatic/data/maf/BRCA_subset_25_samples.maf
+```
+
+#### musta detect -h
+
+```shell
+usage: musta detect [-h] --workdir PATH --samples-file PATH [--force]
+                    [--dryrun]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --force, -f           overwrite directories and files if they exist in the
+                        destination
+  --dryrun, -d          Workflow will be only described.
+
+```
+
+#### Run
+```shell
+musta detect 
+```

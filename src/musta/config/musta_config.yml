@@ -29,6 +29,7 @@ demo:
   demo_root_path: /volumes/workdir/test-data
   data_folder_name: data
   bam_folder_name: bam
+  maf_folder_name: maf
   resources_folder_name: resources
   reference_filename: chr22.fa
   bed_filename: chr22_testbed.bed

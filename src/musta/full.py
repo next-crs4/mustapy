@@ -107,7 +107,7 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='overwrite directories and files if they exist in the destination')
 
-    parser.add_argument('--dry_run', '-d',
+    parser.add_argument('--dryrun', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
 

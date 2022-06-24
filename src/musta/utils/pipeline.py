@@ -38,7 +38,7 @@ class Pipeline(object):
                       force_incomplete=self.force,
                       stats=self.stats_file,
                       use_conda=True,
-                      until=until)
+                      until=[until])
         else:
             snakemake(snakefile=snakefile,
                       workdir=self.workdir,

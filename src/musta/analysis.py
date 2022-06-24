@@ -30,8 +30,9 @@ class AnalysisWorkflow(Workflow):
                       dryrun=self.dryrun)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
-        self.logger.info("Results in <WORKDIR>/outputs/results")
+        self.logger.info("Results in <WORKDIR>/outputs/results/analysis")
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
+
 
 help_doc = """
 Run from  Driver Gene Detection to Deconvolution of Mutational Signatures
@@ -54,7 +55,7 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='overwrite directories and files if they exist in the destination')
 
-    parser.add_argument('--dry_run', '-d',
+    parser.add_argument('--dryrun', '-d',
                         action='store_true', default=False,
                         help='Workflow will be only described.')
 
