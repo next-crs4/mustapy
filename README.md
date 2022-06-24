@@ -250,15 +250,15 @@ musta call -w /path/to/workdir \
 -b /path/to/test-data-somatic/resources/chr22_testbed.bed
 ```
 
-#### Check outputs in `/path/to/workdir/outputs`
+#### check outputs in `/path/to/workdir/outputs`
 
-Results in `/path/to/workdir/outputs/results`
+results in `/path/to/workdir/outputs/results`
 
-Logs in`/path/to/workdir/outputs/logs`
+logs in`/path/to/workdir/outputs/logs`
 
-Report in `/path/to/workdir/outputs/report.html`
+report in `/path/to/workdir/outputs/report.html`
 
-[Back](#contents)
+[back](#contents)
 
 ### Variant Annotations
 Functional annotation of called somatic variants 
@@ -367,5 +367,164 @@ optional arguments:
 
 #### Run
 ```shell
-musta detect 
+musta detect -w /path/to/workdir \
+-s /path/to/samples.yml 
 ```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
+
+### Pathway Analysis
+heck for enrichment of known oncogenic pathways. The output contains a fraction of the affected
+pathway and samples and an oncoplot of the oncogenic pathway.
+
+
+This step requires a MAF file for each patient or cohort.
+
+#### samples.yml
+
+```yaml
+patientBRCA:
+  maf:
+    - /path/to/test-data-somatic/data/maf/BRCA_subset_25_samples.maf
+```
+
+#### musta pathway -h
+
+```shell
+usage: musta pathway [-h] --workdir PATH --samples-file PATH [--force]
+                     [--dryrun]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --force, -f           overwrite directories and files if they exist in the
+                        destination
+  --dryrun, -d          Workflow will be only described.
+
+```
+
+#### Run
+```shell
+musta pathway -w /path/to/workdir \
+-s /path/to/samples.yml 
+```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
+
+### Estimation of Tumor Heterogeneity
+Inferring tumor clonality by clustering variant allele frequencies.
+The output contains clustering results and the related density plot.
+
+This step requires a MAF file for each patient or cohort.
+
+#### samples.yml
+
+```yaml
+patientBRCA:
+  maf:
+    - /path/to/test-data-somatic/data/maf/BRCA_subset_25_samples.maf
+```
+
+#### musta heterogeneity -h
+
+```shell
+usage: musta heterogeneity [-h] --workdir PATH --samples-file PATH [--force]
+                           [--dryrun]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --force, -f           overwrite directories and files if they exist in the
+                        destination
+  --dryrun, -d          Workflow will be only described.
+
+```
+
+#### Run
+```shell
+musta heterogeneity -w /path/to/workdir \
+-s /path/to/samples.yml 
+```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
+
+### Deconvolution of Mutational Signatures
+De-novo extraction of mutational signatures followed by a comparison
+with the reference COSMIC signatures by means of similarity score.
+The output contains deconvoluted signatures, cosine similarities, 
+aetiologies, best match and a barplot of decomposed mutational signatures.
+
+
+This step requires a MAF file for each patient or cohort.
+
+#### samples.yml
+
+```yaml
+patientBRCA:
+  maf:
+    - /path/to/test-data-somatic/data/maf/BRCA_subset_25_samples.maf
+```
+
+#### musta signature -h
+
+```shell
+usage: musta signature [-h] --workdir PATH --samples-file PATH [--force]
+                           [--dryrun]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --workdir PATH, -w PATH
+                        working folder path
+  --samples-file PATH, -s PATH
+                        sample list file in YAML format
+  --force, -f           overwrite directories and files if they exist in the
+                        destination
+  --dryrun, -d          Workflow will be only described.
+```
+
+#### Run
+```shell
+musta signature -w /path/to/workdir \
+-s /path/to/samples.yml 
+```
+
+#### Check outputs in `/path/to/workdir/outputs`
+
+Results in `/path/to/workdir/outputs/results`
+
+Logs in`/path/to/workdir/outputs/logs`
+
+Report in `/path/to/workdir/outputs/report.html`
+
+[Back](#contents)
+
