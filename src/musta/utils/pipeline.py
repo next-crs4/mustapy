@@ -8,7 +8,7 @@ from .yaml import dump as dump_config
 
 
 class Pipeline(object):
-    def __init__(self, url, name, tag, branch, workdir, outdir,
+    def __init__(self, url, name, tag, branch, commit_id, workdir, outdir,
                  report_file, stats_file,
                  force=False, logger=None):
 
@@ -16,17 +16,22 @@ class Pipeline(object):
         self.name = name
         self.tag = tag
         self.branch = branch
+        self.commit_id = commit_id
         self.workdir = workdir
         self.force = force
         self.outdir = outdir
         self.report_file = report_file
         self.stats_file = stats_file
         self.logger = logger
+        self.no_checkout=True if self.commit_id else False
 
         if os.path.exists(self.workdir):
             shutil.rmtree(self.workdir)
 
-        self.repo = Repo.clone_from(self.url, self.workdir)
+        self.repo = Repo.clone_from(self.url, self.workdir,  no_checkout=self.no_checkout)
+
+        if self.commit_id:
+            self.repo.git.checkout(self.commit_id)
 
     def run(self, snakefile, dryrun, until=None):
 
@@ -89,11 +94,11 @@ class Config(ConfigurationFromYamlFile):
     def set_run_mode(self, run_mode=None):
         run_section = self.get_run_section()
         if run_mode and run_mode in run_section:
-            self.conf['run'][run_mode] = str(True)
+            self.conf['run'][run_mode] = True
 
         else:
             for rm in run_section.keys():
-                self.conf['run'][rm] = str(True)
+                self.conf['run'][rm] = True
 
     def set_samples_file(self, samples_file):
 

@@ -10,13 +10,11 @@ class Samples(ConfigurationFromYamlFile):
 
     def set_bam_path(self, bam_path):
         for patient in self.get_patients():
-            normal_bam = self.conf[patient].get('normal_bam', list())
+            normal_bam = self.conf[patient].get('normal_bam')
             if normal_bam:
                 self.conf[patient]['normal_bam'] = [os.path.join(bam_path,
                                                                  os.path.basename(bam))
                                                     for bam in normal_bam]
-            else:
-                self.conf[patient]['normal_bam'] = []
 
             tumor_bam = self.conf[patient].get('tumor_bam', list())
 
@@ -24,9 +22,6 @@ class Samples(ConfigurationFromYamlFile):
                 self.conf[patient]['tumor_bam'] = [os.path.join(bam_path,
                                                                 os.path.basename(bam))
                                                    for bam in tumor_bam]
-
-            else:
-                self.conf[patient]['tumor_bam'] = []
 
     def set_vcf_path(self, vcf_path):
         for patient in self.get_patients():

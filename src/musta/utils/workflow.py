@@ -38,6 +38,7 @@ class Workflow(object):
         self.pipe_tag = self.pipe_conf.get('tag')
         self.pipe_name = self.pipe_conf.get('name')
         self.pipe_branch = self.pipe_conf.get('branch')
+        self.pipe_commit_id = self.pipe_conf.get('commit_id')
 
         self.pipe_snakefile = os.path.join(self.musta_dir,
                                            self.pipe_conf.get('workflow_folder_name'),
@@ -109,6 +110,7 @@ class Workflow(object):
                         tag=self.pipe_tag,
                         branch=self.pipe_branch,
                         workdir=self.musta_dir,
+                        commit_id=self.pipe_commit_id,
                         outdir=self.output_dir,
                         report_file=self.pipe_report_file,
                         stats_file=self.pipe_stats_file,

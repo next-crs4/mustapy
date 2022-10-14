@@ -77,9 +77,16 @@ class DemoWorkflow(Workflow):
                                maf_path=self.demo_maf_path)
 
         self.logger.info('Running')
-        #self.logger.info('Variant Calling - command: \'call\'')
 
+        self.logger.info('Variant Calling - command: \'call\'')
         self.pipe_cfg.set_run_mode(run_mode='call')
+        self.pipe_cfg.write()
+
+        self.pipe.run(snakefile=self.pipe_snakefile,
+                      dryrun=self.dryrun)
+
+        self.logger.info('Variant Calling - command: \'analysis\'')
+        self.pipe_cfg.reset_run_mode(run_mode='call')
         self.pipe_cfg.set_run_mode(run_mode='analysis')
         self.pipe_cfg.write()
 

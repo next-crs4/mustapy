@@ -30,7 +30,7 @@ RUN curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.s
     rm miniconda.sh
 
 RUN conda install -y -c conda-forge mamba && \
-    mamba create -q -y -c conda-forge -c bioconda -n snakemake  python=3.8 snakemake=6.15  && \
+    mamba create -q -y -c conda-forge -c bioconda -n snakemake  python=3.8 snakemake=7.15  && \
     conda clean --all -y
 
 RUN sh /config/create_paths.sh
