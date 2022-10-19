@@ -76,7 +76,7 @@ def make_parser(parser):
 
     parser.add_argument('--bed-file', '-b',
                         type=str, metavar='PATH',
-                        help='reference FASTA file',
+                        help='BED file containing genomic intervals over which to operate',
                         required=True)
 
     parser.add_argument('--variant-file', '-v',
