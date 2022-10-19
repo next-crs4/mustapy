@@ -158,22 +158,31 @@ if [ -f "$SAMPLESFILE" ]; then
         filename=$(basename $line)
         extension="${filename##*.}"
         if [ $extension == 'bam' ]; then
-          [ ! -f "${line}.bai" ] && echo "ERROR: Some input vam files are not indexed." && \
-          echo "Please index all input files: samtools index ${line}" && \
+          [ ! -f "${line}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
+          echo "Please index all input bam files: samtools index ${line}" && \
           echo "See: http://quinlanlab.org/tutorials/samtools/samtools.html#samtools-index" && \
           echo "Exiting..." && exit 1
 
           CMD="${CMD} --mount type=bind,source="${line}.bai",target=/volumes/inputs/${filename}.bai"
 
+        elif [ $extension == 'vcf' ]; then
+          [ ! -f "${line}.gz" ] && echo "ERROR: Some input vcf files are not compressed" && \
+          echo "Please compress and index all input vcf files: bgzip -c  ${line} > ${line}.gz && tabix -p vcf ${line}.gz" && \
+          echo "See: https://www.biostars.org/p/59492/" && \
+          echo "Exiting..." && exit 1
         fi
+
+        extension="${filename#*.}"
+        if [ $extension == 'vcf.gz' ]; then
+          [ ! -f "${line}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
+          echo "Please index all input vcf files: tabix -p vcf ${line}.gz" && \
+          echo "See: https://www.biostars.org/p/59492/" && \
+          echo "Exiting..." && exit 1
+
+          CMD="${CMD} --mount type=bind,source="${line}.tbi",target=/volumes/inputs/${filename}.tbi"
+        fi
+
         CMD="${CMD} --mount type=bind,source="${line}",target=/volumes/inputs/${filename}"
-#        mounts+=("${filename}")
-#        echo ${mounts[*]}
-#        # shellcheck disable=SC2076
-#        if echo ${mounts[*]} | grep -q -w "${filename}"; then
-#          tmp=""
-#        else
-#        fi
     fi
   done
 fi
