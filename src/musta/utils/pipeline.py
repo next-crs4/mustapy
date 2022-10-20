@@ -118,5 +118,8 @@ class Config(ConfigurationFromYamlFile):
         if gatk_params.get('exac'):
             self.conf['params']['gatk']['exac'] = gatk_params.get('exac')
 
+        if gatk_params.get('Funcotator'):
+            self.conf['params']['gatk']['Funcotator'] = gatk_params.get('Funcotator')
+
     def write(self):
         dump_config(self.conf, self.config_file)
