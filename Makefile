@@ -28,3 +28,4 @@ bootstrap: init
 
 clean:
 	@docker rmi -f musta:Dockerfile
+	@docker volume prune -f
