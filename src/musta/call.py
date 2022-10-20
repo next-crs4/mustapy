@@ -12,6 +12,9 @@ class CallWorkflow(Workflow):
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
 
+        if args.tmpdir:
+            self.tmp_dir = args.tmpdir
+
         self.resources = dict(
             base=dict(
                 reference=self.reference_file,
@@ -63,6 +66,10 @@ def make_parser(parser):
                         type=str, metavar='PATH',
                         help='working folder path',
                         required=True)
+
+    parser.add_argument('--tmpdir', '-t',
+                        type=str, metavar='PATH',
+                        help='temporary directory (large enough to hold the intermediate files)')
 
     parser.add_argument('--samples-file', '-s',
                         type=str, metavar='PATH',

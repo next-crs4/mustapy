@@ -11,6 +11,9 @@ class AnnotateWorkflow(Workflow):
         self.data_source = args.data_source
         self.ref_version = args.ref_version
 
+        if args.tmpdir:
+            self.tmp_dir = args.tmpdir
+
         self.resources = dict(
             base=dict(
                 reference=self.reference_file,
@@ -67,6 +70,10 @@ def make_parser(parser):
                         type=str, metavar='PATH',
                         help='sample list file in YAML format',
                         required=True)
+
+    parser.add_argument('--tmpdir', '-t',
+                        type=str, metavar='PATH',
+                        help='temporary directory (large enough to hold the intermediate files)')
 
     parser.add_argument('--reference-file', '-r',
                         type=str, metavar='PATH',

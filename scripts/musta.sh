@@ -1,6 +1,7 @@
 #!/bin/bash
 PARAMS=""
 
+TMPDIR=""
 WORKDIR=""
 RESOURCESDIR=""
 SAMPLESFILE=""
@@ -19,6 +20,11 @@ case $1 in
   -h | --help)
     PARAMS="${PARAMS} $1"
     help_flag=1
+    shift
+  ;;
+  -t | --tmpdir)
+    shift
+    TMPDIR=$1
     shift
   ;;
   -w | --workdir)
@@ -75,6 +81,9 @@ done
 [  ! -z "$RESOURCESDIR" ] && [  ! -d "$RESOURCESDIR" ] \
 && echo "WARNING: ${RESOURCESDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $RESOURCESDIR
 
+[  ! -z "$TMPDIR" ] && [  ! -d "$TMPDIR" ] \
+&& [ $help_flag -eq 0 ] && echo "WARNING: ${TMPDIR} does not exist or is not a directory. Trying to create it." && mkdir -p $TMPDIR
+
 [  ! -z "$SAMPLESFILE" ] && [  ! -f "$SAMPLESFILE" ] \
 && [ $help_flag -eq 0 ] && echo "ERROR: ${SAMPLESFILE} does not exist or is not a file.  Exiting..." && exit 1
 
@@ -115,10 +124,13 @@ done
 # check workdir
 [ $help_flag -eq 0 ] && [ -z "$RESOURCESDIR" ] && CMD="${CMD} -v ${WORKDIR}:/volumes/workdir" && PARAMS="${PARAMS} -w /volumes/workdir"
 
-
 # check resources dir
 [ $help_flag -eq 0 ] && [ -d "$RESOURCESDIR" ] \
 && CMD="${CMD} -v ${RESOURCESDIR}:/volumes/resources" && PARAMS="${PARAMS} -rd /volumes/resources"
+
+# check tmp dir
+[ $help_flag -eq 0 ] && [ -d "$TMPDIR" ] \
+&& CMD="${CMD} -v ${TMPDIR}:/volumes/tmp" && PARAMS="${PARAMS} -t /volumes/tmp"
 
 # check samples file
 [ $help_flag -eq 0 ] && [ -f "$SAMPLESFILE" ] \
