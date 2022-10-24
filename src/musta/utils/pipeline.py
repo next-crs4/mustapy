@@ -8,7 +8,7 @@ from .yaml import dump as dump_config
 
 
 class Pipeline(object):
-    def __init__(self, url, name, tag, branch, commit_id, workdir, outdir,
+    def __init__(self, url, name, tag, branch, workdir, outdir,
                  report_file, stats_file,
                  force=False, logger=None):
 
@@ -16,22 +16,18 @@ class Pipeline(object):
         self.name = name
         self.tag = tag
         self.branch = branch
-        self.commit_id = commit_id
         self.workdir = workdir
         self.force = force
         self.outdir = outdir
         self.report_file = report_file
         self.stats_file = stats_file
         self.logger = logger
-        self.no_checkout=True if self.commit_id else False
 
         if os.path.exists(self.workdir):
             shutil.rmtree(self.workdir)
 
-        self.repo = Repo.clone_from(self.url, self.workdir,  no_checkout=self.no_checkout)
+        self.repo = Repo.clone_from(self.url, self.workdir)
 
-        if self.commit_id:
-            self.repo.git.checkout(self.commit_id)
 
     def run(self, snakefile, dryrun, until=None):
 

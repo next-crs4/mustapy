@@ -12,7 +12,6 @@ pipeline:
   tag: v1.2.0.1
   name: musta
   branch: master
-  commit_id:
   workflow_folder_name: workflow
   config_folder_name: config
   snakefile: Snakefile
