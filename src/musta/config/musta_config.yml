@@ -8,7 +8,7 @@ io:
   temp_folder_path: /volumes/tmp
 
 pipeline:
-  url: https://github.com/solida-core/musta
+  url: https://repolab.crs4.it/solida-core/musta.git
   tag: v1.2.0.1
   name: musta
   branch: master
