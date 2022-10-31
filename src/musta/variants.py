@@ -52,14 +52,14 @@ class VariantsWorkflow(Workflow):
         self.init_samples_file(bam_path=self.input_dir)
 
         self.logger.info('Running')
-        self.logger.info('Variant Calling & variant Annotation')
+        self.logger.info('Variant Calling & Variant Annotation')
 
         self.pipe_cfg.set_run_mode(run_mode='all')
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
-                      until='annotate')
+                      until='Funcotator')
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results")
