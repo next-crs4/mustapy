@@ -1,10 +1,10 @@
 import os
+from . import get_cores
 from .config import Config
 from .pipeline import Pipeline
 from .pipeline import Config as cfg
 from .samples import Samples
 from comoda import ensure_dir
-
 
 class Workflow(object):
     def __init__(self, args=None, logger=None):
@@ -65,6 +65,8 @@ class Workflow(object):
         self.pipe_cfg = None
         self.samples = None
         self.pipe = None
+
+        self.cores = get_cores()
 
     def init_config_file(self, base=None, gatk_params=None):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,

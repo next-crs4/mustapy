@@ -27,7 +27,8 @@ class AnalysisWorkflow(Workflow):
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun)
+                      dryrun=self.dryrun,
+                      cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results/analysis")

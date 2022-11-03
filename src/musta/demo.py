@@ -83,7 +83,8 @@ class DemoWorkflow(Workflow):
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun)
+                      dryrun=self.dryrun,
+                      cores=self.cores)
 
         self.logger.info('Variant Calling - command: \'analysis\'')
         self.pipe_cfg.reset_run_mode(run_mode='call')
@@ -91,7 +92,8 @@ class DemoWorkflow(Workflow):
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun)
+                      dryrun=self.dryrun,
+                      cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results")

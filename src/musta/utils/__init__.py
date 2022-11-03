@@ -13,8 +13,9 @@ def gunzip(src, dst):
         f_in.extractall(dst)
 
 
-def get_cores():
-    return multiprocessing.cpu_count()
+def get_cores(reserve_cores=1, max_cores=5):
+    cores = max_cores if multiprocessing.cpu_count() > max_cores else multiprocessing.cpu_count()
+    return max(cores - reserve_cores, 1)
 
 
 def overwrite(src, dst):

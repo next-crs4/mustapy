@@ -9,7 +9,7 @@ case $1 in
   -h | --help)
     shift
   ;;
-  -o | --ourdir)
+  -o | --outdir)
     shift
     OUTDIR=$1
     shift
@@ -27,9 +27,9 @@ done
 
 
 CMD="docker run "
-CMD="${CMD} -v ${OUTDIR}:/volumes/resources"
+CMD="${CMD} -v ${OUTDIR}:/volumes/datasource"
 CMD="${CMD} musta:Dockerfile"
-CMD="${CMD} gatk FuncotatorDataSourceDownloader --somatic --validate-integrity --extract-after-download --output /volumes/resources"
+CMD="${CMD} gatk FuncotatorDataSourceDownloader --somatic --validate-integrity --extract-after-download --output /volumes/datasource"
 
 echo $CMD
 eval $CMD

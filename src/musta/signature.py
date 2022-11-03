@@ -27,7 +27,8 @@ class SignatureWorkflow(Workflow):
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
-                      until='maftools_signatures')
+                      until='maftools_signatures',
+                      cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results/analysis")
