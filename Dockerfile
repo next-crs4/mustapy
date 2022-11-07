@@ -33,7 +33,7 @@ RUN conda update -n base -c defaults conda
 RUN conda config --set channel_priority strict
 
 RUN conda install -y -c conda-forge mamba && \
-    mamba create -q -y -c conda-forge -c bioconda -n snakemake  python=3.8 snakemake=7.15  && \
+    mamba create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15  gatk && \
     conda clean --all -y
 
 RUN sh /config/create_paths.sh
@@ -41,6 +41,6 @@ RUN sh /config/create_paths.sh
 RUN cd /code/src && make install && cd /code
 
 USER appuser
-ENV PATH /opt/conda/envs/snakemake/bin:$PATH
-RUN echo "source activate snakemake" > ~/.bashrc
+ENV PATH /opt/conda/envs/musta/bin:$PATH
+RUN echo "source activate musta" > ~/.bashrc
 ENV  PATH="$PATH:/code/src/bin:/usr/local/bin"
