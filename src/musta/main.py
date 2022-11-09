@@ -16,7 +16,6 @@ SUBMOD_NAMES = [
     "full",
     "variants",
     "analysis",
-    "resources"
 ]
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]

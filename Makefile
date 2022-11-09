@@ -17,9 +17,7 @@ init:
 	@mkdir -p ~/.local/bin
 	@export PATH=$PATH:~/.local/bin
 	@chmod +x `pwd`/scripts/musta.sh
-	@chmod +x `pwd`/scripts/mustaResourcesDownloader.sh
 	@ln -sf `pwd`/scripts/musta.sh ~/.local/bin/musta
-	@ln -sf `pwd`/scripts/mustaResourcesDownloader.sh ~/.local/bin/mustaResourcesDownloader
 
 bootstrap: init
 	@docker build -t "musta:Dockerfile" --build-arg USER_ID=${USERID} --build-arg GROUP_ID=${GROUPID} --no-cache .
