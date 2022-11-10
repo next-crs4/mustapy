@@ -1,3 +1,5 @@
+import sys
+
 from .utils.workflow import Workflow
 from .utils import overwrite
 
@@ -11,9 +13,15 @@ class CallWorkflow(Workflow):
         self.bed_file = args.bed_file
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
+        self.dbsnp_file = args.dbsnp_file
+        self.lofreq = args.lofreq
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
+
+        if self.lofreq and not self.dbsnp_file:
+            self.logger.error("-db | --dbsnp-file is a mandatory argument")
+            sys.exit()
 
         self.resources = dict(
             base=dict(
@@ -24,7 +32,11 @@ class CallWorkflow(Workflow):
             gatk_params=dict(
                 germline=self.germline_resource,
                 exac=self.variant_file,
-            )
+            ),
+
+            lofreq_params=dict(
+              dbsnp=self.dbsnp_file
+            ) if self.dbsnp_file else None
         )
 
     def run(self):
@@ -35,7 +47,8 @@ class CallWorkflow(Workflow):
 
         self.logger.info('Initializing  Config file')
         self.init_config_file(base=self.resources.get('base'),
-                              gatk_params=self.resources.get('gatk_params'))
+                              gatk_params=self.resources.get('gatk_params'),
+                              lofreq_params=self.resources.get('lofreq_params'))
 
         self.logger.info('Initializing  Samples file')
         self.init_samples_file(bam_path=self.input_dir)
@@ -44,11 +57,22 @@ class CallWorkflow(Workflow):
         self.logger.info('Variant Calling - command: \'call\'')
 
         self.pipe_cfg.set_run_mode(run_mode='call')
+        self.pipe_cfg.set_callers(caller='mutect')
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
                       cores=self.cores)
+
+        if self.lofreq:
+            self.pipe_cfg.set_run_mode(run_mode='call')
+            self.pipe_cfg.reset_callers(caller='mutect')
+            self.pipe_cfg.set_callers(caller='lofreq')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
         self.logger.info("Results in <WORKDIR>/outputs/results")
@@ -84,7 +108,7 @@ def make_parser(parser):
 
     parser.add_argument('--bed-file', '-b',
                         type=str, metavar='PATH',
-                        help='BED file containing genomic intervals over which to operate',
+                        help='BED file listing regions to restrict analysis to',
                         required=True)
 
     parser.add_argument('--variant-file', '-v',
@@ -100,6 +124,15 @@ def make_parser(parser):
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
                         help='force all output files to be re-created')
+
+    parser.add_argument('--lofreq',
+                        action='store_true', default=False,
+                        help='use lofreq as variant caller')
+
+    parser.add_argument('--dbsnp-file', '-db',
+                        type=str, metavar='PATH',
+                        help='VCF file (bgzipped and index with tabix) containing known germline variants',
+                        required=False)
 
     parser.add_argument('--dryrun', '-d',
                         action='store_true', default=False,

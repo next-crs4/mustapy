@@ -38,6 +38,12 @@ class DemoWorkflow(Workflow):
                 exac=os.path.join(self.demo_path,
                                   self.demo_conf.get('resources_folder_name'),
                                   self.demo_conf.get('exac_filename')),
+            ),
+
+            lofreq_params=dict(
+              dbsnp= os.path.join(self.demo_path,
+                                  self.demo_conf.get('resources_folder_name'),
+                                  self.demo_conf.get('dbsnp_filename')),
             )
         )
 
@@ -70,7 +76,8 @@ class DemoWorkflow(Workflow):
 
         self.logger.info('Initializing  Config file')
         self.init_config_file(base=self.resources.get('base'),
-                              gatk_params=self.resources.get('gatk_params'))
+                              gatk_params=self.resources.get('gatk_params'),
+                              lofreq_params=self.resources.get('lofreq_params'))
 
         self.logger.info('Initializing  Samples file')
         self.init_samples_file(bam_path=self.demo_bam_path,
@@ -80,13 +87,26 @@ class DemoWorkflow(Workflow):
 
         self.logger.info('Variant Calling - command: \'call\'')
         self.pipe_cfg.set_run_mode(run_mode='call')
+
+        self.logger.info('Variant Caller: \'mutect\'')
+        self.pipe_cfg.set_callers(caller='mutect')
+
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
                       cores=self.cores)
 
-        self.logger.info('Variant Calling - command: \'analysis\'')
+        self.logger.info('Variant Caller: \'lofreq\'')
+        self.pipe_cfg.reset_callers(caller='mutect')
+        self.pipe_cfg.set_callers(caller='lofreq')
+        self.pipe_cfg.write()
+
+        self.pipe.run(snakefile=self.pipe_snakefile,
+                      dryrun=self.dryrun,
+                      cores=self.cores)
+
+        self.logger.info('Analysis - command: \'analysis\'')
         self.pipe_cfg.reset_run_mode(run_mode='call')
         self.pipe_cfg.set_run_mode(run_mode='analysis')
         self.pipe_cfg.write()

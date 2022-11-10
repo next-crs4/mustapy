@@ -10,6 +10,7 @@ REFERENCE=""
 BEDFILE=""
 GERMLINEFILE=""
 VARIANTFILE=""
+DBSNPFILE=""
 help_flag=0
 
 CMD="docker run "
@@ -50,9 +51,14 @@ case $1 in
     REFNAME=$(basename "$REFERENCE" | sed 's/\(.*\)\..*/\1/')
     shift
   ;;
-   -b | --bed-file)
+  -b | --bed-file)
     shift
     BEDFILE=$1
+    shift
+  ;;
+  -db | --dbsnp-file)
+    shift
+    DBSNPFILE=$1
     shift
   ;;
   -v | --variant-file)
@@ -131,6 +137,16 @@ done
 && echo " Try running gatk IndexFeatureFile on the input. See: https://gatk.broadinstitute.org/hc/en-us/articles/5358901172891-IndexFeatureFile" \
 && echo "Exiting..." && exit 1
 
+
+[  ! -z "$DBSNPFILE" ] && [  ! -f "$DBSNPFILE" ] \
+&& [ $help_flag -eq 0 ] && echo "ERROR: ${DBSNPFILE} does not exist or is not a file.  Exiting..." && exit 1
+
+[  ! -z "$DBSNPFILE" ] && [  -f "$DBSNPFILE" ] && [ ! -f "${DBSNPFILE}.tbi" ] \
+&& [ $help_flag -eq 0 ] && echo "ERROR:  An index file (.tbi) is required but was not found for file ${DBSNPFILE}" \
+&& echo "Please compress and index all input vcf files: bgzip -c  ${line} > ${line}.gz && tabix -p vcf ${line}.gz" \
+&& echo "See: https://www.biostars.org/p/59492/" \
+&& echo "Exiting..." && exit 1
+
 # check workdir
 [ $help_flag -eq 0 ] && [ -z "$RESOURCESDIR" ] && CMD="${CMD} -v ${WORKDIR}:/volumes/workdir" && PARAMS="${PARAMS} -w /volumes/workdir"
 
@@ -175,6 +191,12 @@ done
 && CMD="${CMD} --mount type=bind,source=${VARIANTFILE},target=/volumes/resources/$(basename $VARIANTFILE)" \
 && CMD="${CMD} --mount type=bind,source=${VARIANTFILE}.idx,target=/volumes/resources/$(basename $VARIANTFILE).idx" \
 && PARAMS="${PARAMS} -v /volumes/resources/$(basename $VARIANTFILE)"
+
+# check dbsnp file
+[ $help_flag -eq 0 ] && [ -f "$DBSNPFILE" ] \
+&& CMD="${CMD} --mount type=bind,source=${DBSNPFILE},target=/volumes/resources/$(basename $DBSNPFILE)" \
+&& CMD="${CMD} --mount type=bind,source=${DBSNPFILE}.tbi,target=/volumes/resources/$(basename $DBSNPFILE).tbi" \
+&& PARAMS="${PARAMS} -v /volumes/resources/$(basename $DBSNPFILE)"
 
 if [ -f "$SAMPLESFILE" ]; then
 

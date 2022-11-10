@@ -35,6 +35,7 @@ demo:
   bed_filename: chr22_testbed.bed
   germline_filename: somatic-b37_af-only-gnomad.raw.sites.ucsc.chr22.vcf
   exac_filename: somatic-b37_small_exac_common_3.ucsc.chr22.vcf
+  dbsnp_filename: dbsnp.chr22.vcf.gz
 
 resources:
   ftp:
