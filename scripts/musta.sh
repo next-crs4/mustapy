@@ -196,7 +196,7 @@ done
 [ $help_flag -eq 0 ] && [ -f "$DBSNPFILE" ] \
 && CMD="${CMD} --mount type=bind,source=${DBSNPFILE},target=/volumes/resources/$(basename $DBSNPFILE)" \
 && CMD="${CMD} --mount type=bind,source=${DBSNPFILE}.tbi,target=/volumes/resources/$(basename $DBSNPFILE).tbi" \
-&& PARAMS="${PARAMS} -v /volumes/resources/$(basename $DBSNPFILE)"
+&& PARAMS="${PARAMS} -db /volumes/resources/$(basename $DBSNPFILE)"
 
 if [ -f "$SAMPLESFILE" ]; then
 
