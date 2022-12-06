@@ -170,8 +170,8 @@ def make_parser(parser):
 def implementation(logger, args):
     logger.info(help_doc.replace('\n', ''))
 
-    workflow = RollCallWorkflowWorkflow(args=args,
-                                        logger=logger)
+    workflow = RollCallWorkflow(args=args,
+                                logger=logger)
     workflow.run()
 
 
