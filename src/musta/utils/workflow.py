@@ -68,7 +68,7 @@ class Workflow(object):
 
         self.cores = get_cores()
 
-    def init_config_file(self, base=None, gatk_params=None, lofreq_params=None):
+    def init_config_file(self, base=None, gatk_params=None):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,
                             logger=self.logger)
         self.pipe_cfg.reset_run_mode()
@@ -79,9 +79,6 @@ class Workflow(object):
 
         if gatk_params:
             self.pipe_cfg.set_gatk_section(gatk_params=gatk_params)
-
-        if lofreq_params:
-            self.pipe_cfg.set_lofreq_section(lofreq_params=lofreq_params)
 
         self.pipe_cfg.set_paths_section(paths=self.paths)
         self.pipe_cfg.write()

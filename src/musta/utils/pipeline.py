@@ -63,7 +63,7 @@ class Config(ConfigurationFromYamlFile):
         run_section = self.get_section(label)
         return run_section
 
-    def get_callers_section(self, label='call'):
+    def get_callers_section(self, label='other_callers'):
         call_section = self.get_section(label)
         return call_section
 
@@ -104,20 +104,20 @@ class Config(ConfigurationFromYamlFile):
     def reset_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
-            self.conf['call'][caller] = False
+            self.conf['other_callers'][caller] = False
 
         else:
             for c in callers_section.keys():
-                self.conf['call'][c] = False
+                self.conf['other_callers'][c] = False
 
     def set_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
-            self.conf['call'][caller] = True
+            self.conf['other_callers'][caller] = True
 
         else:
             for c in callers_section.keys():
-                self.conf['call'][c] = True
+                self.conf['other_callers'][c] = True
 
     def set_samples_file(self, samples_file):
 
@@ -139,11 +139,6 @@ class Config(ConfigurationFromYamlFile):
 
         if gatk_params.get('Funcotator'):
             self.conf['params']['gatk']['Funcotator'] = gatk_params.get('Funcotator')
-
-    def set_lofreq_section(self, lofreq_params):
-
-        if lofreq_params.get('dbsnp'):
-            self.conf['params']['lofreq']['dbsnp'] = lofreq_params.get('dbsnp')
 
     def write(self):
         dump_config(self.conf, self.config_file)
