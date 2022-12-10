@@ -188,7 +188,7 @@ done
 
 # check bed file
 [ $help_flag -eq 0 ] && [ -f "$BEDFILE" ] && [ -f "${BEDFILE}.tbi" ] \
-&& CMD="${CMD} --mount type=bind,source=${BEDFILE}.tdi,target=/volumes/resources/$(basename $BEDFILE.tbi)" \
+&& CMD="${CMD} --mount type=bind,source=${BEDFILE}.tbi,target=/volumes/resources/$(basename $BEDFILE.tbi)" \
 
 
 # check germline resource
