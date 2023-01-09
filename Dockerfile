@@ -25,16 +25,16 @@ RUN groupadd -g ${GROUP_ID} appuser && \
     useradd -m -u ${USER_ID} -g appuser appuser
 
 
-RUN curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh > miniconda.sh && \
+RUN curl -L https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh > miniconda.sh && \
     sh miniconda.sh -b -p /opt/conda && \
     rm miniconda.sh
 
 RUN conda update -n base -c defaults conda
 RUN conda config --set channel_priority strict
 
-#RUN conda install -y -c conda-forge mamba && \
-RUN conda create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15 && \
-    conda clean --all -y
+RUN conda install -y -c conda-forge mamba && \
+    mamba create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15 && \
+    mamba clean --all -y
 
 RUN sh /config/create_paths.sh
 
