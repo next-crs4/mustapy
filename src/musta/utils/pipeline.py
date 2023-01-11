@@ -63,7 +63,7 @@ class Config(ConfigurationFromYamlFile):
         run_section = self.get_section(label)
         return run_section
 
-    def get_callers_section(self, label='other_callers'):
+    def get_callers_section(self, label='callers'):
         call_section = self.get_section(label)
         return call_section
 
@@ -104,20 +104,20 @@ class Config(ConfigurationFromYamlFile):
     def reset_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
-            self.conf['other_callers'][caller] = False
+            self.conf['callers'][caller] = False
 
         else:
             for c in callers_section.keys():
-                self.conf['other_callers'][c] = False
+                self.conf['callers'][c] = False
 
     def set_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
-            self.conf['other_callers'][caller] = True
+            self.conf['callers'][caller] = True
 
         else:
             for c in callers_section.keys():
-                self.conf['other_callers'][c] = True
+                self.conf['callers'][c] = True
 
     def set_samples_file(self, samples_file):
 

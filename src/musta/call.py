@@ -11,8 +11,27 @@ class CallWorkflow(Workflow):
         self.samples_file = args.samples_file
         self.reference_file = args.reference_file
         self.bed_file = args.bed_file
+        self.dbsnp_file = args.dbsnp_file
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
+
+        self.mutect = args.mutect
+        self.lofreq = args.lofreq
+        self.varscan = args.varscan
+        self.vardict = args.vardict
+        self.muse = args.muse
+        self.strelka = args.strelka
+
+        if self.mutect:
+            if not self.variant_file:
+                self.logger.error("-v | --variant-file is a mandatory argument. Exiting...")
+            if not self.germline_resource:
+                self.logger.error("-g | --germline-resource is a mandatory argument. Exiting...")
+            sys.exit()
+
+        if (self.lofreq or self.muse) and not self.dbsnp_file:
+            self.logger.error("-db | --dbsnp-file is a mandatory argument. Exiting...")
+            sys.exit()
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
@@ -22,12 +41,19 @@ class CallWorkflow(Workflow):
                 reference=self.reference_file,
                 bed=self.bed_file,
             ),
+        )
 
-            gatk_params=dict(
+        if self.dbsnp_file:
+            self.resources['base'].update(dict(
+                dbsnp=self.dbsnp_file,
+            ))
+
+        if self.germline_resource and self.variant_file:
+            self.resources['gatk_params']=dict(
                 germline=self.germline_resource,
                 exac=self.variant_file,
-            ),
-        )
+            )
+
 
     def run(self):
         Workflow.run(self)
@@ -45,9 +71,68 @@ class CallWorkflow(Workflow):
 
         self.logger.info('Running')
         self.logger.info('Variant Calling - command: \'call\'')
-
         self.pipe_cfg.set_run_mode(run_mode='call')
         self.pipe_cfg.write()
+
+        if self.mutect:
+            self.logger.info('caller:  \'mutect\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='mutect')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
+
+        if self.lofreq:
+            self.logger.info('caller:  \'lofreq\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='lofreq')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
+
+        if self.varscan:
+            self.logger.info('caller:  \'varscan\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='varscan')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
+
+        if self.vardict:
+            self.logger.info('caller:  \'vardict\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='vardict')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
+
+        if self.muse:
+            self.logger.info('caller:  \'muse\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='muse')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
+
+        if self.strelka:
+            self.logger.info('caller:  \'strelka\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='strelka')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
@@ -92,13 +177,42 @@ def make_parser(parser):
 
     parser.add_argument('--variant-file', '-v',
                         type=str, metavar='PATH',
-                        help='VCF file containing variants and allele frequencies',
-                        required=True)
+                        help='VCF file containing variants and allele frequencies (only for --mutect/-mu option)',
+                        required=False)
 
     parser.add_argument('--germline-resource', '-g',
                         type=str, metavar='PATH',
-                        help='Population vcf of germline sequencing containing allele fractions.',
-                        required=True)
+                        help='Population vcf of germline sequencing containing allele fractions (only for --mutect/-mu option)',
+                        required=False)
+
+    parser.add_argument('--dbsnp-file', '-db',
+                        type=str, metavar='PATH',
+                        help='VCF file (bgzipped and index with tabix) containing known germline variants (only for --lofreq/-lf and --muse/-ms foption)',
+                        required=False)
+
+    parser.add_argument('--mutect', '-mu',
+                        action='store_true', default=False,
+                        help='use lofreq as variant caller')
+
+    parser.add_argument('--lofreq', '-lf',
+                        action='store_true', default=False,
+                        help='use lofreq as variant caller')
+
+    parser.add_argument('--strelka', '-sk',
+                        action='store_true', default=False,
+                        help='use strelka as variant caller')
+
+    parser.add_argument('--muse', '-ms',
+                        action='store_true', default=False,
+                        help='use muse as variant caller')
+
+    parser.add_argument('--varscan', '-vs',
+                        action='store_true', default=False,
+                        help='use varscan as variant caller')
+
+    parser.add_argument('--vardict', '-vd',
+                        action='store_true', default=False,
+                        help='use vardict as variant caller')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,

@@ -8,7 +8,6 @@ from importlib import import_module
 SUBMOD_NAMES = [
     "demo",
     "call",
-    "rollcall",
     "annotate",
     "detect",
     "pathway",

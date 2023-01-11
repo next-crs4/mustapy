@@ -85,13 +85,14 @@ class DemoWorkflow(Workflow):
         self.pipe_cfg.set_run_mode(run_mode='call')
         self.pipe_cfg.write()
 
+        self.logger.info('caller:  \'mutect\'')
+        self.pipe_cfg.reset_callers()
+        self.pipe_cfg.set_callers(caller='mutect')
+        self.pipe_cfg.write()
+
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
                       cores=self.cores)
-
-        self.logger.info('Extended Variant Calling - command: \'rollcall\'')
-        self.pipe_cfg.set_run_mode(run_mode='rollcall')
-        self.pipe_cfg.write()
 
 
         self.logger.info('caller:  \'lofreq\'')
