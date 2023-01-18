@@ -76,74 +76,77 @@ class CallWorkflow(Workflow):
         self.logger.info('Running')
         self.logger.info('Variant Calling - command: \'call\'')
         self.pipe_cfg.set_run_mode(run_mode='call')
-        self.pipe_cfg.write()
+        #self.pipe_cfg.write()
 
         if self.mutect:
             self.logger.info('caller:  \'mutect\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='mutect')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
 
         if self.lofreq:
             self.logger.info('caller:  \'lofreq\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='lofreq')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
 
         if self.varscan:
             self.logger.info('caller:  \'varscan\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='varscan')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
 
         if self.vardict:
             self.logger.info('caller:  \'vardict\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='vardict')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
 
         if self.muse:
             self.logger.info('caller:  \'muse\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='muse')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
 
         if self.strelka:
             self.logger.info('caller:  \'strelka\'')
-            self.pipe_cfg.reset_callers()
+            #self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='strelka')
-            self.pipe_cfg.write()
+            #self.pipe_cfg.write()
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores)
+            # self.pipe.run(snakefile=self.pipe_snakefile,
+            #               dryrun=self.dryrun,
+            #               cores=self.cores)
+
+
+        self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
                       cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
-        self.logger.info("Results in <WORKDIR>/outputs/results")
+        self.logger.info("Results in <WORKDIR>/outputs/variant_calling")
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
