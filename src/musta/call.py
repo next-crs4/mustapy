@@ -22,6 +22,10 @@ class CallWorkflow(Workflow):
         self.muse = args.muse
         self.strelka = args.strelka
 
+        if not self.bed_file and not self.muse:
+            self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
+            sys.exit()
+
         if self.mutect:
             if not self.variant_file:
                 self.logger.error("-v | --variant-file is a mandatory argument. Exiting...")
@@ -173,7 +177,7 @@ def make_parser(parser):
     parser.add_argument('--bed-file', '-b',
                         type=str, metavar='PATH',
                         help='BED file listing regions to restrict analysis to',
-                        required=True)
+                        required=False)
 
     parser.add_argument('--variant-file', '-v',
                         type=str, metavar='PATH',
