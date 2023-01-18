@@ -15,12 +15,12 @@ class CallWorkflow(Workflow):
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
 
-        self.mutect = args.mutect
-        self.lofreq = args.lofreq
-        self.varscan = args.varscan
-        self.vardict = args.vardict
-        self.muse = args.muse
-        self.strelka = args.strelka
+        self.mutect = not args.exclude_mutect
+        self.lofreq = not args.exclude_lofreq
+        self.varscan = not args.exclude_varscan
+        self.vardict = not args.exclude_vardict
+        self.muse = not args.exclude_muse
+        self.strelka = not args.exclude_strelka
 
         if not self.bed_file and not self.muse:
             self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
@@ -76,67 +76,67 @@ class CallWorkflow(Workflow):
         self.logger.info('Running')
         self.logger.info('Variant Calling - command: \'call\'')
         self.pipe_cfg.set_run_mode(run_mode='call')
-        #self.pipe_cfg.write()
+        self.pipe_cfg.write()
 
         if self.mutect:
             self.logger.info('caller:  \'mutect\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='mutect')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         if self.lofreq:
             self.logger.info('caller:  \'lofreq\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='lofreq')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         if self.varscan:
             self.logger.info('caller:  \'varscan\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='varscan')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         if self.vardict:
             self.logger.info('caller:  \'vardict\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='vardict')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         if self.muse:
             self.logger.info('caller:  \'muse\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='muse')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
         if self.strelka:
             self.logger.info('caller:  \'strelka\'')
-            #self.pipe_cfg.reset_callers()
+            self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='strelka')
-            #self.pipe_cfg.write()
+            self.pipe_cfg.write()
 
-            # self.pipe.run(snakefile=self.pipe_snakefile,
-            #               dryrun=self.dryrun,
-            #               cores=self.cores)
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores)
 
 
         self.pipe_cfg.write()
@@ -179,7 +179,7 @@ def make_parser(parser):
 
     parser.add_argument('--bed-file', '-b',
                         type=str, metavar='PATH',
-                        help='BED file listing regions to restrict analysis to',
+                        help='compressed and indexed BED file listing regions to restrict analysis to',
                         required=False)
 
     parser.add_argument('--variant-file', '-v',
@@ -194,32 +194,32 @@ def make_parser(parser):
 
     parser.add_argument('--dbsnp-file', '-db',
                         type=str, metavar='PATH',
-                        help='VCF file (bgzipped and index with tabix) containing known germline variants (only for --lofreq/-lf and --muse/-ms foption)',
+                        help='compressed and indexed VCF file containing known germline variants (only for --lofreq/-lf and --muse/-ms foption)',
                         required=False)
 
-    parser.add_argument('--mutect', '-mu',
+    parser.add_argument('--exclude-mutect', '-emu',
                         action='store_true', default=False,
-                        help='use lofreq as variant caller')
+                        help="do NOT run MUTECT variant caller")
 
-    parser.add_argument('--lofreq', '-lf',
+    parser.add_argument('--exclude-lofreq', '-elf',
                         action='store_true', default=False,
-                        help='use lofreq as variant caller')
+                        help='do NOT run LOFREQ variant caller')
 
-    parser.add_argument('--strelka', '-sk',
+    parser.add_argument('--exclude-strelka', '-esk',
                         action='store_true', default=False,
-                        help='use strelka as variant caller')
+                        help='do NOT run STRELKA variant caller')
 
-    parser.add_argument('--muse', '-ms',
+    parser.add_argument('--exclude-muse', '-ems',
                         action='store_true', default=False,
-                        help='use muse as variant caller')
+                        help='do NOT run MUSE variant caller')
 
-    parser.add_argument('--varscan', '-vs',
+    parser.add_argument('--exclude-varscan', '-evs',
                         action='store_true', default=False,
-                        help='use varscan as variant caller')
+                        help='do NOT run VARSCAN variant caller')
 
-    parser.add_argument('--vardict', '-vd',
+    parser.add_argument('--exclude-vardict', '-evd',
                         action='store_true', default=False,
-                        help='use vardict as variant caller')
+                        help='do NOT run VARDICT variant caller')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,

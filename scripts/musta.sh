@@ -121,9 +121,9 @@ done
 [  ! -z "$BEDFILE" ] && [  ! -f "$BEDFILE" ] \
 && [ $help_flag -eq 0 ] && echo "ERROR: ${BEDFILE} does not exist or is not a file.  Exiting..." && exit 1
 
-[  ! -z "$BEDFILE" ] && [  -f "$BEDFILE" ] && [ ! -f "${BEDFILE}.tbi" ] && [[ "${PARAMS}" == *"strelka"* ]] \
+[  ! -z "$BEDFILE" ] && [  -f "$BEDFILE" ] && [ ! -f "${BEDFILE}.tbi" ]  \
 && [ $help_flag -eq 0 ] && echo "ERROR:  An index file (.tbi) is required but was not found for file ${BEDFILE}" \
-&& echo "Please index your bed tabix -p bed ${BEDFILE}" \
+&& echo "Please compress and index your bed file: tabix -p bed ${BEDFILE}" \
 && echo "See: https://www.biostars.org/p/59492/" \
 && echo "Exiting..." && exit 1
 
