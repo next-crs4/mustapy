@@ -108,7 +108,7 @@ def implementation(logger, args):
 
 
 def do_register(registration_list):
-    registration_list.append(('annotate',
+    registration_list.append(('classify',
                               help_doc,
                               make_parser,
                               implementation))

@@ -129,7 +129,7 @@ def implementation(logger, args):
 
 
 def do_register(registration_list):
-    registration_list.append(('full',
+    registration_list.append(('end2end',
                               help_doc,
                               make_parser,
                               implementation))

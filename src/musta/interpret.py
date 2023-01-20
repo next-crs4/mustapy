@@ -35,8 +35,7 @@ class AnalysisWorkflow(Workflow):
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
-help_doc = """
-Somatic Mutations Interpretation:
+help_doc = """Somatic Mutations Interpretation:
     1.  Identification of cancer driver genes 
     2.  Check for enrichment of known oncogenic pathways.
     3.  Infer tumor clonality by clustering variant allele frequencies.
@@ -74,7 +73,7 @@ def implementation(logger, args):
 
 
 def do_register(registration_list):
-    registration_list.append(('analysis',
+    registration_list.append(('interpret',
                               help_doc,
                               make_parser,
                               implementation))
