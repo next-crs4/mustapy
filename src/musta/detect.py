@@ -29,9 +29,10 @@ class CallWorkflow(Workflow):
         if self.mutect:
             if not self.variant_file:
                 self.logger.error("-v | --variant-file is a mandatory argument. Exiting...")
+                sys.exit()
             if not self.germline_resource:
                 self.logger.error("-g | --germline-resource is a mandatory argument. Exiting...")
-            sys.exit()
+                sys.exit()
 
         if (self.lofreq or self.muse) and not self.dbsnp_file:
             self.logger.error("-db | --dbsnp-file is a mandatory argument. Exiting...")
