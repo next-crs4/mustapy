@@ -55,9 +55,9 @@ class AnnotateWorkflow(Workflow):
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
-help_doc = """
-Variant Annotation
+help_doc = """Variant Annotation
 Functional annotation of called somatic variants 
+
 """
 
 

@@ -74,12 +74,12 @@ class CallWorkflow(Workflow):
         self.init_samples_file(bam_path=self.input_dir)
 
         self.logger.info('Running')
-        self.logger.info('Variant Calling - command: \'call\'')
+        self.logger.info('Variant Calling')
         self.pipe_cfg.set_run_mode(run_mode='call')
         self.pipe_cfg.write()
 
         if self.mutect:
-            self.logger.info('caller:  \'mutect\'')
+            self.logger.info('Variant Caller:  \'mutect\'')
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='mutect')
             self.pipe_cfg.write()
@@ -143,10 +143,10 @@ class CallWorkflow(Workflow):
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
-help_doc = """
-Somatic Mutations Detection.
+help_doc = """Somatic Mutations Detection.
     1.  Multiple Variant Calling: mutect, lofreq, varscan, vardict, muse, strelka.
     2.  Ensemble consensus approach to combine results and to improve the performance of variant calling
+
 """
 
 

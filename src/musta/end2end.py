@@ -61,9 +61,9 @@ class FullWorkflow(Workflow):
         self.logger.info("Report in <WORKDIR>/outputs/report.html")
 
 
-help_doc = """
-Run the whole workflow, 
+help_doc = """Run the whole workflow, 
 from Variant Calling to Deconvolution of Mutational Signatures
+
 """
 
 

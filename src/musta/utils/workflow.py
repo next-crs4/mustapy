@@ -21,6 +21,7 @@ class Workflow(object):
         self.workdir = args.workdir if args.workdir else self.io_conf.get('workdir_root_path')
         self.input_dir = self.io_conf.get('inputs_root_path')
         self.output_dir = os.path.join(self.workdir, self.io_conf.get('output_folder_name'))
+        self.log_dir = os.path.join(self.workdir, self.io_conf.get('log_folder_name'))
         self.tmp_dir = self.io_conf.get('temp_folder_path')
         self.musta_dir = os.path.join(self.workdir, self.io_conf.get('musta_folder_name'))
 
@@ -30,7 +31,8 @@ class Workflow(object):
         self.paths = dict(
             workdir=self.musta_dir,
             results_dir=self.output_dir,
-            tmp_dir=self.tmp_dir
+            tmp_dir=self.tmp_dir,
+            log_dir=self.log_dir
         )
 
         self.pipe_conf = self.conf.get_pipeline_section()

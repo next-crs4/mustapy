@@ -134,8 +134,7 @@ musta -h
 ```shell
 usage: musta [-h] [--config_file PATH] [--logfile PATH]
              [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-             {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
-             ...
+             {detect,classify,interpret,end2end} ...
 
 End-to-end pipeline to detect, classify and interpret mutations in cancer
 
@@ -150,37 +149,23 @@ optional arguments:
 subcommands:
   valid subcommands
 
-  {demo,call,annotate,detect,pathway,heterogeneity,signature,full,variants,analysis}
+  {detect,classify,interpret,end2end}
                         sub-command description
-    demo                
-                        Demo run on data from 
-                        https://github.com/solida-core/test-data-somatic
-    call                
-                        Variant Calling
-                        Calls somatic SNVs and indels. 
-    annotate            
-                        Variant Annotation
+    detect              Somatic Mutations Detection.
+                            1.  Multiple Variant Calling: mutect, lofreq, varscan, vardict, muse, strelka.
+                            2.  Ensemble consensus approach to combine results and to improve the performance of variant calling
+                        
+    classify            Variant Annotation
                         Functional annotation of called somatic variants 
-    detect              
-                        Driver Gene Detection
-                        Identification of cancer driver genes 
-    pathway             
-                        Pathway Analysis
-                        Check for enrichment of known oncogenic pathways.
-    heterogeneity       
-                        Estimation of Tumor Heterogeneity
-                        Inferring tumor clonality by clustering variant allele frequencies.
-    signature           
-                        Deconvolution of Mutational Signatures
-                        De-novo extraction of mutational signatures  followed  by refitting
-    full                
-                        Run the whole workflow, 
+                        
+    interpret           Somatic Mutations Interpretation:
+                            1.  Identification of cancer driver genes 
+                            2.  Check for enrichment of known oncogenic pathways.
+                            3.  Infer tumor clonality by clustering variant allele frequencies.
+                            4.  Deconvolution of Mutational Signatures
+                            
+    end2end             Run the whole workflow, 
                         from Variant Calling to Deconvolution of Mutational Signatures
-    variants            
-                        Run Variant Calling and Variants Annotation steps
-    analysis            
-                        Run from  Driver Gene Detection to Deconvolution of Mutational Signatures
-
 ```
 
 [Back](#contents)
