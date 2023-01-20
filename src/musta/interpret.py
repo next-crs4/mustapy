@@ -30,9 +30,9 @@ class AnalysisWorkflow(Workflow):
                       dryrun=self.dryrun,
                       cores=self.cores)
 
-        self.logger.info("Logs in <WORKDIR>/outputs/logs")
-        self.logger.info("Results in <WORKDIR>/outputs/results/analysis")
-        self.logger.info("Report in <WORKDIR>/outputs/report.html")
+        self.logger.info("Logs in <WORKDIR>/{}".format(self.io_conf.get('log_folder_name')))
+        self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'), self.io_conf.get('interpret_folder_name')))
+        self.logger.info("Report in <WORKDIR>/{}/report.html".format(self.io_conf.get('output_folder_name')))
 
 
 help_doc = """Somatic Mutations Interpretation:

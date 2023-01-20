@@ -4,6 +4,9 @@ io:
   inputs_root_path: /volumes/inputs
   output_folder_name: outputs
   log_folder_name: logs
+  detect_folder_name: detection
+  classify_folder_name: classification
+  interpret_folder_name: interpretation
   resources_root_name: /volumes/resources
   samples_file: /volumes/samples.yml
   temp_folder_path: /volumes/tmp

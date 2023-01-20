@@ -32,7 +32,10 @@ class Workflow(object):
             workdir=self.musta_dir,
             results_dir=self.output_dir,
             tmp_dir=self.tmp_dir,
-            log_dir=self.log_dir
+            log_dir=self.log_dir,
+            detection_folder_name=self.io_conf.get('detect_folder_name'),
+            classification_folder_name=self.io_conf.get('classify_folder_name'),
+            interpretation_folder_name=self.io_conf.get('interpret_folder_name'),
         )
 
         self.pipe_conf = self.conf.get_pipeline_section()
