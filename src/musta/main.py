@@ -6,16 +6,10 @@ from comoda import a_logger, LOG_LEVELS, a_handler
 from importlib import import_module
 
 SUBMOD_NAMES = [
-    "demo",
-    "call",
-    "annotate",
     "detect",
-    "pathway",
-    "heterogeneity",
-    "signature",
-    "full",
-    "variants",
-    "analysis",
+    "classify",
+    "interpret",
+    "end2end",
 ]
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]

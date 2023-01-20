@@ -2,7 +2,8 @@ from .utils.workflow import Workflow
 from .utils import overwrite
 
 
-class PathwayWorkflow(Workflow):
+class AnalysisWorkflow(Workflow):
+
     def __init__(self, args=None, logger=None):
         Workflow.__init__(self, args, logger)
 
@@ -27,7 +28,6 @@ class PathwayWorkflow(Workflow):
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
-                      until='maftools_pathways',
                       cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/outputs/logs")
@@ -36,8 +36,11 @@ class PathwayWorkflow(Workflow):
 
 
 help_doc = """
-Pathway Analysis
-Check for enrichment of known oncogenic pathways.
+Somatic Mutations Interpretation:
+    1.  Identification of cancer driver genes 
+    2.  Check for enrichment of known oncogenic pathways.
+    3.  Infer tumor clonality by clustering variant allele frequencies.
+    4.  Deconvolution of Mutational Signatures
 """
 
 
@@ -65,13 +68,13 @@ def make_parser(parser):
 def implementation(logger, args):
     logger.info(help_doc.replace('\n',''))
 
-    workflow = PathwayWorkflow(args=args,
-                               logger=logger)
+    workflow = AnalysisWorkflow(args=args,
+                                logger=logger)
     workflow.run()
 
 
 def do_register(registration_list):
-    registration_list.append(('pathway',
+    registration_list.append(('analysis',
                               help_doc,
                               make_parser,
                               implementation))
