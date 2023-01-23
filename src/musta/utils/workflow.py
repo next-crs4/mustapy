@@ -22,6 +22,7 @@ class Workflow(object):
         self.input_dir = self.io_conf.get('inputs_root_path')
         self.output_dir = os.path.join(self.workdir, self.io_conf.get('output_folder_name'))
         self.log_dir = os.path.join(self.workdir, self.io_conf.get('log_folder_name'))
+        self.bench_dir = os.path.join(self.workdir, self.io_conf.get('benchmark_folder_name'))
         self.tmp_dir = self.io_conf.get('temp_folder_path')
         self.musta_dir = os.path.join(self.workdir, self.io_conf.get('musta_folder_name'))
 
@@ -33,6 +34,7 @@ class Workflow(object):
             results_dir=self.output_dir,
             tmp_dir=self.tmp_dir,
             log_dir=self.log_dir,
+            bench_dir=self.bench_dir,
             detection_folder_name=self.io_conf.get('detect_folder_name'),
             classification_folder_name=self.io_conf.get('classify_folder_name'),
             interpretation_folder_name=self.io_conf.get('interpret_folder_name'),

@@ -4,6 +4,7 @@ io:
   inputs_root_path: /volumes/inputs
   output_folder_name: outputs
   log_folder_name: logs
+  benchmark_folder_name: benchmarks
   detect_folder_name: detection
   classify_folder_name: classification
   interpret_folder_name: interpretation
