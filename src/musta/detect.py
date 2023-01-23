@@ -15,12 +15,25 @@ class CallWorkflow(Workflow):
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
 
-        self.mutect = not args.exclude_mutect
-        self.lofreq = not args.exclude_lofreq
-        self.varscan = not args.exclude_varscan
-        self.vardict = not args.exclude_vardict
-        self.muse = not args.exclude_muse
-        self.strelka = not args.exclude_strelka
+        check = int(args.fast) + int(args.strict) + int(args.soft)
+        if check == 0:
+            self.mutect = not args.exclude_mutect
+            self.lofreq = not args.exclude_lofreq
+            self.varscan = not args.exclude_varscan
+            self.vardict = not args.exclude_vardict
+            self.muse = not args.exclude_muse
+            self.strelka = not args.exclude_strelka
+        elif check == 1:
+            self.mutect = not args.exclude_mutect and args.strict
+            self.lofreq = not args.exclude_lofreq and (args.strict or args.fast)
+            self.varscan = not args.exclude_varscan and (args.soft or args.fast)
+            self.vardict = not args.exclude_vardict and args.soft
+            self.muse = not args.exclude_muse and (args.soft or args.fast)
+            self.strelka = not args.exclude_strelka and (args.strict or args.fast)
+        else:
+            self.logger.error("choose only one of these arguments: --fast / --soft / --strict . Exiting...")
+            sys.exit()
+
 
         if not self.bed_file and not self.muse:
             self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
@@ -215,6 +228,18 @@ def make_parser(parser):
     parser.add_argument('--exclude-vardict', '-evd',
                         action='store_true', default=False,
                         help='do NOT run VARDICT variant caller')
+
+    parser.add_argument('--strict',
+                        action='store_true', default=False,
+                        help='run only restrictive variant callers: mutect, lofreq, strelka')
+
+    parser.add_argument('--soft',
+                        action='store_true', default=False,
+                        help='run only permissive variant callers: varscan, vardict, muse')
+
+    parser.add_argument('--fast',
+                        action='store_true', default=False,
+                        help='run only fast variant callers: lofreq, varscan, strelka, muse')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
