@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 from .utils.workflow import Workflow
@@ -100,7 +101,10 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file=self._get_report_file('mutect'),
+                          stats_file=self._get_stats_file('mutect'),
+                          )
 
         if self.lofreq:
             self.logger.info('caller:  \'lofreq\'')
@@ -110,7 +114,10 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file=self._get_report_file('lofreq'),
+                          stats_file=self._get_stats_file('lofreq'),
+                          )
 
         if self.varscan:
             self.logger.info('caller:  \'varscan\'')
@@ -120,7 +127,10 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file=self._get_report_file('varscan'),
+                          stats_file=self._get_stats_file('varscan'),
+                          )
 
         if self.vardict:
             self.logger.info('caller:  \'vardict\'')
@@ -130,7 +140,10 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file=self._get_report_file('vardict'),
+                          stats_file=self._get_stats_file('vardict'),
+                          )
 
         if self.muse:
             self.logger.info('caller:  \'muse\'')
@@ -140,7 +153,10 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file = self._get_report_file('muse'),
+                          stats_file = self._get_stats_file('muse'),
+            )
 
         if self.strelka:
             self.logger.info('caller:  \'strelka\'')
@@ -150,11 +166,35 @@ class CallWorkflow(Workflow):
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
-                          cores=self.cores)
+                          cores=self.cores,
+                          report_file=self._get_report_file('strelka'),
+                          stats_file=self._get_stats_file('strelka'),
+            )
 
-        self.logger.info("Logs in <WORKDIR>/{}".format(self.io_conf.get('log_folder_name')))
-        self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'), self.io_conf.get('detect_folder_name')))
-        self.logger.info("Report in <WORKDIR>/{}/report.html".format(self.io_conf.get('output_folder_name')))
+        self.pipe.report(snakefile=self.pipe_snakefile,
+                         report_file=self.pipe_report_file)
+
+        self.logger.info("Logs in <WORKDIR>/{}/<VARIANT CALLER>".format(self.io_conf.get('log_folder_name')))
+        self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT CALLER>".format(self.io_conf.get('output_folder_name'),
+                                                                              self.io_conf.get('detect_folder_name')))
+
+        self.logger.info("Report in <WORKDIR>/{}/<VARIANT CALLER>/{}".format(self.io_conf.get('output_folder_name'),
+                                                                             self.pipe_conf.get('report_file')))
+
+        self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
+                                                                  self.io_conf.get('detect_folder_name')))
+
+    def _get_report_file(self, caller):
+        return os.path.join(self.output_dir,
+                            self.io_conf.get('detect_folder_name'),
+                            caller,
+                            self.pipe_conf.get('report_file'))
+
+    def _get_stats_file(self, caller):
+        return os.path.join(self.output_dir,
+                            self.io_conf.get('detect_folder_name'),
+                            caller,
+                            self.pipe_conf.get('stats_file'))
 
 
 help_doc = """Somatic Mutations Detection.

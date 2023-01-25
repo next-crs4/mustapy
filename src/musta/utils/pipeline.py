@@ -28,7 +28,8 @@ class Pipeline(object):
 
         self.repo = Repo.clone_from(self.url, self.workdir)
 
-    def run(self, snakefile, dryrun, until=None, cores=1):
+    def run(self, snakefile, dryrun, until=None, cores=1,
+            stats_file=None, report_file=None):
 
         if until:
             snakemake(snakefile=snakefile,
@@ -36,7 +37,7 @@ class Pipeline(object):
                       dryrun=dryrun,
                       forceall=self.force,
                       force_incomplete=self.force,
-                      stats=self.stats_file,
+                      stats=stats_file if stats_file else self.stats_file,
                       use_conda=True,
                       until=[until],
                       cores=cores)
@@ -46,16 +47,20 @@ class Pipeline(object):
                       dryrun=dryrun,
                       forceall=self.force,
                       force_incomplete=self.force,
-                      stats=self.stats_file,
+                      stats=stats_file if stats_file else self.stats_file,
                       use_conda=True,
                       cores=cores)
 
         if not dryrun:
-            snakemake(snakefile=snakefile,
-                      workdir=self.workdir,
-                      report=self.report_file,
-                      )
+            self.report(snakefile=snakefile,
+                        report_file=report_file if report_file else self.report_file,)
 
+
+    def report(self, snakefile, report_file=None):
+        snakemake(snakefile=snakefile,
+                  workdir=self.workdir,
+                  report=report_file if report_file else self.report_file,
+                  )
 
 class Config(ConfigurationFromYamlFile):
 
