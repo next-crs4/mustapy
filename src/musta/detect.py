@@ -171,6 +171,18 @@ class CallWorkflow(Workflow):
                           stats_file=self._get_stats_file('strelka'),
             )
 
+        self.pipe_cfg.reset_callers()
+        self.pipe_cfg.reset_run_mode()
+        self.pipe_cfg.set_run_mode(run_mode='combine')
+        self.pipe_cfg.write()
+
+        self.pipe.run(snakefile=self.pipe_snakefile,
+                      dryrun=self.dryrun,
+                      cores=self.cores,
+                      report_file=self._get_report_file('somaticseq'),
+                      stats_file=self._get_stats_file('somaticseq'),
+        )
+
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.pipe_report_file)
 
