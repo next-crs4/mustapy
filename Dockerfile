@@ -32,9 +32,12 @@ RUN curl -L https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86
 RUN conda update -n base -c defaults conda
 RUN conda config --set channel_priority strict
 
-RUN conda install -y -c conda-forge mamba && \
-    mamba create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15 && \
-    mamba clean --all -y
+#RUN conda install -y -c conda-forge mamba && \
+#    mamba create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15 && \
+#    mamba clean --all -y
+
+RUN  conda create -q -y -c conda-forge -c bioconda -n musta  python=3.8 snakemake=7.15 && \
+     conda clean --all -y
 
 RUN sh /config/create_paths.sh
 
