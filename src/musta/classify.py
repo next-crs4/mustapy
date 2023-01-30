@@ -1,5 +1,7 @@
+import os
 from .utils.workflow import Workflow
 from .utils import overwrite
+
 
 
 class AnnotateWorkflow(Workflow):
@@ -41,14 +43,21 @@ class AnnotateWorkflow(Workflow):
         self.init_samples_file(vcf_path=self.input_dir)
 
         self.logger.info('Running')
-        self.logger.info('Variant Annotation - command: \'annotate\'')
+        self.logger.info('Variant Annotation')
 
         self.pipe_cfg.set_run_mode(run_mode='annotate')
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
                       dryrun=self.dryrun,
-                      cores=self.cores)
+                      cores=self.cores,
+                      report_file=os.path.join(self.output_dir,
+                                               self.io_conf.get('classify_folder_name'),
+                                               self.pipe_conf.get('report_file')),
+                      stats_file=os.path.join(self.output_dir,
+                                               self.io_conf.get('classify_folder_name'),
+                                               self.pipe_conf.get('stats_file')),
+                      )
 
         self.logger.info("Logs in <WORKDIR>/{}".format(self.io_conf.get('log_folder_name')))
         self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'), self.io_conf.get('classify_folder_name')))
