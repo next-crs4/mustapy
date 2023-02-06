@@ -107,7 +107,7 @@ class CallWorkflow(Workflow):
                           )
 
         if self.lofreq:
-            self.logger.info('caller:  \'lofreq\'')
+            self.logger.info('Variant Caller:  \'lofreq\'')
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='lofreq')
             self.pipe_cfg.write()
@@ -120,7 +120,7 @@ class CallWorkflow(Workflow):
                           )
 
         if self.varscan:
-            self.logger.info('caller:  \'varscan\'')
+            self.logger.info('Variant Caller:  \'varscan\'')
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='varscan')
             self.pipe_cfg.write()
@@ -133,7 +133,7 @@ class CallWorkflow(Workflow):
                           )
 
         if self.vardict:
-            self.logger.info('caller:  \'vardict\'')
+            self.logger.info('Variant Caller:  \'vardict\'')
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='vardict')
             self.pipe_cfg.write()
@@ -146,7 +146,7 @@ class CallWorkflow(Workflow):
                           )
 
         if self.muse:
-            self.logger.info('caller:  \'muse\'')
+            self.logger.info('Variant Caller:  \'muse\'')
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.set_callers(caller='muse')
             self.pipe_cfg.write()
