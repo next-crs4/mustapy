@@ -135,7 +135,7 @@ class Config(ConfigurationFromYamlFile):
         self.set_section(section_label='paths', section_value=paths)
 
     def set_vep_section(self, vep_params):
-        self.conf['params']['vep']
+        self.conf['params']['vep'] = vep_params
 
 
     def set_gatk_section(self, gatk_params):
