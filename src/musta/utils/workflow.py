@@ -88,7 +88,7 @@ class Workflow(object):
             self.pipe_cfg.set_gatk_section(gatk_params=gatk_params)
 
         if vep_params:
-            self.pipe_cfg.set_gatk_section(vep_params=vep_params)
+            self.pipe_cfg.set_vep_section(vep_params=vep_params)
 
         self.pipe_cfg.set_paths_section(paths=self.paths)
         self.pipe_cfg.write()

@@ -134,7 +134,7 @@ class Config(ConfigurationFromYamlFile):
     def set_paths_section(self, paths):
         self.set_section(section_label='paths', section_value=paths)
 
-    def set_vep_params(self, vep_params):
+    def set_vep_section(self, vep_params):
         self.conf['params']['vep']
 
 
