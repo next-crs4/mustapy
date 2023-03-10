@@ -12,6 +12,7 @@ class AnnotateWorkflow(Workflow):
         self.reference_file = args.reference_file
         self.data_source = args.data_source
         self.ref_version = args.ref_version
+        self.cache_version = args.cache_version
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
@@ -23,9 +24,15 @@ class AnnotateWorkflow(Workflow):
 
             gatk_params=dict(
                 Funcotator=dict(
-                    resources=self.data_source,
+                    resources=os.path.join(self.data_source, self.io_conf.get('funcotator_folder_name')),
                     reference_version=self.ref_version
                 )
+            ),
+
+            vep_params = dict(
+                resources=os.path.join(self.data_source, self.io_conf.get('vep_folder_name')),
+                reference_version=self.ref_version,
+                cache_versione=self.cache_version,
             )
         )
 
@@ -37,7 +44,8 @@ class AnnotateWorkflow(Workflow):
 
         self.logger.info('Initializing  Config file')
         self.init_config_file(base=self.resources.get('base'),
-                              gatk_params=self.resources.get('gatk_params'))
+                              gatk_params=self.resources.get('gatk_params'),
+                              vep_params=self.resources.get('vep_params'))
 
         self.logger.info('Initializing  Samples file')
         self.init_samples_file(vcf_path=self.input_dir)
@@ -98,6 +106,10 @@ def make_parser(parser):
     parser.add_argument('--ref-version', '-rf',
                         type=str, choices=['hg19', 'hg38'], default='hg19',
                         help='The version of the Human Genome reference to use.')
+
+    parser.add_argument('--cache-version', '-cv',
+                        type=str, default='106',
+                        help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,

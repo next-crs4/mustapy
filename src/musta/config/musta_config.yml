@@ -9,6 +9,8 @@ io:
   classify_folder_name: classification
   interpret_folder_name: interpretation
   resources_root_name: /volumes/resources
+  funcotator_folder_name: funcotator
+  vep_folder_name: vep
   samples_file: /volumes/samples.yml
   temp_folder_path: /volumes/tmp
 

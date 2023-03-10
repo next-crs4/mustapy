@@ -134,6 +134,10 @@ class Config(ConfigurationFromYamlFile):
     def set_paths_section(self, paths):
         self.set_section(section_label='paths', section_value=paths)
 
+    def set_vep_params(self, vep_params):
+        self.conf['params']['vep']
+
+
     def set_gatk_section(self, gatk_params):
 
         if gatk_params.get('germline'):
