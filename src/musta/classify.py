@@ -32,7 +32,7 @@ class AnnotateWorkflow(Workflow):
             vep_params = dict(
                 resources=os.path.join(self.data_source, self.io_conf.get('vep_folder_name')),
                 reference_version=self.ref_version,
-                cache_versione=self.cache_version,
+                cache_version=self.cache_version,
             )
         )
 
