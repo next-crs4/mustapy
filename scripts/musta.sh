@@ -222,7 +222,6 @@ fi
 
 if [ -f "$SAMPLESFILE" ]; then
 
-  mounts=()
   for line in `cat ${SAMPLESFILE}`
   do
     if [ -f $line ]; then
@@ -243,8 +242,7 @@ if [ -f "$SAMPLESFILE" ]; then
           echo "Exiting..." && exit 1
         fi
 
-        extension="${filename#*.}"
-        if [ $extension == 'vcf.gz' ]; then
+        if [[ $filename == *vcf.gz ]]; then
           [ ! -f "${line}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
           echo "Please index all input vcf files: tabix -p vcf ${line}.gz" && \
           echo "See: https://www.biostars.org/p/59492/" && \
