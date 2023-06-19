@@ -201,6 +201,19 @@ class CallWorkflow(Workflow):
 
         self.pipe_cfg.reset_callers()
         self.pipe_cfg.reset_run_mode()
+        self.pipe_cfg.reset_callers()
+        if self.mutect:
+            self.pipe_cfg.set_callers(caller='mutect')
+        if self.lofreq:
+            self.pipe_cfg.set_callers(caller='lofreq')
+        if self.varscan:
+            self.pipe_cfg.set_callers(caller='varscan')
+        if self.vardict:
+            self.pipe_cfg.set_callers(caller='vardict')
+        if self.muse:
+            self.pipe_cfg.set_callers(caller='muse')
+        if self.strelka:
+            self.pipe_cfg.set_callers(caller='strelka')
         self.pipe_cfg.set_run_mode(run_mode='combine')
         self.pipe_cfg.write()
 
