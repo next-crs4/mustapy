@@ -94,122 +94,122 @@ class CallWorkflow(Workflow):
         self.pipe_cfg.set_run_mode(run_mode='call')
 
         ##### ADDED: START ####
-        self.pipe_cfg.reset_callers()
-        if self.mutect:
-            self.pipe_cfg.set_callers(caller='mutect')
-        if self.lofreq:
-            self.pipe_cfg.set_callers(caller='lofreq')
-        if self.varscan:
-            self.pipe_cfg.set_callers(caller='varscan')
-        if self.vardict:
-            self.pipe_cfg.set_callers(caller='vardict')
-        if self.muse:
-            self.pipe_cfg.set_callers(caller='muse')
-        if self.strelka:
-            self.pipe_cfg.set_callers(caller='strelka')
-
-
-        self.pipe_cfg.set_run_mode(run_mode='combine')
-
-        self.pipe_cfg.write()
-
-        self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun,
-                      cores=self.cores,
-                      report_file=self._get_report_file(''),
-                      stats_file=self._get_stats_file(''),
-                      )
-        ##### ADDED: END ####
-
-        # if self.mutect:
-        #     self.logger.info('Variant Caller:  \'mutect\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='mutect')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file=self._get_report_file('mutect'),
-        #                   stats_file=self._get_stats_file('mutect'),
-        #                   )
-        #
-        # if self.lofreq:
-        #     self.logger.info('Variant Caller:  \'lofreq\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='lofreq')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file=self._get_report_file('lofreq'),
-        #                   stats_file=self._get_stats_file('lofreq'),
-        #                   )
-        #
-        # if self.varscan:
-        #     self.logger.info('Variant Caller:  \'varscan\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='varscan')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file=self._get_report_file('varscan'),
-        #                   stats_file=self._get_stats_file('varscan'),
-        #                   )
-        #
-        # if self.vardict:
-        #     self.logger.info('Variant Caller:  \'vardict\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='vardict')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file=self._get_report_file('vardict'),
-        #                   stats_file=self._get_stats_file('vardict'),
-        #                   )
-        #
-        # if self.muse:
-        #     self.logger.info('Variant Caller:  \'muse\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='muse')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file = self._get_report_file('muse'),
-        #                   stats_file = self._get_stats_file('muse'),
-        #     )
-        #
-        # if self.strelka:
-        #     self.logger.info('caller:  \'strelka\'')
-        #     self.pipe_cfg.reset_callers()
-        #     self.pipe_cfg.set_callers(caller='strelka')
-        #     self.pipe_cfg.write()
-        #
-        #     self.pipe.run(snakefile=self.pipe_snakefile,
-        #                   dryrun=self.dryrun,
-        #                   cores=self.cores,
-        #                   report_file=self._get_report_file('strelka'),
-        #                   stats_file=self._get_stats_file('strelka'),
-        #     )
-
         # self.pipe_cfg.reset_callers()
-        # self.pipe_cfg.reset_run_mode()
+        # if self.mutect:
+        #     self.pipe_cfg.set_callers(caller='mutect')
+        # if self.lofreq:
+        #     self.pipe_cfg.set_callers(caller='lofreq')
+        # if self.varscan:
+        #     self.pipe_cfg.set_callers(caller='varscan')
+        # if self.vardict:
+        #     self.pipe_cfg.set_callers(caller='vardict')
+        # if self.muse:
+        #     self.pipe_cfg.set_callers(caller='muse')
+        # if self.strelka:
+        #     self.pipe_cfg.set_callers(caller='strelka')
+        #
+        #
         # self.pipe_cfg.set_run_mode(run_mode='combine')
+        #
         # self.pipe_cfg.write()
         #
         # self.pipe.run(snakefile=self.pipe_snakefile,
         #               dryrun=self.dryrun,
         #               cores=self.cores,
-        #               report_file=self._get_report_file('somaticseq'),
-        #               stats_file=self._get_stats_file('somaticseq'),
-        # )
+        #               report_file=self._get_report_file(''),
+        #               stats_file=self._get_stats_file(''),
+        #               )
+        ##### ADDED: END ####
+
+        if self.mutect:
+            self.logger.info('Variant Caller:  \'mutect\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='mutect')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('mutect'),
+                          stats_file=self._get_stats_file('mutect'),
+                          )
+
+        if self.lofreq:
+            self.logger.info('Variant Caller:  \'lofreq\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='lofreq')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('lofreq'),
+                          stats_file=self._get_stats_file('lofreq'),
+                          )
+
+        if self.varscan:
+            self.logger.info('Variant Caller:  \'varscan\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='varscan')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('varscan'),
+                          stats_file=self._get_stats_file('varscan'),
+                          )
+
+        if self.vardict:
+            self.logger.info('Variant Caller:  \'vardict\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='vardict')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('vardict'),
+                          stats_file=self._get_stats_file('vardict'),
+                          )
+
+        if self.muse:
+            self.logger.info('Variant Caller:  \'muse\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='muse')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file = self._get_report_file('muse'),
+                          stats_file = self._get_stats_file('muse'),
+            )
+
+        if self.strelka:
+            self.logger.info('caller:  \'strelka\'')
+            self.pipe_cfg.reset_callers()
+            self.pipe_cfg.set_callers(caller='strelka')
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('strelka'),
+                          stats_file=self._get_stats_file('strelka'),
+            )
+
+        self.pipe_cfg.reset_callers()
+        self.pipe_cfg.reset_run_mode()
+        self.pipe_cfg.set_run_mode(run_mode='combine')
+        self.pipe_cfg.write()
+
+        self.pipe.run(snakefile=self.pipe_snakefile,
+                      dryrun=self.dryrun,
+                      cores=self.cores,
+                      report_file=self._get_report_file('somaticseq'),
+                      stats_file=self._get_stats_file('somaticseq'),
+        )
 
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.pipe_report_file)
