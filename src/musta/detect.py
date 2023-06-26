@@ -197,7 +197,7 @@ class CallWorkflow(Workflow):
         )
 
         self.pipe.report(snakefile=self.pipe_snakefile,
-                         report_file=self.pipe_report_file)
+                         report_file=self.get_report_file())
 
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT CALLER>".format(self.io_conf.get('log_folder_name')))
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT CALLER>".format(self.io_conf.get('output_folder_name'),

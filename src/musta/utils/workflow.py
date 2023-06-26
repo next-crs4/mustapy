@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from . import get_cores
 from .config import Config
 from .pipeline import Pipeline
@@ -111,6 +112,12 @@ class Workflow(object):
 
     def run(self):
         self.pipe = self.__deploy()
+
+    def get_report_file(self):
+        current_time = datetime.now()
+        formatted_time = current_time.strftime('%Y%m%d-%H%M%S')
+        return os.path.join(self.output_dir,
+                            "{}.{}".format(formatted_time, self.pipe_conf.get('report_file')))
 
     def __deploy(self):
         self.logger.info('Deploying {}:{} pipeline from {}'.format(self.pipe_name,
