@@ -72,6 +72,10 @@ class Config(ConfigurationFromYamlFile):
         call_section = self.get_section(label)
         return call_section
 
+    def get_annotators_section(self, label='annotators'):
+        annotate_section = self.get_section(label)
+        return annotate_section
+
     def get_samples_section(self, label='samples'):
         samples_section = self.get_section(label)
         return samples_section
@@ -115,6 +119,15 @@ class Config(ConfigurationFromYamlFile):
             for c in callers_section.keys():
                 self.conf['callers'][c] = False
 
+    def reset_annotators(self, annotator=None):
+        annotators_section = self.get_annotators_section()
+        if annotator and annotator in annotators_section:
+            self.conf['annotators'][annotator] = False
+
+        else:
+            for a in annotators_section.keys():
+                self.conf['annotators'][a] = False
+
     def set_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
@@ -123,6 +136,15 @@ class Config(ConfigurationFromYamlFile):
         else:
             for c in callers_section.keys():
                 self.conf['callers'][c] = True
+
+    def set_annotators(self, annotator=None):
+        annotators_section = self.get_annotators_section()
+        if annotator and annotator in annotators_section:
+            self.conf['annotators'][annotator] = True
+
+        else:
+            for a in annotators_section.keys():
+                self.conf['annotators'][a] = True
 
     def set_samples_file(self, samples_file):
 

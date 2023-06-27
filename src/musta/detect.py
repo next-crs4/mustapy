@@ -209,7 +209,7 @@ class CallWorkflow(Workflow):
         self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
                                                                   self.io_conf.get('detect_folder_name')))
 
-    def _get_report_file(self, caller=""):
+    def _get_report_file(self, caller):
         return os.path.join(self.output_dir,
                             self.io_conf.get('detect_folder_name'),
                             caller,

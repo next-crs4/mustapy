@@ -14,6 +14,9 @@ class AnnotateWorkflow(Workflow):
         self.ref_version = args.ref_version
         self.cache_version = args.cache_version
 
+        self.funcotator = args.also_funcotator or args.only_funcotator
+        self.vep = not args.only_funcotator
+
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
 
@@ -53,25 +56,61 @@ class AnnotateWorkflow(Workflow):
         self.logger.info('Running')
         self.logger.info('Variant Annotation')
 
+        self.pipe_cfg.reset_run_mode()
         self.pipe_cfg.set_run_mode(run_mode='annotate')
-        self.pipe_cfg.write()
 
-        self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun,
-                      cores=self.cores,
-                      report_file=os.path.join(self.output_dir,
-                                               self.io_conf.get('classify_folder_name'),
-                                               self.pipe_conf.get('report_file')),
-                      stats_file=os.path.join(self.output_dir,
-                                               self.io_conf.get('classify_folder_name'),
-                                               self.pipe_conf.get('stats_file')),
-                      )
+        if self.vep:
+            self.logger.info('Variant Annotator:  \'vep\'')
+            self.pipe_cfg.reset_annotators()
+            self.pipe_cfg.set_annotators(annotator="vep")
+            self.pipe_cfg.write()
 
-        self.logger.info("Logs in <WORKDIR>/{}".format(self.io_conf.get('log_folder_name')))
-        self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'), self.io_conf.get('classify_folder_name')))
-        self.logger.info("Report in <WORKDIR>/{}/report.html".format(self.io_conf.get('output_folder_name')))
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('vep'),
+                          stats_file=self._get_stats_file('vep')
+            )
+
+        if self.funcotator:
+            self.logger.info('Variant Annotator:  \'funcotator\'')
+            self.pipe_cfg.reset_annotators()
+            self.pipe_cfg.set_annotators(annotator="funcotator")
+            self.pipe_cfg.write()
+
+            self.pipe.run(snakefile=self.pipe_snakefile,
+                          dryrun=self.dryrun,
+                          cores=self.cores,
+                          report_file=self._get_report_file('funcotator'),
+                          stats_file=self._get_stats_file('funcotator')
+                          )
+
+        self.pipe.report(snakefile=self.pipe_snakefile,
+                         report_file=self.get_report_file())
 
 
+        self.logger.info("Logs in <WORKDIR>/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('log_folder_name')))
+
+        self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('output_folder_name'),
+                                                                              self.io_conf.get('classify_folder_name')))
+
+        self.logger.info("Report in <WORKDIR>/{}/<VARIANT ANNOTATOR>/{}".format(self.io_conf.get('output_folder_name'),
+                                                                             self.pipe_conf.get('report_file')))
+
+        self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
+                                                                  self.io_conf.get('classify_folder_name')))
+
+    def _get_report_file(self, annotator):
+        return os.path.join(self.output_dir,
+                            self.io_conf.get('classify_folder_name'),
+                            annotator,
+                            self.pipe_conf.get('report_file'))
+
+    def _get_stats_file(self, annotator):
+        return os.path.join(self.output_dir,
+                            self.io_conf.get('classify_folder_name'),
+                            annotator,
+                            self.pipe_conf.get('stats_file'))
 help_doc = """Variant Annotation
 Functional annotation of called somatic variants 
 
@@ -110,6 +149,18 @@ def make_parser(parser):
     parser.add_argument('--cache-version', '-cv',
                         type=str, default='106',
                         help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
+
+    parser.add_argument('--cache-version', '-cv',
+                        type=str, default='106',
+                        help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
+
+    parser.add_argument('--also-funcotator', '-af',
+                        action='store_true', default=False,
+                        help='also run gatk funcotator')
+
+    parser.add_argument('--only-funcotator', '-of',
+                        action='store_true', default=False,
+                        help='only run gatk funcotator')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
