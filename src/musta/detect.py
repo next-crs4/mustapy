@@ -225,7 +225,6 @@ class CallWorkflow(Workflow):
 help_doc = """Somatic Mutations Detection.
     1.  Multiple Variant Calling: mutect, lofreq, varscan, vardict, muse, strelka.
     2.  Ensemble consensus approach to combine results and to improve the performance of variant calling
-
 """
 
 
