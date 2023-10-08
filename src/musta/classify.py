@@ -150,10 +150,6 @@ def make_parser(parser):
                         type=str, default='106',
                         help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
 
-    parser.add_argument('--cache-version', '-cv',
-                        type=str, default='106',
-                        help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
-
     parser.add_argument('--also-funcotator', '-af',
                         action='store_true', default=False,
                         help='also run gatk funcotator')
