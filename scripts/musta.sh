@@ -234,7 +234,7 @@ if [ -f "$SAMPLESFILE" ]; then
           echo "Exiting..." && exit 1
           SOURCE="${line}.bai"
           TARGET="/volumes/inputs/${filename}.bai"
-          if [[ "${CMD""" != *"${TARGET}"* ]]; then
+          if [[ "${CMD" != *"${TARGET}"* ]]; then
             CMD="${CMD} --mount type=bind,source="${SOURCE}",target=${TARGET}"
           fi
 
