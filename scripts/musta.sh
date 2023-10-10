@@ -254,7 +254,10 @@ if [ -f "$SAMPLESFILE" ]; then
           CMD="${CMD} --mount type=bind,source="${line}.tbi",target=/volumes/inputs/${filename}.tbi"
         fi
 
-        CMD="${CMD} --mount type=bind,source="${line}",target=/volumes/inputs/${filename}"
+        MOUNT="--mount type=bind,source="${line}",target=/volumes/inputs/${filename}"
+        if [[ "${CMD}" != *"${MOUNT}"* ]]; then
+          CMD="${CMD} ${MOUNT}"
+        fi
     fi
   done
 fi
