@@ -1,5 +1,5 @@
 # musta
-end-to-end pipeline to detect, classify and interpret mutations in cancer
+A novel affordable and reliable framework for accurate detection and comprehensive analysis of somatic mutations in cancer
 
 ## Contents
 - [Overview](#overview)
