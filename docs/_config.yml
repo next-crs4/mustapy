@@ -1,5 +1,20 @@
-title: Modernist theme
-description: Modernist is a theme for GitHub Pages.
-show_downloads: true
-google_analytics:
-theme: jekyll-theme-modernist
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+
+# Setup
+title:               MUSTA | MUtation and Somatic Tumor Analysis
+tagline:             MUSTA
+description:         A novel affordable and reliable framework for accurate detection and comprehensive analysis of somatic mutations in cancer
+url:                 'https://next-crs4.github.io/musta'
+baseurl:             ''
+github_username:  ratzeni
+pages_url: https://next-crs4.github.io/musta
+github_url: https://github.com/next-crs4/musta
+
+# Custom vars
+version:             23.09
+
+# Build settings
+markdown: kramdown
