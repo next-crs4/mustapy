@@ -35,8 +35,11 @@ class CallWorkflow(Workflow):
             self.logger.error("choose only one of these arguments: --fast / --soft / --strict . Exiting...")
             sys.exit()
 
-
         if not self.bed_file and not self.muse:
+            self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
+            sys.exit()
+
+        if not self.bed_file and not self.lofreq
             self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
             sys.exit()
 

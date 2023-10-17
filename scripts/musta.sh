@@ -126,7 +126,7 @@ if [ ! -z "$BEDFILE" ] && [  -f "$BEDFILE" ] && [ $help_flag -eq 0 ]; then
   extension="${filename##*.}"
   if [ $extension == 'vcf' ]; then
     echo "ERROR: BED file is not compressed" && \
-    echo "Please compress and index your bed file: bgzip -c  ${line} > ${line}.gz && tabix -p vcf ${line}.gz" && \
+    echo "Please compress and index your bed file: bgzip -c  ${line} > ${line}.gz && tabix -p bed ${line}.gz" && \
     echo "See: https://www.biostars.org/p/59492/" && \
     echo "Exiting..." && exit 1
   fi
