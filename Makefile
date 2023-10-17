@@ -27,3 +27,4 @@ bootstrap: init
 clean:
 	@docker rmi -f musta:Dockerfile
 	@docker volume prune -f
+	@rm ~/.local/bin/musta

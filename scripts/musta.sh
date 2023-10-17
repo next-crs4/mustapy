@@ -230,7 +230,7 @@ if [ -f "$SAMPLESFILE" ]; then
         if [ $extension == 'bam' ]; then
           [ ! -f "${line}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
           echo "Please index all input bam files: samtools index ${line}" && \
-          echo "See: http://quinlanlab.org/tutorials/samtools/samtools.html#samtools-index" && \
+          echo "See: http://www.htslib.org/doc/samtools-index.html" && \
           echo "Exiting..." && exit 1
           SOURCE="${line}.bai"
           TARGET="/volumes/inputs/${filename}.bai"
