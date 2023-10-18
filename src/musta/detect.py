@@ -39,10 +39,6 @@ class CallWorkflow(Workflow):
             self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
             sys.exit()
 
-        if not self.bed_file and not self.lofreq
-            self.logger.error("-b | --bed-file is a mandatory argument. Exiting...")
-            sys.exit()
-
         if self.mutect:
             if not self.variant_file:
                 self.logger.error("-v | --variant-file is a mandatory argument. Exiting...")
@@ -255,21 +251,21 @@ def make_parser(parser):
     parser.add_argument('--bed-file', '-b',
                         type=str, metavar='PATH',
                         help='compressed and indexed BED file listing regions to restrict analysis to',
-                        required=False)
+                        required=True)
 
     parser.add_argument('--variant-file', '-v',
                         type=str, metavar='PATH',
-                        help='VCF file containing variants and allele frequencies (only for --mutect/-mu option)',
+                        help='VCF file containing variants and allele frequencies (only MUTECT variant caller)',
                         required=False)
 
     parser.add_argument('--germline-resource', '-g',
                         type=str, metavar='PATH',
-                        help='Population vcf of germline sequencing containing allele fractions (only for --mutect/-mu option)',
+                        help='Population vcf of germline sequencing containing allele fractions (only MUTECT variant caller)',
                         required=False)
 
     parser.add_argument('--dbsnp-file', '-db',
                         type=str, metavar='PATH',
-                        help='compressed and indexed VCF file containing known germline variants (only for --lofreq/-lf and --muse/-ms foption)',
+                        help='compressed and indexed VCF file containing known germline variants (only LOFREQ and MUSE variant caller)',
                         required=False)
 
     parser.add_argument('--exclude-mutect', '-emu',
