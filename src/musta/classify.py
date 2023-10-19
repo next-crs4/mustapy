@@ -88,7 +88,6 @@ class AnnotateWorkflow(Workflow):
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
 
-
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('log_folder_name')))
 
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('output_folder_name'),
