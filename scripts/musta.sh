@@ -258,6 +258,8 @@ if [ -f "$SAMPLESFILE" ]; then
         if [[ "${CMD}" != *"${MOUNT}"* ]]; then
           CMD="${CMD} ${MOUNT}"
         fi
+    else
+      echo "ERROR: ${line} does not exist or is not a file.  Exiting..." && exit 1
     fi
   done
 fi
