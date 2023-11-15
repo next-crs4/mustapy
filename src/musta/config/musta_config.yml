@@ -8,6 +8,7 @@ io:
   detect_folder_name: detection
   classify_folder_name: classification
   interpret_folder_name: interpretation
+  results_folder_name: results
   resources_root_name: /volumes/resources
   funcotator_folder_name: funcotator
   vep_folder_name: vep
@@ -50,3 +51,17 @@ resources:
     user: gsapubftp-anonymous
     path: bundle/funcotator
     filename: funcotator_dataSources.v1.7.20200521s.tar.gz
+
+stats:
+  folder_name: stats
+  common_pass_variants_heatmap_filename: common_pass_variants_heatmap.png
+  common_variants_counts_filename: common_variants_counts.tsv
+  common_variants_mean_filename: common_variants_mean.tsv
+  mean_pass_variants_plot_filename: mean_pass_variants_plot.png
+  mean_pass_variants_filename: mean_pass_variants.tsv
+  mean_runtime_for_each_variant_caller_plot_filename: mean_runtime_plot.png
+  mean_runtime_for_each_variant_caller_filename: mean_runtime.png
+  pass_variants_data_filename: pass_variants_data.json
+  runtime_for_sample_and_variant_caller_filename: runtime_for_sample_and_variant_caller.png
+  somatic_variants_for_sample_and_variant_caller_filename: somatic_variants_for_sample_and_variant_caller.png
+  stats_for_each_sample_and_variant_caller_filename: stats_for_each_sample_and_variant_caller.tsv

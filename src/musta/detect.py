@@ -3,6 +3,7 @@ import sys
 
 from .utils.workflow import Workflow
 from .utils import overwrite
+from .utils.stats import run_detection_statistics
 
 
 class CallWorkflow(Workflow):
@@ -29,7 +30,7 @@ class CallWorkflow(Workflow):
             self.lofreq = not args.exclude_lofreq and (args.strict or args.fast)
             self.varscan = not args.exclude_varscan and (args.soft or args.fast)
             self.vardict = not args.exclude_vardict and args.soft
-            self.muse = not args.exclude_muse and (args.soft or args.fast)
+            self.muse = not args.exclude_muse and args.soft
             self.strelka = not args.exclude_strelka and (args.strict or args.fast)
         else:
             self.logger.error("choose only one of these arguments: --fast / --soft / --strict . Exiting...")
@@ -71,7 +72,6 @@ class CallWorkflow(Workflow):
                 germline=self.germline_resource,
                 exac=self.variant_file,
             )
-
 
     def run(self):
         Workflow.run(self)
@@ -198,6 +198,12 @@ class CallWorkflow(Workflow):
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
 
+        run_detection_statistics(
+            main_directory=self.stats_paths.get('detection').get('main_directory'),
+            vcf_directory=self.stats_paths.get('detection').get('vcf_directory'),
+            out_files=self.stats_files.get('detection')
+        )
+
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT CALLER>".format(self.io_conf.get('log_folder_name')))
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT CALLER>".format(self.io_conf.get('output_folder_name'),
                                                                               self.io_conf.get('detect_folder_name')))
@@ -303,7 +309,7 @@ def make_parser(parser):
 
     parser.add_argument('--fast',
                         action='store_true', default=False,
-                        help='run only fast variant callers: lofreq, varscan, strelka, muse')
+                        help='run only fast variant callers: lofreq, varscan, strelka')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
