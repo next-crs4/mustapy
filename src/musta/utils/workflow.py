@@ -57,7 +57,7 @@ class Workflow(object):
                     self.paths.get('results_dir'),
                     self.paths.get('detection_folder_name'),
                     self.io_conf.get('results_folder_name'),
-                    self.stats_conf.get('stats_folder_name'),
+                    self.stats_conf.get('folder_name'),
                 )
             )
         )
