@@ -67,6 +67,5 @@ class Config(ConfigurationFromYamlFile):
         return ftp_section
 
     def get_stats_section(self, label='stats'):
-        resources_section = self.get_resources_section()
-        stats_section = resources_section.get(label)
+        stats_section = self.get_section(label)
         return stats_section
