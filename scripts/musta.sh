@@ -223,7 +223,7 @@ fi
 
 if [ -f "$SAMPLESFILE" ]; then
   # Read the YAML file and capture the keys of the top-level objects
-  keys=$(grep -E '^[a-zA-Z0-9_]+:' your_file.yaml | sed 's/:$//')
+  keys=$(grep -E '^[a-zA-Z0-9_]+:' $SAMPLESFILE | sed 's/:$//')
 
   # Function to get the value of a key
   get_value() {
