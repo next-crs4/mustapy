@@ -52,8 +52,8 @@ resources:
     path: bundle/funcotator
     filename: funcotator_dataSources.v1.7.20200521s.tar.gz
 
-stats:
-  folder_name: stats
+summary:
+  folder_name: summary
   common_pass_variants_heatmap_filename: common_pass_variants_heatmap.png
   common_variants_counts_filename: common_variants_counts.tsv
   common_variants_mean_filename: common_variants_mean.tsv
@@ -64,4 +64,4 @@ stats:
   pass_variants_data_filename: pass_variants_data.json
   runtime_for_sample_and_variant_caller_filename: runtime_for_sample_and_variant_caller.png
   somatic_variants_for_sample_and_variant_caller_filename: somatic_variants_for_sample_and_variant_caller.png
-  stats_for_each_sample_and_variant_caller_filename: stats_for_each_sample_and_variant_caller.tsv
+  summary_for_each_sample_and_variant_caller_filename: summary_for_each_sample_and_variant_caller.tsv

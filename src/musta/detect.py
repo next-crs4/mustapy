@@ -3,7 +3,7 @@ import sys
 
 from .utils.workflow import Workflow
 from .utils import overwrite, ensure_directory_exists
-from .utils.stats import run_detection_statistics
+from .utils.summary import generate_detection_summary
 
 
 class CallWorkflow(Workflow):
@@ -102,7 +102,7 @@ class CallWorkflow(Workflow):
                           dryrun=self.dryrun,
                           cores=self.cores,
                           report_file=self._get_report_file('mutect'),
-                          stats_file=self._get_stats_file('mutect'),
+                          summary_file=self._get_stats_file('mutect'),
                           )
 
         if self.lofreq:
@@ -198,11 +198,11 @@ class CallWorkflow(Workflow):
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
 
-        ensure_directory_exists(self.stats_paths.get('detection').get('stats_directory'))
-        run_detection_statistics(
-            main_directory=self.stats_paths.get('detection').get('main_directory'),
-            vcf_directory=self.stats_paths.get('detection').get('vcf_directory'),
-            out_files=self.stats_files.get('detection')
+        ensure_directory_exists(self.summary_paths.get('detection').get('summary_directory'))
+        generate_detection_summary(
+            main_directory=self.summary_paths.get('detection').get('main_directory'),
+            vcf_directory=self.summary_paths.get('detection').get('vcf_directory'),
+            out_files=self.summary_files.get('detection')
         )
 
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT CALLER>".format(self.io_conf.get('log_folder_name')))

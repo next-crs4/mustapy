@@ -8,7 +8,7 @@ import seaborn as sns
 from datetime import datetime, timedelta
 
 
-def run_detection_statistics(main_directory, vcf_directory, out_files):
+def generate_detection_summary(main_directory, vcf_directory, out_files):
     def count_pass_variants(vcf_file):
         _variants = set()
         num_variants = 0
@@ -41,7 +41,7 @@ def run_detection_statistics(main_directory, vcf_directory, out_files):
         return total_duration_formatted, total_duration
 
     # plot Somatic Variants for Each Sample and Variant Caller
-    def plot_stats_for_each_sample_and_variant_caller(df):
+    def plot_summary_for_each_sample_and_variant_caller(df):
         sns.set(style="whitegrid")
 
         plt.figure(figsize=(20, 14))
@@ -165,7 +165,7 @@ def run_detection_statistics(main_directory, vcf_directory, out_files):
         plt.title('Average of Common Variants among Variant Callers')
         plt.savefig(out_files.get('common_pass_variants_heatmap'))
 
-    stats = []
+    summary = []
     pass_variants_data = {}
 
     for filename in os.listdir(vcf_directory):
@@ -186,14 +186,22 @@ def run_detection_statistics(main_directory, vcf_directory, out_files):
                 runtime_tool = tool if 'CONSENSUS' not in tool else 'somaticseq'
                 runtime_file = os.path.join(main_directory, runtime_tool, 'stats.txt')
                 runtime, seconds = sum_duration_for_sample(runtime_file, sample)
-                stats.append([sample, tool, num_variants, num_pass_variants, runtime, seconds])
+                summary.append([sample, tool, num_variants, num_pass_variants, runtime, seconds])
 
-    df = pd.DataFrame(stats, columns=['SAMPLE', 'VARIANT CALLER', 'TOTAL VARIANT COUNT', 'PASS VARIANT COUNT', 'RUNTIME (DAYS:HOURS:MINUTES:SECONDS)', 'RUNTIME (seconds)'])
-    df_stats = df.sort_values(by=['SAMPLE', 'VARIANT CALLER'])
-    df_stats.to_csv(out_files.get('stats_for_each_sample_and_variant_caller'), index=False, sep='\t')
+    df = pd.DataFrame(summary, columns=['SAMPLE', 'VARIANT CALLER', 'TOTAL VARIANT COUNT', 'PASS VARIANT COUNT', 'RUNTIME (DAYS:HOURS:MINUTES:SECONDS)', 'RUNTIME (seconds)'])
+    df_summary = df.sort_values(by=['SAMPLE', 'VARIANT CALLER'])
+    df_summary.to_csv(out_files.get('summary_for_each_sample_and_variant_caller'), index=False, sep='\t')
 
-    plot_stats_for_each_sample_and_variant_caller(df_stats)
-    plot_mean_pass_variants(df_stats)
-    plot_runtime_for_each_sample_and_variant_caller(df_stats)
-    plot_mean_runtime(df_stats)
+    plot_summary_for_each_sample_and_variant_caller(df_summary)
+    plot_mean_pass_variants(df_summary)
+    plot_runtime_for_each_sample_and_variant_caller(df_summary)
+    plot_mean_runtime(df_summary)
     plot_common_variants_heatmap(pass_variants_data)
+
+
+def generate_classification_summary(main_directory):
+    pass
+
+
+def generate_interpretation_summary(main_directory):
+    pass

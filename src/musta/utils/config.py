@@ -2,6 +2,7 @@ import os
 import sys
 from .yaml import load as load_config
 
+
 class ConfigurationFromYamlFile(object):
     """
     Retrieve infrastructure configuration's details from a yaml file
@@ -27,7 +28,7 @@ class ConfigurationFromYamlFile(object):
 
         if self.is_section_present(section_label):
             if isinstance(section_value, dict):
-                for k,v in section_value.items():
+                for k, v in section_value.items():
 
                     if k in self.conf.get(section_label):
                         self.conf[section_label][k] = v
@@ -66,6 +67,6 @@ class Config(ConfigurationFromYamlFile):
         ftp_section = resources_section.get(label)
         return ftp_section
 
-    def get_stats_section(self, label='stats'):
-        stats_section = self.get_section(label)
-        return stats_section
+    def get_summary_section(self, label='summary'):
+        summary_section = self.get_section(label)
+        return summary_section
