@@ -102,7 +102,7 @@ class CallWorkflow(Workflow):
                           dryrun=self.dryrun,
                           cores=self.cores,
                           report_file=self._get_report_file('mutect'),
-                          summary_file=self._get_stats_file('mutect'),
+                          stats_file=self._get_stats_file('mutect'),
                           )
 
         if self.lofreq:
