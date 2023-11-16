@@ -99,7 +99,6 @@ done
 [  ! -z "$TMPDIR" ] && [  ! -d "$TMPDIR" ] \
 && [ $help_flag -eq 0 ] && echo "WARNING: ${DATASOURCEDIR} does not exist or is not a directory.  Exiting..." && exit 1
 
-
 [  ! -z "$SAMPLESFILE" ] && [  ! -f "$SAMPLESFILE" ] \
 && [ $help_flag -eq 0 ] && echo "ERROR: ${SAMPLESFILE} does not exist or is not a file.  Exiting..." && exit 1
 
@@ -220,46 +219,122 @@ fi
 && CMD="${CMD} --mount type=bind,source=${DBSNPFILE}.tbi,target=/volumes/resources/$(basename $DBSNPFILE).tbi" \
 && PARAMS="${PARAMS} -db /volumes/resources/$(basename $DBSNPFILE)"
 
-if [ -f "$SAMPLESFILE" ]; then
 
-  for line in `cat ${SAMPLESFILE}`
-  do
-    if [ -f $line ]; then
-        filename=$(basename $line)
-        extension="${filename##*.}"
-        if [ $extension == 'bam' ]; then
-          [ ! -f "${line}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
-          echo "Please index all input bam files: samtools index ${line}" && \
-          echo "See: http://www.htslib.org/doc/samtools-index.html" && \
-          echo "Exiting..." && exit 1
-          SOURCE="${line}.bai"
-          TARGET="/volumes/inputs/${filename}.bai"
-          if [[ "${CMD}" != *"${TARGET}"* ]]; then
-            CMD="${CMD} --mount type=bind,source="${SOURCE}",target=${TARGET}"
+
+if [ -f "$SAMPLESFILE" ]; then
+  # Read the YAML file and capture the keys of the top-level objects
+  keys=$(grep -E '^[a-zA-Z0-9_]+:' your_file.yaml | sed 's/:$//')
+
+  # Function to get the value of a key
+  get_value() {
+      key=$1
+      type=$2
+      grep -A 1000 "^${key}:" $SAMPLESFILE | awk -v type="$type" '/^[[:space:]]+[-]?[[:space:]]+'"$type"':/ {getline; print}' | sed -E 's/^[[:space:]]+-[[:space:]]+//'
+  }
+
+  get_filename_and_extension() {
+    local file_path=$1
+
+    if [ -f "$file_path" ]; then
+        local filename=$(basename "$file_path")
+        local extension="${filename##*.}"
+        echo "$filename $extension"
+    else
+        echo "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
+    fi
+  }
+
+  # Iterate through the keys and retrieve the desired information
+  for key in $keys; do
+      # Check if the key is present in the YAML file
+      if grep -q "^${key}:" $SAMPLESFILE; then
+        normal_bam=$(get_value "$key" "normal_bam")
+        tumor_bam=$(get_value "$key" "tumor_bam")
+        vcf=$(get_value "$key" "vcf")
+        maf=$(get_value "$key" "maf")
+
+        # Check if the fields are present to avoid errors
+        if [ -n "$normal_bam" ]; then
+          bam_file=$(echo "$normal_bam" | head -n 1)
+          ret=$(get_filename_and_extension "$bam_file")
+          filename=$(echo "$ret" | cut -d' ' -f1)
+          extension=$(echo "$ret" | cut -d' ' -f2)
+          if [ $extension == 'bam' ]; then
+            [ ! -f "${bam_file}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
+            echo "Please index all input bam files: samtools index ${bam_file}" && \
+            echo "See: http://www.htslib.org/doc/samtools-index.html" && \
+            echo "Exiting..." && exit 1
+            MOUNT="--mount type=bind,source="${bam_file}",target=/volumes/inputs/${filename}"
+            if [[ "${CMD}" != *"${MOUNT}"* ]]; then
+              CMD="${CMD} ${MOUNT}"
+            fi
+            SOURCE="${bam_file}.bai"
+            TARGET="/volumes/inputs/${filename}.bai"
+            if [[ "${CMD}" != *"${TARGET}"* ]]; then
+              CMD="${CMD} --mount type=bind,source="${SOURCE}",target=${TARGET}"
+            fi
+          else
+            echo "ERROR: ${bam_file} does not appear to be a valid bam file. Please check it out" && exit 1
+          fi
+        fi
+
+        if [ -n "$tumor_bam" ]; then
+          bam_file=$(echo "$tumor_bam" | head -n 1)
+          ret=$(get_filename_and_extension "$bam_file")
+          filename=$(echo "$ret" | cut -d' ' -f1)
+          extension=$(echo "$ret" | cut -d' ' -f2)
+          if [ $extension == 'bam' ]; then
+            [ ! -f "${bam_file}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
+            echo "Please index all input bam files: samtools index ${bam_file}" && \
+            echo "See: http://www.htslib.org/doc/samtools-index.html" && \
+            echo "Exiting..." && exit 1
+            MOUNT="--mount type=bind,source="${bam_file}",target=/volumes/inputs/${filename}"
+            if [[ "${CMD}" != *"${MOUNT}"* ]]; then
+              CMD="${CMD} ${MOUNT}"
+            fi
+            SOURCE="${bam_file}.bai"
+            TARGET="/volumes/inputs/${filename}.bai"
+            if [[ "${CMD}" != *"${TARGET}"* ]]; then
+              CMD="${CMD} --mount type=bind,source="${SOURCE}",target=${TARGET}"
+            fi
+
+            else
+              echo "ERROR: ${bam_file} does not appear to be a valid bam file. Please check it out" && exit 1
+            fi
+        fi
+
+        if [ -n "$vcf" ]; then
+          vcf_file=$(echo "$vcf" | head -n 1)
+          ret=$(get_filename_and_extension "$vcf_file")
+          filename=$(echo "$ret" | cut -d' ' -f1)
+          extension=$(echo "$ret" | cut -d' ' -f2)
+          if [ $extension == 'vcf' ]; then
+            [ ! -f "${line}.gz" ] && echo "ERROR: Some input vcf files are not compressed" && \
+            echo "Please compress and index all input vcf files: bgzip -c  ${line} > ${line}.gz && tabix -p vcf ${line}.gz" && \
+            echo "See: https://www.biostars.org/p/59492/" && \
+            echo "Exiting..." && exit 1
+          fi
+          if [[ $filename == *vcf.gz ]]; then
+            [ ! -f "${vcf_file}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
+            echo "Please index all input vcf files: tabix -p vcf ${vcf_file}.gz" && \
+            echo "See: https://www.biostars.org/p/59492/" && \
+            echo "Exiting..." && exit 1
+            MOUNT="--mount type=bind,source="${vcf_file}",target=/volumes/inputs/${filename}"
+            if [[ "${CMD}" != *"${MOUNT}"* ]]; then
+              CMD="${CMD} ${MOUNT}"
+            fi
+            CMD="${CMD} --mount type=bind,source="${line}.tbi",target=/volumes/inputs/${filename}.tbi"
           fi
 
-        elif [ $extension == 'vcf' ]; then
-          [ ! -f "${line}.gz" ] && echo "ERROR: Some input vcf files are not compressed" && \
-          echo "Please compress and index all input vcf files: bgzip -c  ${line} > ${line}.gz && tabix -p vcf ${line}.gz" && \
-          echo "See: https://www.biostars.org/p/59492/" && \
-          echo "Exiting..." && exit 1
         fi
 
-        if [[ $filename == *vcf.gz ]]; then
-          [ ! -f "${line}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
-          echo "Please index all input vcf files: tabix -p vcf ${line}.gz" && \
-          echo "See: https://www.biostars.org/p/59492/" && \
-          echo "Exiting..." && exit 1
-
-          CMD="${CMD} --mount type=bind,source="${line}.tbi",target=/volumes/inputs/${filename}.tbi"
+        if [ -n "$maf" ]; then
+          maf_file=$(echo "$maf" | head -n 1)
+          ret=$(get_filename_and_extension "$maf_file")
+          filename=$(echo "$ret" | cut -d' ' -f1)
+          extension=$(echo "$ret" | cut -d' ' -f2)
         fi
-
-        MOUNT="--mount type=bind,source="${line}",target=/volumes/inputs/${filename}"
-        if [[ "${CMD}" != *"${MOUNT}"* ]]; then
-          CMD="${CMD} ${MOUNT}"
-        fi
-
-    fi
+      fi
   done
 fi
 
