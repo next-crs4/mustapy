@@ -2,7 +2,7 @@ import os.path
 import sys
 
 from .utils.workflow import Workflow
-from .utils import overwrite
+from .utils import overwrite, ensure_directory_exists
 from .utils.stats import run_detection_statistics
 
 
@@ -198,6 +198,7 @@ class CallWorkflow(Workflow):
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
 
+        ensure_directory_exists(self.stats_paths.get('detection').get('stats_directory'))
         run_detection_statistics(
             main_directory=self.stats_paths.get('detection').get('main_directory'),
             vcf_directory=self.stats_paths.get('detection').get('vcf_directory'),

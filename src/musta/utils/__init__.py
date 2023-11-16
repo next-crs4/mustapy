@@ -2,7 +2,6 @@
 Utilities used by other modules.
 """
 import os
-import subprocess
 import multiprocessing
 import tarfile
 import shutil
@@ -23,3 +22,7 @@ def overwrite(src, dst):
         os.remove(dst)
     shutil.copy(src, dst)
 
+
+def ensure_directory_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
