@@ -18,6 +18,7 @@ init:
 	@export PATH=$PATH:~/.local/bin
 	@chmod +x `pwd`/scripts/musta.sh
 	@ln -sf `pwd`/scripts/musta.sh ~/.local/bin/musta
+	@ln -sf `pwd`/scripts/musta_lib.sh ~/.local/bin/musta_lib.sh
 
 bootstrap: init
 	@docker build -t "musta:Dockerfile" --build-arg USER_ID=${USERID} --build-arg GROUP_ID=${GROUPID} --no-cache .
