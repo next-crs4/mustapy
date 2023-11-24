@@ -377,3 +377,4 @@ show_help() {
 
   eval $cmd
   exit 0
+}
