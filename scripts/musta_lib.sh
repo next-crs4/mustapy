@@ -373,8 +373,14 @@ process_samples_file() {
 }
 
 show_help() {
-  local cmd="docker run musta:Dockerfile musta --help"
-
+  local options=('detect' 'classify' 'interpret')
+  local cmd="docker run musta:Dockerfile musta"
+  for opt in "${options[@]}"; do
+    if [[ $PARAMS == *"$opt"* ]]; then
+       cmd="${cmd} ${opt}"
+    fi
+  done
+  cmd="${cmd} --help"
   eval $cmd
   exit 0
 }
