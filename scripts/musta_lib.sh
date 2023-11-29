@@ -101,7 +101,6 @@ check_and_create_directory() {
 
 check_directory() {
     local dir_name=$1
-    echo "#${dir_name}#"
 
     [ -n "$dir_name" ] && [ ! -d "$dir_name" ] && echo "ERROR: $dir_name does not exist or is not a directory. Exiting..." && exit 1
 }
@@ -325,7 +324,7 @@ process_samples_file() {
       echo "Exiting..." && exit 1
     fi
 
-    if [[ $filename == *vcf.gz ]]; then
+    if [[ $filename == *"vcf.gz" ]]; then
       [ ! -f "${file_path}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
       echo "Please index all input vcf files: tabix -p vcf ${file_path}.gz" && \
       echo "See: https://www.biostars.org/p/59492/" && \
