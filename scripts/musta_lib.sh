@@ -324,7 +324,7 @@ process_samples_file() {
       echo "Exiting..." && exit 1
     fi
 
-    if [[ $filename == *"vcf.gz" ]]; then
+    if [[ $file_path == *".vcf.gz" ]]; then
       [ ! -f "${file_path}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
       echo "Please index all input vcf files: tabix -p vcf ${file_path}.gz" && \
       echo "See: https://www.biostars.org/p/59492/" && \
@@ -333,7 +333,7 @@ process_samples_file() {
       mount_docker_file "$file_path" "${target_dir}/${filename}"
       mount_docker_file "${file_path}.tbi" "${target_dir}/${filename}.tbi"
     else
-      echo "ERROR: ${file_path} does not appear to be a valid vcg.gz file. Please check it out" && exit 1
+      echo "ERROR: ${file_path} does not appear to be a valid vcf.gz file. Please check it out" && exit 1
     fi
   }
 
