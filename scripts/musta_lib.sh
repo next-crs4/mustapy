@@ -281,6 +281,8 @@ process_samples_file() {
       if [ -f "$file_path" ]; then
         local filename=$(basename "$file_path")
         local extension="${filename##*.}"
+        filename=$(echo "$filename" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+        extension=$(echo "$extension" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
         echo "$filename $extension"
       else
         echo "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
@@ -324,7 +326,7 @@ process_samples_file() {
       echo "Exiting..." && exit 1
     fi
 
-    if [[ $file_path == *".vcf.gz" ]]; then
+    if [[ $filename == *".vcf.gz" ]]; then
       [ ! -f "${file_path}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
       echo "Please index all input vcf files: tabix -p vcf ${file_path}.gz" && \
       echo "See: https://www.biostars.org/p/59492/" && \
