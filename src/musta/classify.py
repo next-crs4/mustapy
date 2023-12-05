@@ -91,13 +91,14 @@ class AnnotateWorkflow(Workflow):
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('log_folder_name')))
 
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('output_folder_name'),
-                                                                              self.io_conf.get('classify_folder_name')))
+                                                                                 self.io_conf.get('classify_folder_name')))
 
         self.logger.info("Report in <WORKDIR>/{}/<VARIANT ANNOTATOR>/{}".format(self.io_conf.get('output_folder_name'),
-                                                                             self.pipe_conf.get('report_file')))
+                                                                                self.pipe_conf.get('report_file')))
 
-        self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
-                                                                  self.io_conf.get('classify_folder_name')))
+        self.logger.info("VCFs/MAFs in <WORKDIR>/{}/{}/results/{}".format(self.io_conf.get('output_folder_name'),
+                                                                          self.io_conf.get('classify_folder_name'),
+                                                                          ))
 
     def _get_report_file(self, annotator):
         return os.path.join(self.output_dir,
@@ -110,9 +111,9 @@ class AnnotateWorkflow(Workflow):
                             self.io_conf.get('classify_folder_name'),
                             annotator,
                             self.pipe_conf.get('stats_file'))
-help_doc = """Variant Annotation
-Functional annotation of called somatic variants 
-
+help_doc = """Somatic Mutations Classification.
+Functional annotation of called somatic variants
+VEP and/or GATK Funcotator
 """
 
 
@@ -143,11 +144,11 @@ def make_parser(parser):
 
     parser.add_argument('--ref-version', '-rf',
                         type=str, choices=['hg19', 'hg38'], default='hg19',
-                        help='The version of the Human Genome reference to use.')
+                        help='The version of the Human Genome reference to use. [default=hg19]')
 
     parser.add_argument('--cache-version', '-cv',
                         type=str, default='106',
-                        help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106)')
+                        help='Version of offline cache to use with VEP (e.g. 75, 91, 102, 105, 106). [default=106]')
 
     parser.add_argument('--also-funcotator', '-af',
                         action='store_true', default=False,

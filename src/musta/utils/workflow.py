@@ -163,7 +163,7 @@ class Workflow(object):
 
     def get_report_file(self):
         current_time = datetime.now()
-        formatted_time = current_time.strftime('%Y%m%d-%H%M%S')
+        formatted_time = current_time.strftime('%y%m%d-%H%M%S')
         return os.path.join(self.output_dir,
                             "{}.{}".format(formatted_time, self.pipe_conf.get('report_file')))
 

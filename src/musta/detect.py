@@ -209,13 +209,16 @@ class CallWorkflow(Workflow):
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT CALLER>".format(self.io_conf.get('output_folder_name'),
                                                                               self.io_conf.get('detect_folder_name')))
 
-        self.logger.info("Report in <WORKDIR>/{}/{}/<VARIANT CALLER>/{}".format(self.io_conf.get('output_folder_name'),
+        self.logger.info("Reports in <WORKDIR>/{}/{}/<VARIANT CALLER>/{}".format(self.io_conf.get('output_folder_name'),
                                                                                 self.io_conf.get('detect_folder_name'),
                                                                                 self.pipe_conf.get('report_file')))
 
         self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
                                                                   self.io_conf.get('detect_folder_name')))
 
+        self.logger.info("Summary in <WORKDIR>/{}/{}/results/{}".format(self.io_conf.get('output_folder_name'),
+                                                                     self.io_conf.get('detect_folder_name'),
+                                                                     self.summary_conf.get('folder_name')))
     def _get_report_file(self, caller):
         return os.path.join(self.output_dir,
                             self.io_conf.get('detect_folder_name'),
