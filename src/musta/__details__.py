@@ -12,6 +12,5 @@ with open(os.path.join(os.path.dirname(here), 'APPNAME')) as appname_file:
 with open(os.path.join(os.path.dirname(here), 'VERSION')) as version_file:
     __version__ = version_file.read().strip()
 
-
 with open(os.path.join(os.path.dirname(here), 'DESCRIPTION')) as description_file:
     __description__ = description_file.read().strip()

@@ -1,4 +1,3 @@
-
 from .utils.workflow import Workflow
 from .utils import overwrite
 
@@ -121,7 +120,7 @@ def make_parser(parser):
 
 
 def implementation(logger, args):
-    logger.info(help_doc.replace('\n',''))
+    logger.info(help_doc.replace('\n', ''))
 
     workflow = FullWorkflow(args=args,
                             logger=logger)

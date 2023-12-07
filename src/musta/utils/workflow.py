@@ -7,6 +7,7 @@ from .pipeline import Config as cfg
 from .samples import Samples
 from comoda import ensure_dir
 
+
 class Workflow(object):
     def __init__(self, args=None, logger=None):
         self.logger = logger
@@ -59,13 +60,31 @@ class Workflow(object):
                     self.io_conf.get('results_folder_name'),
                     self.summary_conf.get('folder_name'),
                 )
+            ),
+            classification=dict(
+                main_directory=os.path.join(
+                    self.paths.get('results_dir'),
+                    self.paths.get('classification_folder_name'),
+                ),
+                maf_directory=os.path.join(
+                    self.paths.get('results_dir'),
+                    self.paths.get('classification_folder_name'),
+                    self.io_conf.get('results_folder_name'),
+                ),
+                summary_directory=os.path.join(
+                    self.paths.get('results_dir'),
+                    self.paths.get('detection_folder_name'),
+                    self.io_conf.get('results_folder_name'),
+                    self.summary_conf.get('folder_name'),
+                )
             )
         )
 
         self.summary_files = dict(
             detection=dict(
                 common_pass_variants_heatmap=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
-                                                          self.summary_conf.get('common_pass_variants_heatmap_filename')),
+                                                          self.summary_conf.get(
+                                                              'common_pass_variants_heatmap_filename')),
                 common_variants_counts=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
                                                     self.summary_conf.get('common_variants_counts_filename')),
                 common_variants_mean=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
@@ -75,19 +94,53 @@ class Workflow(object):
                 mean_pass_variants=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
                                                 self.summary_conf.get('mean_pass_variants_filename')),
                 mean_runtime_plot=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
-                                               self.summary_conf.get('mean_runtime_for_each_variant_caller_plot_filename')),
+                                               self.summary_conf.get(
+                                                   'mean_runtime_for_each_variant_caller_plot_filename')),
                 mean_runtime=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
                                           self.summary_conf.get('mean_runtime_for_each_variant_caller_filename')),
                 pass_variants_data=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
                                                 self.summary_conf.get('pass_variants_data_filename')),
-                runtime_for_sample_and_variant_caller=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
-                                                                   self.summary_conf.get('runtime_for_sample_and_variant_caller_filename')),
-                somatic_variants_for_sample_and_variant_caller=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
-                                                                            self.summary_conf.get('somatic_variants_for_sample_and_variant_caller_filename')),
-                summary_for_each_sample_and_variant_caller=os.path.join(self.summary_paths.get('detection').get('summary_directory'),
-                                                                      self.summary_conf.get('summary_for_each_sample_and_variant_caller_filename')),
+                runtime_for_sample_and_variant_caller=os.path.join(
+                    self.summary_paths.get('detection').get('summary_directory'),
+                    self.summary_conf.get('runtime_for_sample_and_variant_caller_filename')),
+                somatic_variants_for_sample_and_variant_caller=os.path.join(
+                    self.summary_paths.get('detection').get('summary_directory'),
+                    self.summary_conf.get('somatic_variants_for_sample_and_variant_caller_filename')),
+                summary_for_each_sample_and_variant_caller=os.path.join(
+                    self.summary_paths.get('detection').get('summary_directory'),
+                    self.summary_conf.get('summary_for_each_sample_and_variant_caller_filename')),
+            ),
+            classification=dict(
+                summary_for_each_sample_and_variant_caller=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('summary_for_each_sample_and_variant_annotator_filename')),
+                gene_summary_all=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('gene_summary_all_filename')),
+                gene_summary_pass=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('gene_summary_pass_filename')),
+                impact_summary_all=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('impact_summary_all_filename')),
+                impact_summary_pass=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('impact_summary_pass_filename')),
+                somatic_variants_for_sample_and_variant_annotator=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('somatic_variants_for_sample_and_variant_annotator_filename')),
+                runtime_for_sample_and_variant_annotator=os.path.join(
+                    self.summary_paths.get('classification').get('summary_directory'),
+                    self.summary_conf.get('runtime_for_sample_and_variant_annotator_filename')),
+                mean_runtime_plot=os.path.join(self.summary_paths.get('classification').get('summary_directory'),
+                                               self.summary_conf.get(
+                                                   'mean_runtime_for_each_variant_annotator_plot_filename')),
+                mean_runtime=os.path.join(self.summary_paths.get('classification').get('summary_directory'),
+                                          self.summary_conf.get('mean_runtime_for_each_variant_annotator_filename')),
             ),
         )
+
+        self.plot_conf = self.summary_conf.get('plots')
 
         self.pipe_conf = self.conf.get_pipeline_section()
         self.pipe_url = self.pipe_conf.get('url')

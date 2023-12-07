@@ -53,14 +53,14 @@ class Pipeline(object):
 
         if not dryrun:
             self.report(snakefile=snakefile,
-                        report_file=report_file if report_file else self.report_file,)
-
+                        report_file=report_file if report_file else self.report_file, )
 
     def report(self, snakefile, report_file=None):
         snakemake(snakefile=snakefile,
                   workdir=self.workdir,
                   report=report_file if report_file else self.report_file,
                   )
+
 
 class Config(ConfigurationFromYamlFile):
 
@@ -158,7 +158,6 @@ class Config(ConfigurationFromYamlFile):
 
     def set_vep_section(self, vep_params):
         self.conf['params']['vep'] = vep_params
-
 
     def set_gatk_section(self, gatk_params):
 

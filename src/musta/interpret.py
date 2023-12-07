@@ -31,7 +31,8 @@ class AnalysisWorkflow(Workflow):
                       cores=self.cores)
 
         self.logger.info("Logs in <WORKDIR>/{}".format(self.io_conf.get('log_folder_name')))
-        self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'), self.io_conf.get('interpret_folder_name')))
+        self.logger.info("Results in <WORKDIR>/{}/{}".format(self.io_conf.get('output_folder_name'),
+                                                             self.io_conf.get('interpret_folder_name')))
         self.logger.info("Report in <WORKDIR>/{}/report.html".format(self.io_conf.get('output_folder_name')))
 
 
@@ -45,7 +46,6 @@ help_doc = """Somatic Mutations Interpretation:
 
 
 def make_parser(parser):
-
     parser.add_argument('--workdir', '-w',
                         type=str, metavar='PATH',
                         help='working folder path',
@@ -66,7 +66,7 @@ def make_parser(parser):
 
 
 def implementation(logger, args):
-    logger.info(help_doc.replace('\n',''))
+    logger.info(help_doc.replace('\n', ''))
 
     workflow = AnalysisWorkflow(args=args,
                                 logger=logger)

@@ -1,10 +1,9 @@
 import os
 from .utils.workflow import Workflow
-from .utils import overwrite
+from .utils import overwrite, ensure_directory_exists
+from .utils.summary import generate_classification_summary
 
-
-
-class AnnotateWorkflow(Workflow):
+class ClassifyWorkflow(Workflow):
     def __init__(self, args=None, logger=None):
         Workflow.__init__(self, args, logger)
 
@@ -32,7 +31,7 @@ class AnnotateWorkflow(Workflow):
                 )
             ),
 
-            vep_params = dict(
+            vep_params=dict(
                 resources=os.path.join(self.data_source, self.io_conf.get('vep_folder_name')),
                 reference_version=self.ref_version,
                 cache_version=self.cache_version,
@@ -70,7 +69,7 @@ class AnnotateWorkflow(Workflow):
                           cores=self.cores,
                           report_file=self._get_report_file('vep'),
                           stats_file=self._get_stats_file('vep')
-            )
+                          )
 
         if self.funcotator:
             self.logger.info('Variant Annotator:  \'funcotator\'')
@@ -88,10 +87,19 @@ class AnnotateWorkflow(Workflow):
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
 
+        ensure_directory_exists(self.summary_paths.get('detection').get('summary_directory'))
+        generate_classification_summary(
+            main_directory=self.summary_paths.get('classification').get('main_directory'),
+            maf_directory=self.summary_paths.get('classification').get('maf_directory'),
+            out_files=self.summary_files.get('detection'),
+            plots=self.plot_conf,
+        )
+
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('log_folder_name')))
 
         self.logger.info("Outputs in <WORKDIR>/{}/{}/<VARIANT ANNOTATOR>".format(self.io_conf.get('output_folder_name'),
-                                                                                 self.io_conf.get('classify_folder_name')))
+                                                                                 self.io_conf.get(
+                                                                                     'classify_folder_name')))
 
         self.logger.info("Report in <WORKDIR>/{}/<VARIANT ANNOTATOR>/{}".format(self.io_conf.get('output_folder_name'),
                                                                                 self.pipe_conf.get('report_file')))
@@ -111,6 +119,8 @@ class AnnotateWorkflow(Workflow):
                             self.io_conf.get('classify_folder_name'),
                             annotator,
                             self.pipe_conf.get('stats_file'))
+
+
 help_doc = """Somatic Mutations Classification.
 Functional annotation of called somatic variants
 VEP and/or GATK Funcotator
@@ -168,9 +178,9 @@ def make_parser(parser):
 
 
 def implementation(logger, args):
-    logger.info(help_doc.replace('\n',''))
+    logger.info(help_doc.replace('\n', ''))
 
-    workflow = AnnotateWorkflow(args=args,
+    workflow = ClassifyWorkflow(args=args,
                                 logger=logger)
     workflow.run()
 

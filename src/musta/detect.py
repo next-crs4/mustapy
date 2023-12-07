@@ -6,7 +6,7 @@ from .utils import overwrite, ensure_directory_exists
 from .utils.summary import generate_detection_summary
 
 
-class CallWorkflow(Workflow):
+class DetectWorkflow(Workflow):
     def __init__(self, args=None, logger=None):
         Workflow.__init__(self, args, logger)
 
@@ -68,7 +68,7 @@ class CallWorkflow(Workflow):
             ))
 
         if self.germline_resource and self.variant_file:
-            self.resources['gatk_params']=dict(
+            self.resources['gatk_params'] = dict(
                 germline=self.germline_resource,
                 exac=self.variant_file,
             )
@@ -153,9 +153,9 @@ class CallWorkflow(Workflow):
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
                           cores=self.cores,
-                          report_file = self._get_report_file('muse'),
-                          stats_file = self._get_stats_file('muse'),
-            )
+                          report_file=self._get_report_file('muse'),
+                          stats_file=self._get_stats_file('muse'),
+                          )
 
         if self.strelka:
             self.logger.info('caller:  \'strelka\'')
@@ -168,7 +168,7 @@ class CallWorkflow(Workflow):
                           cores=self.cores,
                           report_file=self._get_report_file('strelka'),
                           stats_file=self._get_stats_file('strelka'),
-            )
+                          )
 
         self.pipe_cfg.reset_callers()
         self.pipe_cfg.reset_run_mode()
@@ -193,7 +193,7 @@ class CallWorkflow(Workflow):
                       cores=self.cores,
                       report_file=self._get_report_file('somaticseq'),
                       stats_file=self._get_stats_file('somaticseq'),
-        )
+                      )
 
         self.pipe.report(snakefile=self.pipe_snakefile,
                          report_file=self.get_report_file())
@@ -202,7 +202,8 @@ class CallWorkflow(Workflow):
         generate_detection_summary(
             main_directory=self.summary_paths.get('detection').get('main_directory'),
             vcf_directory=self.summary_paths.get('detection').get('vcf_directory'),
-            out_files=self.summary_files.get('detection')
+            out_files=self.summary_files.get('detection'),
+            plots=self.plot_conf,
         )
 
         self.logger.info("Logs in <WORKDIR>/{}/<VARIANT CALLER>".format(self.io_conf.get('log_folder_name')))
@@ -210,15 +211,16 @@ class CallWorkflow(Workflow):
                                                                               self.io_conf.get('detect_folder_name')))
 
         self.logger.info("Reports in <WORKDIR>/{}/{}/<VARIANT CALLER>/{}".format(self.io_conf.get('output_folder_name'),
-                                                                                self.io_conf.get('detect_folder_name'),
-                                                                                self.pipe_conf.get('report_file')))
+                                                                                 self.io_conf.get('detect_folder_name'),
+                                                                                 self.pipe_conf.get('report_file')))
 
         self.logger.info("VCFs in <WORKDIR>/{}/{}/results".format(self.io_conf.get('output_folder_name'),
                                                                   self.io_conf.get('detect_folder_name')))
 
         self.logger.info("Summary in <WORKDIR>/{}/{}/results/{}".format(self.io_conf.get('output_folder_name'),
-                                                                     self.io_conf.get('detect_folder_name'),
-                                                                     self.summary_conf.get('folder_name')))
+                                                                        self.io_conf.get('detect_folder_name'),
+                                                                        self.summary_conf.get('folder_name')))
+
     def _get_report_file(self, caller):
         return os.path.join(self.output_dir,
                             self.io_conf.get('detect_folder_name'),
@@ -239,7 +241,6 @@ help_doc = """Somatic Mutations Detection.
 
 
 def make_parser(parser):
-
     parser.add_argument('--workdir', '-w',
                         type=str, metavar='PATH',
                         help='working folder path',
@@ -327,8 +328,8 @@ def make_parser(parser):
 def implementation(logger, args):
     logger.info(help_doc.replace('\n', ''))
 
-    workflow = CallWorkflow(args=args,
-                            logger=logger)
+    workflow = DetectWorkflow(args=args,
+                              logger=logger)
     workflow.run()
 
 

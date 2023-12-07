@@ -65,3 +65,79 @@ summary:
   runtime_for_sample_and_variant_caller_filename: runtime_for_sample_and_variant_caller.png
   somatic_variants_for_sample_and_variant_caller_filename: somatic_variants_for_sample_and_variant_caller.png
   summary_for_each_sample_and_variant_caller_filename: summary_for_each_sample_and_variant_caller.tsv
+  summary_for_each_sample_and_variant_annotator_filename: summary_for_each_sample_and_variant_annotator.tsv
+  gene_summary_all_filename: gene_summary_all.tsv
+  gene_summary_pass_filename: gene_summary_pass.tsv
+  impact_summary_all_filename: impact_summary_all.tsv
+  impact_summary_pass_filename: impact_summary_pass.tsv
+  somatic_variants_for_sample_and_variant_annotator_filename: somatic_variants_for_sample_and_variant_annotator.png
+  runtime_for_sample_and_variant_annotator_filename: runtime_for_sample_and_variant_annotator.png
+  mean_runtime_for_each_variant_annotator_plot_filename: mean_runtime_plot.png
+  mean_runtime_for_each_variant_annotator_filename: mean_runtime.png
+  plots:
+    plot_summary_for_each_sample_and_variant_caller:
+      title: Somatic Variants for each Sample and Variant Caller
+      labelx: Samples
+      labely: Somatic Variants
+      legend: Variant Caller
+      x: SAMPLE
+      y: PASS VARIANT COUNT
+      hue: VARIANT CALLER
+      palette: Set2
+      style: whitegrid
+    plot_summary_for_each_sample_and_variant_annotator:
+      title: Somatic Variants for each Sample and Variant Annotator
+      labelx: Samples
+      labely: Somatic Variants
+      legend: Variant Annotator
+      x: SAMPLE
+      y: PASS VARIANT COUNT
+      hue: VARIANT ANNOTATOR
+      palette: Set2
+      style: whitegrid
+    plot_mean_pass_variants:
+      title: Average Pass Variants for each Variant Caller
+      labelx: Variant Caller
+      labely: Average Count Pass
+      groupby: VARIANT CALLER
+      field: PASS VARIANT COUNT
+      color: skyblue
+    plot_runtime_for_each_sample_and_variant_caller:
+      title: Runtime for Each Sample and Variant Caller
+      labelx: Samples
+      labely: Runtime (seconds)
+      legend: Variant Caller
+      x: Sample
+      y: RUNTIME (seconds)
+      hue: VARIANT CALLER
+      palette: Set2
+    plot_runtime_for_each_sample_and_variant_annotator:
+      title: Runtime for Each Sample and Variant Annotator
+      labelx: Samples
+      labely: Runtime (seconds)
+      legend: Variant Annotator
+      x: Sample
+      y: RUNTIME (seconds)
+      hue: VARIANT ANNOTATOR
+      palette: Set2
+    plot_mean_runtime_variant_callers:
+      title: Average Runtime for each Variant Caller
+      labelx: Variant Caller
+      labely: Average Runtime (seconds)
+      groupby: VARIANT CALLER
+      field: Average Runtime (seconds)
+      color: lightcoral
+    plot_mean_runtime_variant_annotators:
+      title: Average Runtime for each Variant Annotator
+      labelx: Variant Annotator
+      labely: Average Runtime (seconds)
+      groupby: VARIANT ANNOTATOR
+      field: Average Runtime (seconds)
+      color: lightcoral
+    plot_common_variants_heatmap:
+      title: Average of Common Variants among Variant Callers
+      cmap: crest
+
+
+
+    

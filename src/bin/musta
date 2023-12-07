@@ -1,4 +1,4 @@
 #!/bin/bash
 
-_musta  --logfile /volumes/logs/musta.log "${@}"
-
+_musta - -logfile / volumes / logs / musta.log
+"${@}"

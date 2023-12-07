@@ -18,7 +18,7 @@ def get_cores(reserve_cores=1, max_cores=5):
 
 
 def overwrite(src, dst):
-    if os.path. exists(dst) and os.path.isfile(dst):
+    if os.path.exists(dst) and os.path.isfile(dst):
         os.remove(dst)
     shutil.copy(src, dst)
 

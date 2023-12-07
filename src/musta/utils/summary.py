@@ -1,170 +1,15 @@
 import os
-import gzip
-import json
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-from datetime import datetime, timedelta
+from .plots import (count_variants, sum_duration_for_sample,
+                    plot_summary_for_each_sample_and_variant_tool,
+                    plot_mean_pass_variants,
+                    plot_runtime_for_each_sample_and_variant_tool,
+                    plot_mean_runtime,
+                    plot_common_variants_heatmap)
 
 
-def generate_detection_summary(main_directory, vcf_directory, out_files):
-    def count_pass_variants(vcf_file):
-        _variants = set()
-        num_variants = 0
-        num_pass_variants = 0
-        with gzip.open(vcf_file, 'rt') as vcf:
-            for line in vcf:
-                if not line.startswith('#'):
-                    fields = line.strip().split('\t')
-                    info = fields[6]
-                    if 'PASS' in info:
-                        num_pass_variants += 1
-                        variant_id = "{}-{}-{}-{}".format(fields[0], fields[1], fields[3], fields[4])
-                        _variants.add(variant_id)
-                    num_variants += 1
-
-        return num_variants, num_pass_variants, _variants
-
-    def sum_duration_for_sample(json_path, sample):
-        with open(json_path, 'r') as json_file:
-            data = json.load(json_file)
-
-        total_duration = 0.0
-
-        for file_path, file_data in data.get('files', {}).items():
-            if sample in file_path:
-                total_duration += file_data.get('duration', 1.0)
-
-        d = (datetime(1, 1, 1) + timedelta(seconds=total_duration))
-        total_duration_formatted = "%d:%d:%d:%d" % (d.day-1, d.hour, d.minute, d.second)
-        return total_duration_formatted, total_duration
-
-    # plot Somatic Variants for Each Sample and Variant Caller
-    def plot_summary_for_each_sample_and_variant_caller(df):
-        sns.set(style="whitegrid")
-
-        plt.figure(figsize=(20, 14))
-
-        sns.barplot(
-            x='SAMPLE',
-            y='PASS VARIANT COUNT',
-            hue='VARIANT CALLER',
-            data=df,
-            palette='Set2',
-            errorbar=None,
-            saturation=0.8,
-            capsize=0.2,
-            width=0.95,
-        )
-
-        plt.title('Somatic Variants for each Sample and Variant Caller')
-        plt.xlabel('Samples')
-        plt.ylabel('Somatic Variants')
-        plt.yscale('log')
-        plt.legend(title='Variant Caller', loc='upper right')
-        plt.xticks(rotation=45, ha='right')
-
-        plt.savefig(out_files.get('somatic_variants_for_sample_and_variant_caller'), bbox_inches='tight')
-
-    def plot_mean_pass_variants(df):
-        # Mean Pass Variants
-        mean_pass_variants = df.groupby('VARIANT CALLER')['PASS VARIANT COUNT'].mean()
-
-        plt.figure(figsize=(10, 6))
-        mean_pass_variants.plot(kind='bar', color='skyblue')
-        plt.title('Average Pass Variants for each Variant Caller')
-        plt.xlabel('Variant Caller')
-        plt.ylabel('Average count PASS')
-        plt.xticks(rotation=45, ha='right')
-        plt.tight_layout()
-        plt.savefig(out_files.get('mean_pass_variants_plot'), bbox_inches='tight')
-        mean_pass_variants.to_csv(out_files.get('mean_pass_variants'), index=False, sep='\t')
-
-    # Plot Runtime for each Sample and Variant Caller
-    def plot_runtime_for_each_sample_and_variant_caller(df):
-
-        plt.figure(figsize=(20, 14))
-        sns.barplot(
-            x='SAMPLE',
-            y='RUNTIME (seconds)',
-            hue='VARIANT CALLER',
-            data=df,
-            palette='Set2',
-            errorbar=None,
-            saturation=0.8,
-            capsize=0.2,
-            width=0.95,
-        )
-
-        plt.title('Runtime for Each Sample and Variant Caller')
-        plt.xlabel('Samples')
-        plt.ylabel('Runtime (seconds)')
-        plt.legend(title='Variant Caller', loc='upper right')
-        plt.xticks(rotation=45, ha='right')
-        plt.yscale('log')
-        plt.savefig(out_files.get('runtime_for_sample_and_variant_caller'), bbox_inches='tight')
-
-    # Plot Mean Runtime for each
-    def plot_mean_runtime(df):
-        mean_runtime = df.groupby('VARIANT CALLER')['RUNTIME (seconds)'].mean()
-
-        plt.figure(figsize=(10, 6))
-        mean_runtime.plot(kind='bar', color='lightcoral')
-        plt.title('Average Runtime for each Variant Caller')
-        plt.xlabel('Variant Caller')
-        plt.ylabel('Media del Runtime (seconds)')
-        plt.xticks(rotation=45, ha='right')
-        plt.tight_layout()
-
-        plt.savefig(out_files.get('mean_runtime_plot'), bbox_inches='tight')
-        mean_runtime.to_csv(out_files.get('mean_runtime'), index=False, sep='\t')
-
-    # Common Variants
-
-    def plot_common_variants_heatmap(df):
-        with open(out_files.get('pass_variants_data'), 'w') as json_file:
-            json.dump(df, json_file, default=list, indent=2)
-
-        common_variants_counts = {}
-        for sample, tools_data in pass_variants_data.items():
-            common_variants_counts[sample] = {}
-            for tool, variants_set in tools_data.items():
-                for other_tool, other_variants_set in tools_data.items():
-                    if tool != other_tool:
-                        common_variants = variants_set.intersection(other_variants_set)
-                        common_variants_counts[sample][(tool, other_tool)] = len(common_variants)
-
-        common_variants_df = pd.DataFrame(common_variants_counts).fillna(0)
-        common_variants_df.to_csv(out_files.get('common_variants_counts'), index=True, sep='\t')
-        data = pd.read_csv(out_files.get('common_variants_counts'), index_col=[0, 1], sep='\t')
-
-        variant_callers = data.index.levels[1]
-
-        mean_data = pd.DataFrame(index=variant_callers, columns=variant_callers)
-
-        for caller1 in variant_callers:
-            for caller2 in variant_callers:
-                if caller1 != caller2:
-                    common_variants = data.loc[(caller1, caller2)]
-                    mean_value = common_variants.mean().mean()
-                    mean_data.loc[caller1, caller2] = mean_value
-
-        mean_data = mean_data.astype(float)
-        mean_data.to_csv(out_files.get('common_variants_mean'), index=True, sep='\t')
-
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(
-            mean_data,
-            annot=True,
-            cmap='crest',
-            fmt=".0f",
-            linewidths=.5,
-            robust=True,
-        )
-        plt.title('Average of Common Variants among Variant Callers')
-        plt.savefig(out_files.get('common_pass_variants_heatmap'))
-
+def generate_detection_summary(main_directory, vcf_directory, out_files, plots):
     summary = []
     pass_variants_data = {}
 
@@ -181,26 +26,158 @@ def generate_detection_summary(main_directory, vcf_directory, out_files):
                         pass_variants_data[sample][tool] = set()
 
                 vcf_file = os.path.join(vcf_directory, filename)
-                num_variants, num_pass_variants, variants = count_pass_variants(vcf_file)
+                num_variants, num_pass_variants, variants = count_variants(vcf_file)
                 pass_variants_data[sample][tool] = variants
                 runtime_tool = tool if 'CONSENSUS' not in tool else 'somaticseq'
                 runtime_file = os.path.join(main_directory, runtime_tool, 'stats.txt')
                 runtime, seconds = sum_duration_for_sample(runtime_file, sample)
                 summary.append([sample, tool, num_variants, num_pass_variants, runtime, seconds])
 
-    df = pd.DataFrame(summary, columns=['SAMPLE', 'VARIANT CALLER', 'TOTAL VARIANT COUNT', 'PASS VARIANT COUNT', 'RUNTIME (DAYS:HOURS:MINUTES:SECONDS)', 'RUNTIME (seconds)'])
+    df = pd.DataFrame(summary, columns=['SAMPLE', 'VARIANT CALLER', 'TOTAL VARIANT COUNT', 'PASS VARIANT COUNT',
+                                        'RUNTIME (DAYS:HOURS:MINUTES:SECONDS)', 'RUNTIME (seconds)'])
     df_summary = df.sort_values(by=['SAMPLE', 'VARIANT CALLER'])
     df_summary.to_csv(out_files.get('summary_for_each_sample_and_variant_caller'), index=False, sep='\t')
 
-    plot_summary_for_each_sample_and_variant_caller(df_summary)
-    plot_mean_pass_variants(df_summary)
-    plot_runtime_for_each_sample_and_variant_caller(df_summary)
-    plot_mean_runtime(df_summary)
-    plot_common_variants_heatmap(pass_variants_data)
+    plot_summary_for_each_sample_and_variant_tool(df_summary,
+                                                  plot=plots.get('plot_summary_for_each_sample_and_variant_caller'),
+                                                  out_file=out_files.get(
+                                                      'somatic_variants_for_sample_and_variant_caller'))
+    plot_mean_pass_variants(df_summary,
+                            plot=plots.get('plot_mean_pass_variants'),
+                            out_plot=out_files.get('mean_pass_variants_plot'),
+                            out_csv=out_files.get('mean_pass_variants'))
+
+    plot_runtime_for_each_sample_and_variant_tool(df_summary,
+                                                  plot=plots.get('plot_runtime_for_each_sample_and_variant_caller'),
+                                                  out_file=out_files.get('runtime_for_sample_and_variant_caller'))
+
+    plot_mean_runtime(df_summary,
+                      plot=plots.get('plot_mean_runtime_variant_callers'),
+                      out_plot=out_files.get('mean_runtime_plot'),
+                      out_csv=out_files.get('mean_runtime'))
+
+    plot_common_variants_heatmap(pass_variants_data,
+                                 plot=plots.get('plot_common_variants_heatmap'),
+                                 out_json=out_files.get('pass_variants_data'),
+                                 out_cont_csv=out_files.get('common_variants_counts'),
+                                 out_mean_csv=out_files.get('common_variants_mean'),
+                                 out_plot=out_files.get('common_pass_variants_heatmap')
+                                 )
 
 
-def generate_classification_summary(main_directory):
-    pass
+def generate_classification_summary(main_directory, maf_directory, out_files, plots):
+    summary_dict = {}
+    summary = []
+
+    for file_name in os.listdir(maf_directory):
+
+        if file_name.endswith('.maf'):
+
+            sample_name = file_name.split('.')[0]
+            tool_name = file_name.split('.')[2]
+
+            maf_file = os.path.join(maf_directory, file_name)
+            vcf_file = os.path.join(maf_directory, file_name.replace('.maf', '.vcf.gz'))
+            runtime_file = os.path.join(main_directory, tool_name, 'stats.txt')
+
+            maf_df = pd.read_csv(maf_file, sep='\t', comment='#', low_memory=False)
+            maf_df['VARIANT'] = list(zip(maf_df['Chromosome'], maf_df['Start_Position']))
+
+            vcf_df = pd.read_csv(vcf_file, sep='\t', comment='#', usecols=[0, 1, 6],
+                                 names=['CHROM', 'POS', 'FILTER'], encoding='latin1')
+            pass_variants = set(
+                tuple((row['CHROM'], row['POS'])) for index, row in vcf_df.iterrows() if 'PASS' in row['FILTER'])
+
+            maf_df_pass = maf_df[maf_df['VARIANT'].isin(pass_variants)]
+
+            if sample_name not in summary_dict:
+                summary_dict[sample_name] = {}
+
+            summary_dict[sample_name][tool_name] = {
+                'Gene_Summary_PASS': maf_df_pass['Hugo_Symbol'].value_counts().reset_index().rename(
+                    columns={'index': 'Gene', 'Hugo_Symbol': 'Count'}),
+                'Impact_Summary_PASS': maf_df_pass['Variant_Classification'].value_counts().reset_index().rename(
+                    columns={'index': 'Impact', 'Variant_Classification': 'Count'}),
+                'Gene_Summary_All': maf_df['Hugo_Symbol'].value_counts().reset_index().rename(
+                    columns={'index': 'Gene', 'Hugo_Symbol': 'Count'}),
+                'Impact_Summary_All': maf_df['Variant_Classification'].value_counts().reset_index().rename(
+                    columns={'index': 'Impact', 'Variant_Classification': 'Count'}),
+            }
+
+            num_variants = vcf_df.shape[0]
+            num_pass_variants = len(pass_variants)
+            runtime, seconds = sum_duration_for_sample(runtime_file, sample_name)
+            summary.append([sample_name, tool_name, num_variants, num_pass_variants, runtime, seconds])
+
+    df = pd.DataFrame(summary, columns=['SAMPLE', 'VARIANT ANNOTATOR', 'TOTAL VARIANT COUNT', 'PASS VARIANT COUNT',
+                                        'RUNTIME (DAYS:HOURS:MINUTES:SECONDS)', 'RUNTIME (seconds)'])
+    df_summary = df.sort_values(by=['SAMPLE', 'VARIANT ANNOTATOR'])
+    df_summary.to_csv(out_files.get('summary_for_each_sample_and_variant_annotator'), index=False, sep='\t')
+
+    plot_summary_for_each_sample_and_variant_tool(df_summary,
+                                                  plot=plots.get('plot_summary_for_each_sample_and_variant_annotator'),
+                                                  out_file=out_files.get(
+                                                      'somatic_variants_for_sample_and_variant_annotator'))
+
+    plot_runtime_for_each_sample_and_variant_tool(df_summary,
+                                                  plot=plots.get('plot_runtime_for_each_sample_and_variant_annotator'),
+                                                  out_file=out_files.get('runtime_for_sample_and_variant_annotator'))
+
+    plot_mean_runtime(df_summary,
+                      plot=plots.get('plot_mean_runtime_variant_annotators'),
+                      out_plot=out_files.get('mean_runtime_plot'),
+                      out_csv=out_files.get('mean_runtime'))
+
+    gene_summary_pass = pd.DataFrame()
+    impact_summary_pass = pd.DataFrame()
+    gene_summary_all = pd.DataFrame()
+    impact_summary_all = pd.DataFrame()
+
+    for sample_name, sample_data in summary_dict.items():
+
+        for tool_name, tool_data in sample_data.items():
+            gene_summary_pass_df = tool_data['Gene_Summary_PASS'].rename(columns={'Count': 'Gene'})
+            impact_summary_pass_df = tool_data['Impact_Summary_PASS'].rename(columns={'Count': 'Impact'})
+            gene_summary_all_df = tool_data['Gene_Summary_All'].rename(columns={'Count': 'Gene'})
+            impact_summary_all_df = tool_data['Impact_Summary_All'].rename(columns={'Count': 'Impact'})
+
+            gene_summary_pass_df['Sample'] = sample_name
+            gene_summary_pass_df['Tool'] = tool_name
+            impact_summary_pass_df['Sample'] = sample_name
+            impact_summary_pass_df['Tool'] = tool_name
+            gene_summary_all_df['Sample'] = sample_name
+            gene_summary_all_df['Tool'] = tool_name
+            impact_summary_all_df['Sample'] = sample_name
+            impact_summary_all_df['Tool'] = tool_name
+
+            gene_summary_pass = pd.concat([gene_summary_pass, gene_summary_pass_df], axis=0, ignore_index=True,
+                                          sort=False)
+            impact_summary_pass = pd.concat([impact_summary_pass, impact_summary_pass_df], axis=0, ignore_index=True,
+                                            sort=False)
+            gene_summary_all = pd.concat([gene_summary_all, gene_summary_all_df], axis=0, ignore_index=True, sort=False)
+            impact_summary_all = pd.concat([impact_summary_all, impact_summary_all_df], axis=0, ignore_index=True,
+                                           sort=False)
+
+    pivot_gene_summary_pass = gene_summary_pass.pivot(index=['Sample', 'Gene'], columns='Tool', values='count')
+    pivot_impact_summary_pass = impact_summary_pass.pivot(index=['Sample', 'Impact'], columns='Tool', values='count')
+    pivot_gene_summary_all = gene_summary_all.pivot(index=['Sample', 'Gene'], columns='Tool', values='count')
+    pivot_impact_summary_all = impact_summary_all.pivot(index=['Sample', 'Impact'], columns='Tool', values='count')
+
+    pivot_gene_summary_pass.sort_values(by=['Sample', pivot_gene_summary_pass.columns[0], "Gene"],
+                                        ascending=[True, False, True]).to_csv(out_files.get('gene_summary_pass'),
+                                                                              sep='\t')
+
+    pivot_impact_summary_pass.sort_values(by=['Sample', pivot_impact_summary_pass.columns[0], "Impact"],
+                                          ascending=[True, False, True]).to_csv(out_files.get('impact_summary_pass'),
+                                                                                sep='\t')
+
+    pivot_gene_summary_all.sort_values(by=['Sample', pivot_gene_summary_all.columns[0], "Gene"],
+                                       ascending=[True, False, True]).to_csv(out_files.get('gene_summary_all'),
+                                                                             sep='\t')
+
+    pivot_impact_summary_all.sort_values(by=['Sample', pivot_impact_summary_all.columns[0], "Impact"],
+                                         ascending=[True, False, True]).to_csv(out_files.get('impact_summary_all'),
+                                                                               sep='\t')
 
 
 def generate_interpretation_summary(main_directory):

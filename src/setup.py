@@ -25,11 +25,11 @@ extra_files = [os.path.join(here, 'APPNAME'),
 AUTHOR_INFO = [
     ("Rossano Atzeni", "ratzeni@crs4.it"),
     ("Matteo Massidda", "mmassidda@crs4.it"),
-  ]
+]
 MAINTAINER_INFO = [
     ("Rossano Atzeni", "ratzeni@crs4.it"),
     ("Matteo Massidda", "mmassidda@crs4.it"),
-  ]
+]
 AUTHOR = ", ".join(t[0] for t in AUTHOR_INFO)
 AUTHOR_EMAIL = ", ".join("<%s>" % t[1] for t in AUTHOR_INFO)
 MAINTAINER = ", ".join(t[0] for t in MAINTAINER_INFO)
@@ -56,5 +56,5 @@ setup(name=__appname__,
                    "Operating System :: OS Independent",
                    "Topic :: Utilities",
                    "Programming Language :: Python :: 3.8"],
-      #entry_points={'console_scripts': ['musta=musta.main:main',],},
+      # entry_points={'console_scripts': ['musta=musta.main:main',],},
       )
