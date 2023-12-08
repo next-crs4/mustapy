@@ -122,8 +122,8 @@ class ClassifyWorkflow(Workflow):
 
 
 help_doc = """Somatic Mutations Classification.
-Functional annotation of called somatic variants
-VEP and/or GATK Funcotator
+    Functional annotation of called somatic variants.
+    VEP and/or GATK Funcotator
 """
 
 
