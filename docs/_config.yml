@@ -7,11 +7,11 @@ permalink:           pretty
 title:               MUSTA | MUtation and Somatic Tumor Analysis
 tagline:             MUSTA
 description:         A novel affordable and reliable framework for accurate detection and comprehensive analysis of somatic mutations in cancer
-url:                 'https://next-crs4.github.io/musta'
+url:                 'https://next-crs4.github.io/mustapy'
 baseurl:             ''
 github_username:  ratzeni
-pages_url: https://next-crs4.github.io/musta
-github_url: https://github.com/next-crs4/musta
+pages_url: https://next-crs4.github.io/mustapy
+github_url: https://github.com/next-crs4/mustapy
 
 # Custom vars
 version:             23.09
