@@ -3,6 +3,7 @@ from .utils.workflow import Workflow
 from .utils import overwrite, ensure_directory_exists
 from .utils.summary import generate_classification_summary
 
+
 class ClassifyWorkflow(Workflow):
     def __init__(self, args=None, logger=None):
         Workflow.__init__(self, args, logger)
@@ -91,7 +92,7 @@ class ClassifyWorkflow(Workflow):
         generate_classification_summary(
             main_directory=self.summary_paths.get('classification').get('main_directory'),
             maf_directory=self.summary_paths.get('classification').get('maf_directory'),
-            out_files=self.summary_files.get('detection'),
+            out_files=self.summary_files.get('classification'),
             plots=self.plot_conf,
         )
 
@@ -106,7 +107,7 @@ class ClassifyWorkflow(Workflow):
 
         self.logger.info("VCFs/MAFs in <WORKDIR>/{}/{}/results/{}".format(self.io_conf.get('output_folder_name'),
                                                                           self.io_conf.get('classify_folder_name'),
-                                                                          ))
+                                                                          self.summary_conf.get('folder_name')))
 
     def _get_report_file(self, annotator):
         return os.path.join(self.output_dir,
