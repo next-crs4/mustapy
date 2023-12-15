@@ -107,7 +107,7 @@ summary:
       labelx: Samples
       labely: Runtime (seconds)
       legend: Variant Caller
-      x: Sample
+      x: SAMPLE
       y: RUNTIME (seconds)
       hue: VARIANT CALLER
       palette: Set2
