@@ -132,7 +132,7 @@ summary:
       labelx: Variant Annotator
       labely: Average Runtime (seconds)
       groupby: VARIANT ANNOTATOR
-      field: Average Runtime (seconds)
+      field: RUNTIME (seconds)
       color: lightcoral
     plot_common_variants_heatmap:
       title: Average of Common Variants among Variant Callers
