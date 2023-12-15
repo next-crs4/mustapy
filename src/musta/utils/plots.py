@@ -54,7 +54,7 @@ def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
     plt.figure(figsize=(20, 14))
     sns.barplot(
         x=plot.get('x'),
-        y=plot.het('y'),
+        y=plot.get('y'),
         hue=plot.get('hue'),
         data=df,
         palette=plot.get('palette'),
