@@ -46,6 +46,7 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
+    mean_pass_variants = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
     mean_pass_variants.columns = [plot.get('labelx'), plot.get('labely')]
     mean_pass_variants.to_csv(out_csv, index=False, sep='\t')
 
@@ -83,6 +84,7 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
+    mean_runtime = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
     mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
     mean_runtime.to_csv(out_csv, index=False, sep='\t')
 
