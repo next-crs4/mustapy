@@ -116,7 +116,7 @@ summary:
       labelx: Samples
       labely: Runtime (seconds)
       legend: Variant Annotator
-      x: Sample
+      x: SAMPLE
       y: RUNTIME (seconds)
       hue: VARIANT ANNOTATOR
       palette: Set2

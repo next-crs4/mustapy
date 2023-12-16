@@ -95,6 +95,7 @@ class ClassifyWorkflow(Workflow):
             self.pipe.report(snakefile=self.pipe_snakefile,
                              report_file=self.get_report_file())
 
+        self.logger.info("Generating summary reports")
         ensure_dir(self.summary_paths.get('classification').get('summary_directory'), force=True)
         generate_classification_summary(
             main_directory=self.summary_paths.get('classification').get('main_directory'),
