@@ -16,6 +16,7 @@ class DetectWorkflow(Workflow):
         self.dbsnp_file = args.dbsnp_file
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
+        self.only_summary = args.only_summary
 
         check = int(args.fast) + int(args.strict) + int(args.soft)
         if check == 0:
@@ -88,116 +89,119 @@ class DetectWorkflow(Workflow):
         self.init_samples_file(bam_path=self.input_dir)
 
         self.logger.info('Running')
-        self.logger.info('Variant Calling')
-        self.pipe_cfg.reset_run_mode()
-        self.pipe_cfg.set_run_mode(run_mode='call')
+        
+        if not self.only_summary:
+            self.logger.info('Variant Calling')
+            self.pipe_cfg.reset_run_mode()
+            self.pipe_cfg.set_run_mode(run_mode='call')
 
-        if self.mutect:
-            self.logger.info('Variant Caller:  \'mutect\'')
+            if self.mutect:
+                self.logger.info('Variant Caller:  \'mutect\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='mutect')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('mutect'),
+                              stats_file=self._get_stats_file('mutect'),
+                              )
+
+            if self.lofreq:
+                self.logger.info('Variant Caller:  \'lofreq\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='lofreq')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('lofreq'),
+                              stats_file=self._get_stats_file('lofreq'),
+                              )
+
+            if self.varscan:
+                self.logger.info('Variant Caller:  \'varscan\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='varscan')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('varscan'),
+                              stats_file=self._get_stats_file('varscan'),
+                              )
+
+            if self.vardict:
+                self.logger.info('Variant Caller:  \'vardict\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='vardict')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('vardict'),
+                              stats_file=self._get_stats_file('vardict'),
+                              )
+
+            if self.muse:
+                self.logger.info('Variant Caller:  \'muse\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='muse')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('muse'),
+                              stats_file=self._get_stats_file('muse'),
+                              )
+
+            if self.strelka:
+                self.logger.info('caller:  \'strelka\'')
+                self.pipe_cfg.reset_callers()
+                self.pipe_cfg.set_callers(caller='strelka')
+                self.pipe_cfg.write()
+
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('strelka'),
+                              stats_file=self._get_stats_file('strelka'),
+                              )
+
             self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='mutect')
+            self.pipe_cfg.reset_run_mode()
+            self.pipe_cfg.reset_callers()
+            if self.mutect:
+                self.pipe_cfg.set_callers(caller='mutect')
+            if self.lofreq:
+                self.pipe_cfg.set_callers(caller='lofreq')
+            if self.varscan:
+                self.pipe_cfg.set_callers(caller='varscan')
+            if self.vardict:
+                self.pipe_cfg.set_callers(caller='vardict')
+            if self.muse:
+                self.pipe_cfg.set_callers(caller='muse')
+            if self.strelka:
+                self.pipe_cfg.set_callers(caller='strelka')
+            self.pipe_cfg.set_run_mode(run_mode='combine')
             self.pipe_cfg.write()
 
             self.pipe.run(snakefile=self.pipe_snakefile,
                           dryrun=self.dryrun,
                           cores=self.cores,
-                          report_file=self._get_report_file('mutect'),
-                          stats_file=self._get_stats_file('mutect'),
+                          report_file=self._get_report_file('somaticseq'),
+                          stats_file=self._get_stats_file('somaticseq'),
                           )
 
-        if self.lofreq:
-            self.logger.info('Variant Caller:  \'lofreq\'')
-            self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='lofreq')
-            self.pipe_cfg.write()
+            self.pipe.report(snakefile=self.pipe_snakefile,
+                             report_file=self.get_report_file())
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('lofreq'),
-                          stats_file=self._get_stats_file('lofreq'),
-                          )
-
-        if self.varscan:
-            self.logger.info('Variant Caller:  \'varscan\'')
-            self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='varscan')
-            self.pipe_cfg.write()
-
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('varscan'),
-                          stats_file=self._get_stats_file('varscan'),
-                          )
-
-        if self.vardict:
-            self.logger.info('Variant Caller:  \'vardict\'')
-            self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='vardict')
-            self.pipe_cfg.write()
-
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('vardict'),
-                          stats_file=self._get_stats_file('vardict'),
-                          )
-
-        if self.muse:
-            self.logger.info('Variant Caller:  \'muse\'')
-            self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='muse')
-            self.pipe_cfg.write()
-
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('muse'),
-                          stats_file=self._get_stats_file('muse'),
-                          )
-
-        if self.strelka:
-            self.logger.info('caller:  \'strelka\'')
-            self.pipe_cfg.reset_callers()
-            self.pipe_cfg.set_callers(caller='strelka')
-            self.pipe_cfg.write()
-
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('strelka'),
-                          stats_file=self._get_stats_file('strelka'),
-                          )
-
-        self.pipe_cfg.reset_callers()
-        self.pipe_cfg.reset_run_mode()
-        self.pipe_cfg.reset_callers()
-        if self.mutect:
-            self.pipe_cfg.set_callers(caller='mutect')
-        if self.lofreq:
-            self.pipe_cfg.set_callers(caller='lofreq')
-        if self.varscan:
-            self.pipe_cfg.set_callers(caller='varscan')
-        if self.vardict:
-            self.pipe_cfg.set_callers(caller='vardict')
-        if self.muse:
-            self.pipe_cfg.set_callers(caller='muse')
-        if self.strelka:
-            self.pipe_cfg.set_callers(caller='strelka')
-        self.pipe_cfg.set_run_mode(run_mode='combine')
-        self.pipe_cfg.write()
-
-        self.pipe.run(snakefile=self.pipe_snakefile,
-                      dryrun=self.dryrun,
-                      cores=self.cores,
-                      report_file=self._get_report_file('somaticseq'),
-                      stats_file=self._get_stats_file('somaticseq'),
-                      )
-
-        self.pipe.report(snakefile=self.pipe_snakefile,
-                         report_file=self.get_report_file())
-
+        self.logger.info("Generating summary reports")
         ensure_directory_exists(self.summary_paths.get('detection').get('summary_directory'))
         generate_detection_summary(
             main_directory=self.summary_paths.get('detection').get('main_directory'),
@@ -316,6 +320,10 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='run only fast variant callers: lofreq, varscan, strelka')
 
+    parser.add_argument('--only-summary', '-os',
+                        action='store_true', default=False,
+                        help='only generate summary reports')
+    
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
                         help='force all output files to be re-created')

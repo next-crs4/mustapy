@@ -60,7 +60,7 @@ summary:
   mean_pass_variants_plot_filename: mean_pass_variants_plot.png
   mean_pass_variants_filename: mean_pass_variants.tsv
   mean_runtime_for_each_variant_caller_plot_filename: mean_runtime_plot.png
-  mean_runtime_for_each_variant_caller_filename: mean_runtime.png
+  mean_runtime_for_each_variant_caller_filename: mean_runtime.tsv
   pass_variants_data_filename: pass_variants_data.json
   runtime_for_sample_and_variant_caller_filename: runtime_for_sample_and_variant_caller.png
   somatic_variants_for_sample_and_variant_caller_filename: somatic_variants_for_sample_and_variant_caller.png
@@ -73,7 +73,7 @@ summary:
   somatic_variants_for_sample_and_variant_annotator_filename: somatic_variants_for_sample_and_variant_annotator.png
   runtime_for_sample_and_variant_annotator_filename: runtime_for_sample_and_variant_annotator.png
   mean_runtime_for_each_variant_annotator_plot_filename: mean_runtime_plot.png
-  mean_runtime_for_each_variant_annotator_filename: mean_runtime.png
+  mean_runtime_for_each_variant_annotator_filename: mean_runtime.tsv
   plots:
     plot_summary_for_each_sample_and_variant_caller:
       title: Somatic Variants for each Sample and Variant Caller
