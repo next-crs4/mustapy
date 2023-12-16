@@ -73,7 +73,7 @@ class Workflow(object):
                 ),
                 summary_directory=os.path.join(
                     self.paths.get('results_dir'),
-                    self.paths.get('detection_folder_name'),
+                    self.paths.get('classification_folder_name'),
                     self.io_conf.get('results_folder_name'),
                     self.summary_conf.get('folder_name'),
                 )
