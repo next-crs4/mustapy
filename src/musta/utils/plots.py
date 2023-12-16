@@ -38,7 +38,6 @@ def plot_summary_for_each_sample_and_variant_tool(df, plot, out_file):
 def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     # Mean Pass Variants
     mean_pass_variants = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
-    mean_pass_variants.columns = [plot.get('labelx'), plot.get('labely')]
     plt.figure(figsize=(10, 6))
     mean_pass_variants.plot(kind='bar', color=plot.get('color'))
     plt.title(plot.get('title'))
@@ -46,9 +45,8 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     plt.ylabel(plot.get('labely'))
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    # for i, v in enumerate(mean_pass_variants[plot.get('labely')]):
-    #     plt.text(i, v, str(v), ha='center', va='bottom')
     plt.savefig(out_plot, bbox_inches='tight')
+    mean_pass_variants.columns = [plot.get('labelx'), plot.get('labely')]
     mean_pass_variants.to_csv(out_csv, index=False, sep='\t')
 
 
@@ -76,22 +74,17 @@ def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
 
 
 def plot_mean_runtime(df, plot, out_plot, out_csv):
-    mean_runtime = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
-
-    mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
-
+    mean_runtime = df.groupby(plot.get('groupby'))[plot.get('field')].mean()
     plt.figure(figsize=(10, 6))
-    plt.bar(mean_runtime[plot.get('labelx')], mean_runtime[plot.get('labelx')], color=plot.get('color'))
+    mean_runtime.plot(kind='bar', color=plot.get('color'))
     plt.title(plot.get('title'))
     plt.xlabel(plot.get('labelx'))
     plt.ylabel(plot.get('labely'))
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-
-    # for i, v in enumerate(mean_runtime[plot.get('labely')]):
-    #     plt.text(i, v, str(v), ha='center', va='bottom')
-
     plt.savefig(out_plot, bbox_inches='tight')
+
+    mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
     mean_runtime.to_csv(out_csv, index=False, sep='\t')
 
 
