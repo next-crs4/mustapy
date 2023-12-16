@@ -46,8 +46,8 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     plt.ylabel(plot.get('labely'))
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    for i, v in enumerate(mean_pass_variants[plot.get('labely')]):
-        plt.text(i, v, str(v), ha='center', va='bottom')
+    # for i, v in enumerate(mean_pass_variants[plot.get('labely')]):
+    #     plt.text(i, v, str(v), ha='center', va='bottom')
     plt.savefig(out_plot, bbox_inches='tight')
     mean_pass_variants.to_csv(out_csv, index=False, sep='\t')
 
@@ -88,8 +88,8 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
 
-    for i, v in enumerate(mean_runtime[plot.get('labely')]):
-        plt.text(i, v, str(v), ha='center', va='bottom')
+    # for i, v in enumerate(mean_runtime[plot.get('labely')]):
+    #     plt.text(i, v, str(v), ha='center', va='bottom')
 
     plt.savefig(out_plot, bbox_inches='tight')
     mean_runtime.to_csv(out_csv, index=False, sep='\t')
