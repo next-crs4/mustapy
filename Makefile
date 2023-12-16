@@ -31,6 +31,6 @@ clean:
 	@docker volume prune -f
 	@rm ~/.local/bin/musta
 
-purge: clean
+purge:
 	@docker system prune  -a -f
 	@docker system prune  -a --volumes -f
