@@ -1,8 +1,9 @@
 import os.path
 import sys
 
+from comoda import ensure_dir
 from .utils.workflow import Workflow
-from .utils import overwrite, ensure_directory_exists
+from .utils import overwrite
 from .utils.summary import generate_detection_summary
 
 
@@ -202,7 +203,7 @@ class DetectWorkflow(Workflow):
                              report_file=self.get_report_file())
 
         self.logger.info("Generating summary reports")
-        ensure_directory_exists(self.summary_paths.get('detection').get('summary_directory'))
+        ensure_dir(self.summary_paths.get('detection').get('summary_directory'), force=True)
         generate_detection_summary(
             main_directory=self.summary_paths.get('detection').get('main_directory'),
             vcf_directory=self.summary_paths.get('detection').get('vcf_directory'),

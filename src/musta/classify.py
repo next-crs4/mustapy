@@ -1,6 +1,9 @@
 import os
+
+from comoda import ensure_dir
+
 from .utils.workflow import Workflow
-from .utils import overwrite, ensure_directory_exists
+from .utils import overwrite
 from .utils.summary import generate_classification_summary
 
 
@@ -16,6 +19,8 @@ class ClassifyWorkflow(Workflow):
 
         self.funcotator = args.also_funcotator or args.only_funcotator
         self.vep = not args.only_funcotator
+
+        self.only_summary = args.only_summary
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
@@ -54,41 +59,43 @@ class ClassifyWorkflow(Workflow):
         self.init_samples_file(vcf_path=self.input_dir)
 
         self.logger.info('Running')
-        self.logger.info('Variant Annotation')
 
-        self.pipe_cfg.reset_run_mode()
-        self.pipe_cfg.set_run_mode(run_mode='annotate')
+        if not self.only_summary:
+            self.logger.info('Variant Annotation')
 
-        if self.vep:
-            self.logger.info('Variant Annotator:  \'vep\'')
-            self.pipe_cfg.reset_annotators()
-            self.pipe_cfg.set_annotators(annotator="vep")
-            self.pipe_cfg.write()
+            self.pipe_cfg.reset_run_mode()
+            self.pipe_cfg.set_run_mode(run_mode='annotate')
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('vep'),
-                          stats_file=self._get_stats_file('vep')
-                          )
+            if self.vep:
+                self.logger.info('Variant Annotator:  \'vep\'')
+                self.pipe_cfg.reset_annotators()
+                self.pipe_cfg.set_annotators(annotator="vep")
+                self.pipe_cfg.write()
 
-        if self.funcotator:
-            self.logger.info('Variant Annotator:  \'funcotator\'')
-            self.pipe_cfg.reset_annotators()
-            self.pipe_cfg.set_annotators(annotator="funcotator")
-            self.pipe_cfg.write()
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('vep'),
+                              stats_file=self._get_stats_file('vep')
+                              )
 
-            self.pipe.run(snakefile=self.pipe_snakefile,
-                          dryrun=self.dryrun,
-                          cores=self.cores,
-                          report_file=self._get_report_file('funcotator'),
-                          stats_file=self._get_stats_file('funcotator')
-                          )
+            if self.funcotator:
+                self.logger.info('Variant Annotator:  \'funcotator\'')
+                self.pipe_cfg.reset_annotators()
+                self.pipe_cfg.set_annotators(annotator="funcotator")
+                self.pipe_cfg.write()
 
-        self.pipe.report(snakefile=self.pipe_snakefile,
-                         report_file=self.get_report_file())
+                self.pipe.run(snakefile=self.pipe_snakefile,
+                              dryrun=self.dryrun,
+                              cores=self.cores,
+                              report_file=self._get_report_file('funcotator'),
+                              stats_file=self._get_stats_file('funcotator')
+                              )
 
-        ensure_directory_exists(self.summary_paths.get('classification').get('summary_directory'))
+            self.pipe.report(snakefile=self.pipe_snakefile,
+                             report_file=self.get_report_file())
+
+        ensure_dir(self.summary_paths.get('classification').get('summary_directory'), force=True)
         generate_classification_summary(
             main_directory=self.summary_paths.get('classification').get('main_directory'),
             maf_directory=self.summary_paths.get('classification').get('maf_directory'),
@@ -168,6 +175,10 @@ def make_parser(parser):
     parser.add_argument('--only-funcotator', '-of',
                         action='store_true', default=False,
                         help='only run gatk funcotator')
+
+    parser.add_argument('--only-summary', '-os',
+                        action='store_true', default=False,
+                        help='only generate summary reports')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
