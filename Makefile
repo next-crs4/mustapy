@@ -11,6 +11,7 @@ help:
 	@echo "Please use \`make <target>\` where <target> is one of"
 	@echo "  bootstrap               build the musta image"
 	@echo "  clean                   remove the musta image from your computer"
+	@echo "  purge                   remove all unused containers, networks, images and volumes"
 	@echo "  "
 
 init:
@@ -29,3 +30,7 @@ clean:
 	@docker rmi -f musta:Dockerfile
 	@docker volume prune -f
 	@rm ~/.local/bin/musta
+
+purge: clean
+	@docker system prune  -a -f
+	@docker system prune  -a --volumes -f
