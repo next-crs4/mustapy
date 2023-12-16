@@ -125,7 +125,7 @@ summary:
       labelx: Variant Caller
       labely: Average Runtime (seconds)
       groupby: VARIANT CALLER
-      field: Average Runtime (seconds)
+      field: RUNTIME (seconds)
       color: lightcoral
     plot_mean_runtime_variant_annotators:
       title: Average Runtime for each Variant Annotator
