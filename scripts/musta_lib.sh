@@ -272,7 +272,7 @@ mount_directory() {
 }
 
 process_samples_file() {
-  local samples_file=""$(echo $string | awk '{$1=$1};1')""
+  local samples_file=$(echo $string | awk '{$1=$1};1')
 
   if [ -f "$samples_file" ]; then
     keys=$(grep -E '^[a-zA-Z0-9_]+:' "$samples_file" | sed 's/:$//')
