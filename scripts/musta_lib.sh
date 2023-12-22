@@ -272,7 +272,7 @@ mount_directory() {
 }
 
 process_samples_file() {
-  local samples_file=$(echo $string | awk '{$1=$1};1')
+  local samples_file="$1"
 
   if [ -f "$samples_file" ]; then
     keys=$(grep -E '^[a-zA-Z0-9_]+:' "$samples_file" | sed 's/:$//')
@@ -285,6 +285,7 @@ process_samples_file() {
 
     get_filename_and_extension() {
       local file_path="$1"
+      file_path=$(echo $file_path | awk '{$1=$1};1')
 
       if [ -f "$file_path" ]; then
         local filename=$(basename "$file_path")
