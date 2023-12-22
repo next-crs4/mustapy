@@ -16,6 +16,14 @@ init() {
     CMD="docker run "
 }
 
+log() {
+    local timestamp
+    timestamp=$(date +"%Y-%m-%d %T")
+    local message="[$timestamp] $1"
+    __log_msg__="${__log_msg__}${message}"$'\n'
+    echo "$message"
+}
+
 parse_args() {
     while [ "$1" != "" ]; do
         case $1 in
@@ -87,7 +95,7 @@ check_mandatory_argument() {
     local arg_name=$2
 
     if [ -z "$arg_value" ]; then
-        [ $help_flag -eq 0 ] && echo "ERROR: $arg_name is a mandatory argument" && exit 1
+        [ $help_flag -eq 0 ] && log "ERROR: $arg_name is a mandatory argument" && exit 1
     fi
 }
 
@@ -95,20 +103,20 @@ check_and_create_directory() {
     local dir_path=$1
 
     if [ -n "$dir_path" ]; then
-      [ ! -d "$dir_path" ] && echo "WARNING: $dir_path does not exist or is not a directory. Trying to create it." && mkdir -p "$dir_path"
+      [ ! -d "$dir_path" ] && log "WARNING: $dir_path does not exist or is not a directory. Trying to create it." && mkdir -p "$dir_path"
     fi
 }
 
 check_directory() {
     local dir_name=$1
 
-    [ -n "$dir_name" ] && [ ! -d "$dir_name" ] && echo "ERROR: $dir_name does not exist or is not a directory. Exiting..." && exit 1
+    [ -n "$dir_name" ] && [ ! -d "$dir_name" ] && log "ERROR: $dir_name does not exist or is not a directory. Exiting..." && exit 1
 }
 
 check_file() {
     local file_path=$1
 
-    [ -n "$file_path" ] && [ ! -f "$file_path" ] && echo "ERROR: $file_path does not exist or is not a file. Exiting..." &&  exit 1
+    [ -n "$file_path" ] && [ ! -f "$file_path" ] && log "ERROR: $file_path does not exist or is not a file. Exiting..." &&  exit 1
 
 }
 
@@ -138,17 +146,17 @@ check_reference_files() {
     if [ -n "$reference_file" ] && [ -f "$reference_file" ]; then
         # Check for .fai file
         if [ ! -f "${reference_file}.fai" ]; then
-            echo "ERROR: Fasta index file (.fai) for reference ${reference_file} does not exist."
-            echo "Please see https://github.com/broadinstitute/gatk-docs/blob/master/gatk3-faqs/How_can_I_prepare_a_FASTA_file_to_use_as_reference%3F.md for help creating it."
-            echo "Exiting..."
+            log "ERROR: Fasta index file (.fai) for reference ${reference_file} does not exist."
+            log "Please see https://github.com/broadinstitute/gatk-docs/blob/master/gatk3-faqs/How_can_I_prepare_a_FASTA_file_to_use_as_reference%3F.md for help creating it."
+            log "Exiting..."
             exit 1
         fi
 
         # Check for .dict file
         if [ ! -f "${refdir}/${refname}.dict" ]; then
-            echo "ERROR: Fasta dict file (.dict) for reference ${reference_file} does not exist."
-            echo "Please see https://github.com/broadinstitute/gatk-docs/blob/master/gatk3-faqs/How_can_I_prepare_a_FASTA_file_to_use_as_reference%3F.md for help creating it."
-            echo "Exiting..."
+            log "ERROR: Fasta dict file (.dict) for reference ${reference_file} does not exist."
+            log "Please see https://github.com/broadinstitute/gatk-docs/blob/master/gatk3-faqs/How_can_I_prepare_a_FASTA_file_to_use_as_reference%3F.md for help creating it."
+            log "Exiting..."
             exit 1
         fi
 
@@ -168,19 +176,19 @@ check_bed_file() {
     if [ -n "$bed_file" ] && [ -f "$bed_file" ]; then
         # Check if the file is compressed
         if [ "$extension" == "vcf" ]; then
-            echo "ERROR: BED file is not compressed."
-            echo "Please compress and index your bed file: bgzip -c  ${bed_file} > ${bed_file}.gz && tabix -p bed ${bed_file}.gz"
-            echo "See: https://www.biostars.org/p/59492/"
-            echo "Exiting..."
+            log "ERROR: BED file is not compressed."
+            log "Please compress and index your bed file: bgzip -c  ${bed_file} > ${bed_file}.gz && tabix -p bed ${bed_file}.gz"
+            log "See: https://www.biostars.org/p/59492/"
+            log "Exiting..."
             exit 1
         fi
 
         # Check for .tbi file
         if [ ! -f "${bed_file}.tbi" ]; then
-            echo "ERROR: An index file (.tbi) is required but was not found for file ${bed_file}."
-            echo "Please compress and index your bed file: tabix -p bed ${bed_file}"
-            echo "See: https://www.biostars.org/p/59492/"
-            echo "Exiting..."
+            log "ERROR: An index file (.tbi) is required but was not found for file ${bed_file}."
+            log "Please compress and index your bed file: tabix -p bed ${bed_file}"
+            log "See: https://www.biostars.org/p/59492/"
+            log "Exiting..."
             exit 1
         fi
 
@@ -198,9 +206,9 @@ check_germline_file() {
     if [ -n "$germline_file" ] && [ -f "$germline_file" ]; then
         # Check for .idx file
         if [ ! -f "${germline_file}.idx" ]; then
-            echo "ERROR: An index file (.idx) is required but was not found for file ${germline_file}"
-            echo "Try running gatk IndexFeatureFile on the input. See: https://gatk.broadinstitute.org/hc/en-us/articles/5358901172891-IndexFeatureFile"
-            echo "Exiting..."
+            log "ERROR: An index file (.idx) is required but was not found for file ${germline_file}"
+            log "Try running gatk IndexFeatureFile on the input. See: https://gatk.broadinstitute.org/hc/en-us/articles/5358901172891-IndexFeatureFile"
+            log "Exiting..."
             exit 1
         fi
 
@@ -217,9 +225,9 @@ check_variant_file() {
     if [ -n "$variant_file" ] && [ -f "$variant_file" ]; then
         # Check for .idx file
         if [ ! -f "${variant_file}.idx" ]; then
-            echo "ERROR: An index file (.idx) is required but was not found for file ${variant_file}"
-            echo "Try running gatk IndexFeatureFile on the input. See: https://gatk.broadinstitute.org/hc/en-us/articles/5358901172891-IndexFeatureFile"
-            echo "Exiting..."
+            log "ERROR: An index file (.idx) is required but was not found for file ${variant_file}"
+            log "Try running gatk IndexFeatureFile on the input. See: https://gatk.broadinstitute.org/hc/en-us/articles/5358901172891-IndexFeatureFile"
+            log "Exiting..."
             exit 1
         fi
 
@@ -236,10 +244,10 @@ check_dbsnp_file() {
     if [ -n "$dbsnp_file" ] && [ -f "$dbsnp_file" ]; then
         # Check for .tbi file
         if [ ! -f "${dbsnp_file}.tbi" ]; then
-            echo "ERROR: An index file (.tbi) is required but was not found for file ${dbsnp_file}"
-            echo "Please compress and index all input vcf files: bgzip -c ${dbsnp_file} > ${dbsnp_file}.gz && tabix -p vcf ${dbsnp_file}.gz"
-            echo "See: https://www.biostars.org/p/59492/"
-            echo "Exiting..."
+            log "ERROR: An index file (.tbi) is required but was not found for file ${dbsnp_file}"
+            log "Please compress and index all input vcf files: bgzip -c ${dbsnp_file} > ${dbsnp_file}.gz && tabix -p vcf ${dbsnp_file}.gz"
+            log "See: https://www.biostars.org/p/59492/"
+            log "Exiting..."
             exit 1
         fi
 
@@ -258,13 +266,13 @@ mount_directory() {
         CMD="${CMD} -v ${host_dir}:${docker_dir}"
         PARAMS="${PARAMS} ${volume_flag} ${docker_dir}"
     else
-        echo "ERROR: ${host_dir} does not exist or is not a directory. Exiting..."
+        log "ERROR: ${host_dir} does not exist or is not a directory. Exiting..."
         exit 1
     fi
 }
 
 process_samples_file() {
-  local samples_file="$1"
+  local samples_file=""$(echo $string | awk '{$1=$1};1')""
 
   if [ -f "$samples_file" ]; then
     keys=$(grep -E '^[a-zA-Z0-9_]+:' "$samples_file" | sed 's/:$//')
@@ -285,7 +293,7 @@ process_samples_file() {
         extension=$(echo "$extension" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
         echo "$filename $extension"
       else
-        echo "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
+        log "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
       fi
     }
 
@@ -298,16 +306,16 @@ process_samples_file() {
     extension=$(echo "$ret" | cut -d' ' -f2)
 
     if [ "$extension" == 'bam' ]; then
-      [ ! -f "${file_path}.bai" ] && echo "ERROR: Some input bam files are not indexed." && \
-      echo "Please index all input bam files: samtools index ${file_path}" && \
-      echo "See: http://www.htslib.org/doc/samtools-index.html" && \
-      echo "Exiting..." && exit 1
+      [ ! -f "${file_path}.bai" ] && log "ERROR: Some input bam files are not indexed." && \
+      log "Please index all input bam files: samtools index ${file_path}" && \
+      log "See: http://www.htslib.org/doc/samtools-index.html" && \
+      log "Exiting..." && exit 1
 
      mount_docker_file "$file_path" "${target_dir}/${filename}"
      mount_docker_file "${file_path}.bai" "${target_dir}/${filename}.bai"
 
     else
-      echo "ERROR: ${file_path} does not appear to be a valid bam file. Please check it out" && exit 1
+      log "ERROR: ${file_path} does not appear to be a valid bam file. Please check it out" && exit 1
     fi
   }
 
@@ -320,22 +328,22 @@ process_samples_file() {
     extension=$(echo "$ret" | cut -d' ' -f2)
 
     if [ $extension == 'vcf' ]; then
-      echo "ERROR: ${file_path} is not compressed" && \
-      echo "Please compress and index all input vcf files: bgzip -c  ${file_path} > ${file_path}.gz && tabix -p vcf ${file_path}.gz" && \
-      echo "See: https://www.biostars.org/p/59492/" && \
-      echo "Exiting..." && exit 1
+      log "ERROR: ${file_path} is not compressed" && \
+      log "Please compress and index all input vcf files: bgzip -c  ${file_path} > ${file_path}.gz && tabix -p vcf ${file_path}.gz" && \
+      log "See: https://www.biostars.org/p/59492/" && \
+      log "Exiting..." && exit 1
     fi
 
     if [[ $filename == *".vcf.gz" ]]; then
-      [ ! -f "${file_path}.tbi" ] && echo "ERROR: Some input vcf files are not indexed." && \
-      echo "Please index all input vcf files: tabix -p vcf ${file_path}.gz" && \
-      echo "See: https://www.biostars.org/p/59492/" && \
-      echo "Exiting..." && exit 1
+      [ ! -f "${file_path}.tbi" ] && log "ERROR: Some input vcf files are not indexed." && \
+      log "Please index all input vcf files: tabix -p vcf ${file_path}.gz" && \
+      log "See: https://www.biostars.org/p/59492/" && \
+      log "Exiting..." && exit 1
 
       mount_docker_file "$file_path" "${target_dir}/${filename}"
       mount_docker_file "${file_path}.tbi" "${target_dir}/${filename}.tbi"
     else
-      echo "ERROR: ${file_path} does not appear to be a valid vcf.gz file. Please check it out" && exit 1
+      log "ERROR: ${file_path} does not appear to be a valid vcf.gz file. Please check it out" && exit 1
     fi
   }
 
@@ -350,7 +358,7 @@ process_samples_file() {
     if [ $extension == 'maf' ]; then
       mount_docker_file "$file_path" "${target_dir}/${filename}"
     else
-      echo "ERROR: ${file_path} does not appear to be a valid maf file. Please check it out" && exit 1
+      log "ERROR: ${file_path} does not appear to be a valid maf file. Please check it out" && exit 1
     fi
   }
 
