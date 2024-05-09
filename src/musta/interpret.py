@@ -8,6 +8,7 @@ class AnalysisWorkflow(Workflow):
         Workflow.__init__(self, args, logger)
 
         self.samples_file = args.samples_file
+        self.all_variants = args.all_variants
 
     def run(self):
         Workflow.run(self)
@@ -24,6 +25,11 @@ class AnalysisWorkflow(Workflow):
         self.logger.info('Running')
 
         self.pipe_cfg.set_run_mode(run_mode='analysis')
+        self.pipe_cfg.reset_variants()
+
+        if self.all_variants:
+            self.pipe_cfg.set_variants(option='all')
+
         self.pipe_cfg.write()
 
         self.pipe.run(snakefile=self.pipe_snakefile,
@@ -55,6 +61,11 @@ def make_parser(parser):
                         type=str, metavar='PATH',
                         help='sample list file in YAML format',
                         required=True)
+
+    parser.add_argument('--all-variants', '-a',
+                        action='store_true', default=False,
+                        help='If specified, all variants will be included in the final dataset. ' +
+                             'By default, the final dataset will contain only variants that pass marked as PASS.')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,

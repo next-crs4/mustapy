@@ -76,6 +76,10 @@ class Config(ConfigurationFromYamlFile):
         annotate_section = self.get_section(label)
         return annotate_section
 
+    def get_variants_section(self, label='variants'):
+        variants_section = self.get_section(label)
+        return variants_section
+
     def get_samples_section(self, label='samples'):
         samples_section = self.get_section(label)
         return samples_section
@@ -128,6 +132,16 @@ class Config(ConfigurationFromYamlFile):
             for a in annotators_section.keys():
                 self.conf['annotators'][a] = False
 
+    def reset_variants(self, option=None):
+        variants_section = self.get_variants_section()
+
+        if option and option in variants_section:
+            self.conf['variants'][option] = False
+
+        else:
+            for a in variants_section.keys():
+                self.conf['variants'][a] = False
+
     def set_callers(self, caller=None):
         callers_section = self.get_callers_section()
         if caller and caller in callers_section:
@@ -145,6 +159,16 @@ class Config(ConfigurationFromYamlFile):
         else:
             for a in annotators_section.keys():
                 self.conf['annotators'][a] = True
+
+    def set_variants(self, option=None):
+        variants_section = self.get_variants_section()
+
+        if option and option in variants_section:
+            self.conf['variants'][option] = True
+
+        else:
+            for a in variants_section.keys():
+                self.conf['variants'][a] = True
 
     def set_samples_file(self, samples_file):
 
