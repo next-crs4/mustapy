@@ -105,7 +105,7 @@ summary:
       legend: Variant Caller
       x: SAMPLE
       y: RUNTIME (seconds)
-      hue: VARIANT CALLER
+      groupby: VARIANT CALLER
       palette: Set2
     plot_runtime_for_each_sample_and_variant_annotator:
       title: Runtime for Each Sample and Variant Annotator

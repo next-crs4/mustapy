@@ -31,7 +31,7 @@ def plot_summary_for_each_sample_and_variant_tool(df, plot, out_file):
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.legend()
-    axs.set_yscale('log')
+    # axs.set_yscale('log')
     axs.grid(axis='y', linestyle='--', alpha=0.7)
     axs.tick_params(axis='x', rotation=45)
 
@@ -43,7 +43,7 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
 
     fig, axs = plt.subplots(figsize=(15, 12))
 
-    mean_snvs_per_caller = df.groupby(plot.get('groupby'))[plot.get('filed')].mean()
+    mean_snvs_per_caller = df.groupby(plot.get('groupby'))[plot.get('field')].mean()
     mean_snvs_per_caller_sorted = mean_snvs_per_caller.sort_values(ascending=False)
     axs.set_title(plot.get('title'))
     bars = axs.barh(mean_snvs_per_caller_sorted.index, mean_snvs_per_caller_sorted,
@@ -88,7 +88,7 @@ def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.legend()
-    axs.set_yscale('log')
+    # axs.set_yscale('log')
     axs.grid(axis='y', linestyle='--', alpha=0.7)
     axs.tick_params(axis='x', rotation=45)
 
@@ -100,28 +100,29 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
     fig, axs = plt.subplots(figsize=(15, 12))
 
     _df = df[df[plot.get('groupby')] != 'musta']
-    mean_runtime_per_caller = _df.groupby(plot.get('groupby'))[plot.get('groupby')].mean() / 60
+    mean_runtime_per_caller = _df.groupby(plot.get('groupby'))[plot.get('field')].mean() / 60
     mean_runtime_per_caller_sorted = mean_runtime_per_caller.sort_values(ascending=False)
-    axs.set_title()
-    bars = axs.barh(mean_runtime_per_caller_sorted.index, mean_runtime_per_caller_sorted, color=[variant_caller_colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
+    axs.set_title(plot.get('title'))
+    bars = axs.barh(mean_runtime_per_caller_sorted.index, 
+            mean_runtime_per_caller_sorted, 
+            color=[variant_caller_colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
-    axs.grid(axis='x', linestyle='--', alpha=0.7)
+    # axs.grid(axis='x', linestyle='--', alpha=0.7)
     axs.set_xscale('log')
 
-    # Aggiunta dei valori sopra le barre
     max_width = axs.get_xlim()[1] * 0.5
     for bar in bars:
         width = bar.get_width()
         if width < max_width:
             axs.text(width, bar.get_y() + bar.get_height()/2, f'{width:.0f}',
-                     fontsize=12, va='center', color='black', ha='left')
+                     fontsize=12, va='center', color='black', ha='left', )
         else:
             axs.text(max_width, bar.get_y() + bar.get_height()/2, f'{width:.0f}',
-                     fontsize=12, va='center', color='white', ha='center')
+                     fontsize=12, va='center', color='white', ha='center', )
 
-    plt.tight_layout()
-    plt.savefig(out_plot, bbox_inches='tight')
+    # plt.tight_layout()
+    plt.savefig(out_plot)
 
     mean_runtime = mean_runtime_per_caller_sorted.reset_index()
     mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
