@@ -4,92 +4,134 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 from datetime import datetime, timedelta
 
+variant_caller_colors = {
+    'musta': 'tab:red',
+    'lofreq': 'tab:blue',
+    'mutect': 'tab:green',
+    'strelka': 'tab:orange',
+    'muse': 'tab:purple',
+    'varscan': 'tab:pink',
+    'vardict': 'tab:brown',
+}
+
 
 def plot_summary_for_each_sample_and_variant_tool(df, plot, out_file):
-    sns.set(style=plot.get('style'))
+    fig, axs = plt.subplots(figsize=(15, 12))
 
-    plt.figure(figsize=(20, 14))
+    axs.set_title(plot.get('title'))
+    for key, grp in df.groupby(plot.get('groupby')):
+        axs.errorbar(grp[plot.get('x')], grp[plot.get('y')],
+                     fmt='o', linestyle='-', label=key,
+                     color=variant_caller_colors.get(key, 'gray'))
 
-    sns.barplot(
-        x=plot.get('x'),
-        y=plot.get('y'),
-        hue=plot.get('hue'),
-        data=df,
-        palette=plot.get('palette'),
-        errorbar=None,
-        saturation=0.8,
-        capsize=0.2,
-        width=0.95,
-    )
+    axs.set_xlabel(plot.get('labelx'))
+    axs.set_ylabel(plot.get('labely'))
+    axs.legend()
+    axs.set_yscale('log')
+    axs.grid(axis='y', linestyle='--', alpha=0.7)
+    axs.tick_params(axis='x', rotation=45)
 
-    plt.title(plot.get('title'))
-    plt.xlabel(plot.get('xlabel'))
-    plt.ylabel(plot.get('ylabel'))
-    plt.yscale('log')
-    plt.legend(title=plot.get('legend'), loc='upper right')
-    plt.xticks(rotation=45, ha='right')
-
+    plt.tight_layout()
     plt.savefig(out_file, bbox_inches='tight')
 
 
 def plot_mean_pass_variants(df, plot, out_plot, out_csv):
-    # Mean Pass Variants
-    mean_pass_variants = df.groupby(plot.get('groupby'))[plot.get('field')].mean()
-    plt.figure(figsize=(10, 6))
-    mean_pass_variants.plot(kind='bar', color=plot.get('color'))
-    plt.title(plot.get('title'))
-    plt.xlabel(plot.get('labelx'))
-    plt.ylabel(plot.get('labely'))
-    plt.xticks(rotation=45, ha='right')
+
+    fig, axs = plt.subplots(figsize=(15, 12))
+
+    mean_snvs_per_caller = df.groupby(plot.get('groupby'))[plot.get('filed')].mean()
+    mean_snvs_per_caller_sorted = mean_snvs_per_caller.sort_values(ascending=False)
+    axs.set_title(plot.get('title'))
+    bars = axs.barh(mean_snvs_per_caller_sorted.index, mean_snvs_per_caller_sorted,
+                    color=[variant_caller_colors.get(key, 'black') for key in mean_snvs_per_caller_sorted.index])
+
+    axs.set_xlabel(plot.get('labelx'))
+    axs.set_ylabel(plot.get('labely'))
+    axs.grid(axis='x', linestyle='--', alpha=0.7)
+    axs.set_xscale('log')
+
+    max_width = axs.get_xlim()[1] * 0.5
+
+    for bar in bars:
+        width = bar.get_width()
+        if width < max_width:
+            axs.text(width + 5,
+                     bar.get_y() + bar.get_height() / 2, f'{width:.0f}',
+                     fontsize=12, va='center',color='black', ha='left')
+        else:
+            axs.text(max_width,
+                     bar.get_y() + bar.get_height() / 2, f'{width:.0f}',
+                     fontsize=12, va='center', color='white', ha='center')
+
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
-    mean_pass_variants = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
+    mean_pass_variants = mean_snvs_per_caller_sorted.reset_index()
     mean_pass_variants.columns = [plot.get('labelx'), plot.get('labely')]
     mean_pass_variants.to_csv(out_csv, index=False, sep='\t')
 
 
 def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
-    plt.figure(figsize=(20, 14))
-    sns.barplot(
-        x=plot.get('x'),
-        y=plot.get('y'),
-        hue=plot.get('hue'),
-        data=df,
-        palette=plot.get('palette'),
-        errorbar=None,
-        saturation=0.8,
-        capsize=0.2,
-        width=0.95,
-    )
+    fig, axs = plt.subplots(figsize=(15, 12))
 
-    plt.title(plot.get('title'))
-    plt.xlabel(plot.get('labelx'))
-    plt.ylabel(plot.get('labely'))
-    plt.legend(title=plot.get('legend'), loc='upper right')
-    plt.xticks(rotation=45, ha='right')
-    plt.yscale('log')
+    _df = df[df[plot.get('groupby')] != 'musta']
+
+    axs.set_title(plot.get('title'))
+    for key, grp in _df.groupby(plot.get('groupby')):
+        axs.errorbar(grp[plot.get('x')], grp[plot.get('y')] / 60,
+                     fmt='o', linestyle='-', label=key,
+                     color=variant_caller_colors.get(key, 'gray'))
+
+    axs.set_xlabel(plot.get('labelx'))
+    axs.set_ylabel(plot.get('labely'))
+    axs.legend()
+    axs.set_yscale('log')
+    axs.grid(axis='y', linestyle='--', alpha=0.7)
+    axs.tick_params(axis='x', rotation=45)
+
+    plt.tight_layout()
     plt.savefig(out_file, bbox_inches='tight')
 
 
 def plot_mean_runtime(df, plot, out_plot, out_csv):
-    mean_runtime = df.groupby(plot.get('groupby'))[plot.get('field')].mean()
-    plt.figure(figsize=(10, 6))
-    mean_runtime.plot(kind='bar', color=plot.get('color'))
-    plt.title(plot.get('title'))
-    plt.xlabel(plot.get('labelx'))
-    plt.ylabel(plot.get('labely'))
-    plt.xticks(rotation=45, ha='right')
+    fig, axs = plt.subplots(figsize=(15, 12))
+
+    _df = df[df[plot.get('groupby')] != 'musta']
+    mean_runtime_per_caller = _df.groupby(plot.get('groupby'))[plot.get('groupby')].mean() / 60
+    mean_runtime_per_caller_sorted = mean_runtime_per_caller.sort_values(ascending=False)
+    axs.set_title()
+    bars = axs.barh(mean_runtime_per_caller_sorted.index, mean_runtime_per_caller_sorted, color=[variant_caller_colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
+    axs.set_xlabel(plot.get('labelx'))
+    axs.set_ylabel(plot.get('labely'))
+    axs.grid(axis='x', linestyle='--', alpha=0.7)
+    axs.set_xscale('log')
+
+    # Aggiunta dei valori sopra le barre
+    max_width = axs.get_xlim()[1] * 0.5
+    for bar in bars:
+        width = bar.get_width()
+        if width < max_width:
+            axs.text(width, bar.get_y() + bar.get_height()/2, f'{width:.0f}',
+                     fontsize=12, va='center', color='black', ha='left')
+        else:
+            axs.text(max_width, bar.get_y() + bar.get_height()/2, f'{width:.0f}',
+                     fontsize=12, va='center', color='white', ha='center')
+
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
-    mean_runtime = df.groupby(plot.get('groupby'))[plot.get('field')].mean().reset_index()
+
+    mean_runtime = mean_runtime_per_caller_sorted.reset_index()
     mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
     mean_runtime.to_csv(out_csv, index=False, sep='\t')
 
 
 def plot_common_variants_heatmap(df, plot, out_json, out_plot, out_cont_csv, out_mean_csv):
+
+    fig, axs = plt.subplots(figsize=(15, 12))
+
     with open(out_json, 'w') as json_file:
         json.dump(df, json_file, default=list, indent=2)
 
@@ -120,17 +162,16 @@ def plot_common_variants_heatmap(df, plot, out_json, out_plot, out_cont_csv, out
     mean_data = mean_data.astype(float)
     mean_data.to_csv(out_mean_csv, index=True, sep='\t')
 
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(
-        mean_data,
-        annot=True,
-        cmap=plot.get('cmap'),
-        fmt=".0f",
-        linewidths=.5,
-        robust=True,
-    )
-    plt.title(plot.get('title'))
-    plt.savefig(out_plot)
+    mask = np.triu(np.ones_like(mean_data, dtype=bool))
+    axs = sns.heatmap(mean_data, annot=True, fmt='.0f',
+                      cmap=plot.get('cmap'), mask=mask, ax=axs)
+
+    axs.set_title(plot.get('cmap'))
+    axs.set_xlabel(plot.get('label'))
+    axs.set_ylabel(plot.get('label'))
+
+    plt.tight_layout()
+    plt.savefig(out_plot, bbox_inches='tight')
 
 
 def count_variants(vcf_file):

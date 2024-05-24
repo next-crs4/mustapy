@@ -18,7 +18,7 @@ def generate_detection_summary(main_directory, vcf_directory, out_files, plots):
             _ = filename.split('.')
             if 'snvs' in _:
                 sample = _[0]
-                tool = _[2] if 'somatic' in _ else 'CONSENSUS'
+                tool = _[2] if 'somatic' in _ else 'musta'
                 if sample not in pass_variants_data:
                     pass_variants_data[sample] = {tool: set()}
                 else:
@@ -28,7 +28,7 @@ def generate_detection_summary(main_directory, vcf_directory, out_files, plots):
                 vcf_file = os.path.join(vcf_directory, filename)
                 num_variants, num_pass_variants, variants = count_variants(vcf_file)
                 pass_variants_data[sample][tool] = variants
-                runtime_tool = tool if 'CONSENSUS' not in tool else 'somaticseq'
+                runtime_tool = tool if 'musta' not in tool else 'somaticseq'
                 runtime_file = os.path.join(main_directory, runtime_tool, 'stats.txt')
                 runtime, seconds = sum_duration_for_sample(runtime_file, sample)
                 summary.append([sample, tool, num_variants, num_pass_variants, runtime, seconds])
@@ -85,8 +85,14 @@ def generate_classification_summary(main_directory, maf_directory, out_files, pl
 
             vcf_df = pd.read_csv(vcf_file, sep='\t', comment='#', usecols=[0, 1, 6],
                                  names=['CHROM', 'POS', 'FILTER'], encoding='latin1')
-            pass_variants = set(
-                tuple((row['CHROM'], row['POS'])) for index, row in vcf_df.iterrows() if 'PASS' in row['FILTER'])
+
+            if 'funcotator' in tool_name:
+                pass_variants = set(
+                    tuple((row['CHROM'].replace("chr", ''), row['POS'])) for index, row in vcf_df.iterrows() if
+                    'PASS' in row['FILTER'])
+            else:
+                pass_variants = set(
+                    tuple((row['CHROM'], row['POS'])) for index, row in vcf_df.iterrows() if 'PASS' in row['FILTER'])
 
             maf_df_pass = maf_df[maf_df['VARIANT'].isin(pass_variants)]
 

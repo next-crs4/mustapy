@@ -76,15 +76,12 @@ summary:
   mean_runtime_for_each_variant_annotator_filename: mean_runtime.tsv
   plots:
     plot_summary_for_each_sample_and_variant_caller:
-      title: Somatic Variants for each Sample and Variant Caller
-      labelx: Samples
-      labely: Somatic Variants
-      legend: Variant Caller
+      title: Somatic Variants for each Variant Caller and Sample
+      labelx: Sample
+      labely: Somatic Variants Count
+      groupby: VARIANT CALLER
       x: SAMPLE
       y: PASS VARIANT COUNT
-      hue: VARIANT CALLER
-      palette: Set2
-      style: whitegrid
     plot_summary_for_each_sample_and_variant_annotator:
       title: Somatic Variants for each Sample and Variant Annotator
       labelx: Samples
@@ -96,16 +93,15 @@ summary:
       palette: Set2
       style: whitegrid
     plot_mean_pass_variants:
-      title: Average Pass Variants for each Variant Caller
+      title: Average Somatic Variants per Sample for each Variant Caller
       labelx: Variant Caller
       labely: Average Count Pass
       groupby: VARIANT CALLER
       field: PASS VARIANT COUNT
-      color: skyblue
     plot_runtime_for_each_sample_and_variant_caller:
-      title: Runtime for Each Sample and Variant Caller
-      labelx: Samples
-      labely: Runtime (seconds)
+      title: Runtime for each Variant Caller and Sample
+      labelx: Sample
+      labely: Runtime (minutes)
       legend: Variant Caller
       x: SAMPLE
       y: RUNTIME (seconds)
@@ -113,7 +109,7 @@ summary:
       palette: Set2
     plot_runtime_for_each_sample_and_variant_annotator:
       title: Runtime for Each Sample and Variant Annotator
-      labelx: Samples
+      labelx: Sample
       labely: Runtime (seconds)
       legend: Variant Annotator
       x: SAMPLE
@@ -135,8 +131,9 @@ summary:
       field: RUNTIME (seconds)
       color: lightcoral
     plot_common_variants_heatmap:
-      title: Average of Common Variants among Variant Callers
-      cmap: crest
+      title: Common Somatic Variants among Variant Callers
+      label: Variant Caller
+      cmap: viridis
 
 
 
