@@ -17,7 +17,7 @@ class DetectWorkflow(Workflow):
         self.dbsnp_file = args.dbsnp_file
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
-        self.only_summary = args.only_summary
+        self.summary_only = args.summary_only
 
         check = int(args.fast) + int(args.strict) + int(args.soft)
         if check == 0:
@@ -91,7 +91,7 @@ class DetectWorkflow(Workflow):
 
         self.logger.info('Running')
         
-        if not self.only_summary:
+        if not self.summary_only:
             self.logger.info('Variant Calling')
             self.pipe_cfg.reset_run_mode()
             self.pipe_cfg.set_run_mode(run_mode='call')
@@ -321,9 +321,9 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='run only fast variant callers: lofreq, varscan, strelka')
 
-    parser.add_argument('--only-summary', '-os',
+    parser.add_argument('--summary-only', '-so',
                         action='store_true', default=False,
-                        help='only generate summary reports')
+                        help='generate only summary reports without re-running the analysis')
     
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,

@@ -20,7 +20,7 @@ class ClassifyWorkflow(Workflow):
         self.funcotator = args.also_funcotator or args.only_funcotator
         self.vep = not args.only_funcotator
 
-        self.only_summary = args.only_summary
+        self.ummary_only = args.summary_only
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
@@ -60,7 +60,7 @@ class ClassifyWorkflow(Workflow):
 
         self.logger.info('Running')
 
-        if not self.only_summary:
+        if not self.summary_only:
             self.logger.info('Variant Annotation')
 
             self.pipe_cfg.reset_run_mode()
@@ -180,9 +180,9 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='only run gatk funcotator')
 
-    parser.add_argument('--only-summary', '-os',
+    parser.add_argument('--summary-only', '-so',
                         action='store_true', default=False,
-                        help='only generate summary reports')
+                        help='generate only summary reports without re-running the analysis')
 
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
