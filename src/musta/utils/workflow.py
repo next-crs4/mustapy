@@ -181,6 +181,7 @@ class Workflow(object):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,
                             logger=self.logger)
         self.pipe_cfg.reset_run_mode()
+        self.pipe_cfg.reset_detection_mode()
         self.pipe_cfg.set_samples_file(samples_file=self.pipe_samples_file)
 
         if base:

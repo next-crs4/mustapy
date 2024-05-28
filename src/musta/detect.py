@@ -2,9 +2,10 @@ import os.path
 import sys
 
 from comoda import ensure_dir
-from .utils.workflow import Workflow
+
 from .utils import overwrite
 from .utils.summary import generate_detection_summary
+from .utils.workflow import Workflow
 
 
 class DetectWorkflow(Workflow):
@@ -18,6 +19,7 @@ class DetectWorkflow(Workflow):
         self.germline_resource = args.germline_resource
         self.variant_file = args.variant_file
         self.summary_only = args.summary_only
+        self.tumor_only = args.tumor_only
 
         check = int(args.fast) + int(args.strict) + int(args.soft)
         if check == 0:
@@ -25,13 +27,13 @@ class DetectWorkflow(Workflow):
             self.lofreq = not args.exclude_lofreq
             self.varscan = not args.exclude_varscan
             self.vardict = not args.exclude_vardict
-            self.muse = not args.exclude_muse
-            self.strelka = not args.exclude_strelka
+            self.muse = not args.exclude_muse and not args.tumor_only
+            self.strelka = not args.exclude_strelka and not args.tumor_only
         elif check == 1:
-            self.mutect = not args.exclude_mutect and args.strict
-            self.lofreq = not args.exclude_lofreq and (args.strict or args.fast)
-            self.varscan = not args.exclude_varscan and (args.soft or args.fast)
-            self.vardict = not args.exclude_vardict and args.soft
+            self.mutect = not args.exclude_mutect and (args.strict or args.tumor_only)
+            self.lofreq = not args.exclude_lofreq and (args.strict or args.fast or args.tumor_only)
+            self.varscan = not args.exclude_varscan and (args.soft or args.fast or args.tumor_only)
+            self.vardict = not args.exclude_vardict and (args.soft or args.tumor_only)
             self.muse = not args.exclude_muse and args.soft
             self.strelka = not args.exclude_strelka and (args.strict or args.fast)
         else:
@@ -81,20 +83,24 @@ class DetectWorkflow(Workflow):
         overwrite(src=self.samples_file,
                   dst=self.pipe_samples_file)
 
-        self.logger.info('Initializing  Config file')
+        self.logger.info('Setting Config file')
         self.init_config_file(base=self.resources.get('base'),
                               gatk_params=self.resources.get('gatk_params'),
                               )
 
-        self.logger.info('Initializing  Samples file')
+        self.logger.info('Setting  Samples file')
         self.init_samples_file(bam_path=self.input_dir)
 
         self.logger.info('Running')
-        
+
         if not self.summary_only:
             self.logger.info('Variant Calling')
             self.pipe_cfg.reset_run_mode()
-            self.pipe_cfg.set_run_mode(run_mode='call')
+            self.pipe_cfg.reset_detection_mode()
+            self.pipe_cfg.set_run_mode(run_mode='detect')
+
+            if self.tumor_only:
+                self.pipe_cfg.set_detection_mode(option='tumor-only')
 
             if self.mutect:
                 self.logger.info('Variant Caller:  \'mutect\'')
@@ -176,7 +182,7 @@ class DetectWorkflow(Workflow):
 
             self.pipe_cfg.reset_callers()
             self.pipe_cfg.reset_run_mode()
-            self.pipe_cfg.reset_callers()
+
             if self.mutect:
                 self.pipe_cfg.set_callers(caller='mutect')
             if self.lofreq:
@@ -189,7 +195,8 @@ class DetectWorkflow(Workflow):
                 self.pipe_cfg.set_callers(caller='muse')
             if self.strelka:
                 self.pipe_cfg.set_callers(caller='strelka')
-            self.pipe_cfg.set_run_mode(run_mode='combine')
+
+            self.pipe_cfg.set_run_mode(run_mode='ensemble')
             self.pipe_cfg.write()
 
             self.pipe.run(snakefile=self.pipe_snakefile,
@@ -321,10 +328,15 @@ def make_parser(parser):
                         action='store_true', default=False,
                         help='run only fast variant callers: lofreq, varscan, strelka')
 
+    parser.add_argument('--tumor-only', '-to',
+                        action='store_true', default=False,
+                        help='run tumor-only variant calling with unmatched normal controls:' 
+                             'lofreq, mutect, varscan, vardict')
+
     parser.add_argument('--summary-only', '-so',
                         action='store_true', default=False,
                         help='generate only summary reports without re-running the analysis')
-    
+
     parser.add_argument('--force', '-f',
                         action='store_true', default=False,
                         help='force all output files to be re-created')

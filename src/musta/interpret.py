@@ -16,15 +16,15 @@ class AnalysisWorkflow(Workflow):
         overwrite(src=self.samples_file,
                   dst=self.pipe_samples_file)
 
-        self.logger.info('Initializing  Config file')
+        self.logger.info('Setting  Config file')
         self.init_config_file()
 
-        self.logger.info('Initializing  Samples file')
+        self.logger.info('Setting  Samples file')
         self.init_samples_file(maf_path=self.input_dir)
 
         self.logger.info('Running')
 
-        self.pipe_cfg.set_run_mode(run_mode='analysis')
+        self.pipe_cfg.set_run_mode(run_mode='interpret')
         self.pipe_cfg.reset_variants()
 
         if self.all_variants:

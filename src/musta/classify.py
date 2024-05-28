@@ -20,7 +20,7 @@ class ClassifyWorkflow(Workflow):
         self.funcotator = args.also_funcotator or args.only_funcotator
         self.vep = not args.only_funcotator
 
-        self.ummary_only = args.summary_only
+        self.summary_only = args.summary_only
 
         if args.tmpdir:
             self.tmp_dir = args.tmpdir
@@ -50,12 +50,12 @@ class ClassifyWorkflow(Workflow):
         overwrite(src=self.samples_file,
                   dst=self.pipe_samples_file)
 
-        self.logger.info('Initializing  Config file')
+        self.logger.info('Setting Config file')
         self.init_config_file(base=self.resources.get('base'),
                               gatk_params=self.resources.get('gatk_params'),
                               vep_params=self.resources.get('vep_params'))
 
-        self.logger.info('Initializing  Samples file')
+        self.logger.info('Setting  Samples file')
         self.init_samples_file(vcf_path=self.input_dir)
 
         self.logger.info('Running')
@@ -64,7 +64,7 @@ class ClassifyWorkflow(Workflow):
             self.logger.info('Variant Annotation')
 
             self.pipe_cfg.reset_run_mode()
-            self.pipe_cfg.set_run_mode(run_mode='annotate')
+            self.pipe_cfg.set_run_mode(run_mode='classify')
 
             if self.vep:
                 self.logger.info('Variant Annotator:  \'vep\'')
