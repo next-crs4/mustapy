@@ -136,16 +136,6 @@ class Config(ConfigurationFromYamlFile):
             for a in annotators_section.keys():
                 self.conf['annotators'][a] = False
 
-    def reset_detection_mode(self, option=None):
-        detection_section = self.get_detection_section()
-
-        if option and option in detection_section:
-            self.conf['detection'][option] = False
-
-        else:
-            for a in detection_section.keys():
-                self.conf['detection'][a] = False
-
     def reset_variants(self, option=None):
         variants_section = self.get_variants_section()
 
@@ -183,16 +173,6 @@ class Config(ConfigurationFromYamlFile):
         else:
             for a in variants_section.keys():
                 self.conf['variants'][a] = True
-
-    def set_detection_mode(self, option=None):
-        detection_section = self.get_detection_section()
-
-        if option and option in detection_section:
-            self.conf['detection'][option] = True
-
-        else:
-            for a in detection_section.keys():
-                self.conf['detection'][a] = True
 
     def set_samples_file(self, samples_file):
 
