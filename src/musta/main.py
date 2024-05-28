@@ -9,7 +9,6 @@ SUBMOD_NAMES = [
     "detect",
     "classify",
     "interpret",
-    "end2end",
 ]
 
 SUBMODULES = [import_module("%s.%s" % (__package__, n)) for n in SUBMOD_NAMES]
