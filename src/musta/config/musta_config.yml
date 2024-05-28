@@ -83,7 +83,7 @@ summary:
       x: SAMPLE
       y: PASS VARIANT COUNT
     plot_summary_for_each_sample_and_variant_annotator:
-      title: Somatic Variants for each Sample and Variant Annotator
+      title: Somatic Variants for each Variant Annotator and Sample
       labelx: Samples
       labely: Somatic Variants
       legend: Variant Annotator
@@ -108,25 +108,25 @@ summary:
       groupby: VARIANT CALLER
       palette: Set2
     plot_runtime_for_each_sample_and_variant_annotator:
-      title: Runtime for Each Sample and Variant Annotator
+      title: Runtime for each Variant Annotator and Sample
       labelx: Sample
-      labely: Runtime (seconds)
+      labely: Runtime (minutes)
       legend: Variant Annotator
       x: SAMPLE
       y: RUNTIME (seconds)
       hue: VARIANT ANNOTATOR
       palette: Set2
     plot_mean_runtime_variant_callers:
-      title: Average Runtime for each Variant Caller
+      title: Average Runtime per Sample for each Variant Caller
       labelx: Variant Caller
-      labely: Average Runtime (seconds)
+      labely: Average Runtime (minutes)
       groupby: VARIANT CALLER
       field: RUNTIME (seconds)
       color: lightcoral
     plot_mean_runtime_variant_annotators:
-      title: Average Runtime for each Variant Annotator
+      title: Average Runtime per Sample for each Variant Annotator
       labelx: Variant Annotator
-      labely: Average Runtime (seconds)
+      labely: Average Runtime (minutes)
       groupby: VARIANT ANNOTATOR
       field: RUNTIME (seconds)
       color: lightcoral
