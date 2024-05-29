@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-
+from matplotlib.colors import LogNorm
 from datetime import datetime, timedelta
 
 variant_caller_colors = {
@@ -31,12 +31,15 @@ def plot_summary_for_each_sample_and_variant_tool(df, plot, out_file):
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.legend()
-    # axs.set_yscale('log')
     axs.grid(axis='y', linestyle='--', alpha=0.7)
     axs.tick_params(axis='x', rotation=45)
 
     plt.tight_layout()
     plt.savefig(out_file, bbox_inches='tight')
+
+    axs.set_yscale('log')
+    plt.tight_layout()
+    plt.savefig(out_file.replace('.png', '.logscale.png'), bbox_inches='tight')
 
 
 def plot_mean_pass_variants(df, plot, out_plot, out_csv):
@@ -52,7 +55,6 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.grid(axis='x', linestyle='--', alpha=0.7)
-    axs.set_xscale('log')
 
     max_width = axs.get_xlim()[1] * 0.5
 
@@ -69,6 +71,12 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
 
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
+
+    axs.set_xscale('log')
+    plt.tight_layout()
+    plt.savefig(out_plot.replace('.png', '.logscale.png'),
+                bbox_inches='tight')
+
     mean_pass_variants = mean_snvs_per_caller_sorted.reset_index()
     mean_pass_variants.columns = [plot.get('labelx'), plot.get('labely')]
     mean_pass_variants.to_csv(out_csv, index=False, sep='\t')
@@ -88,12 +96,16 @@ def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.legend()
-    # axs.set_yscale('log')
     axs.grid(axis='y', linestyle='--', alpha=0.7)
     axs.tick_params(axis='x', rotation=45)
 
     plt.tight_layout()
     plt.savefig(out_file, bbox_inches='tight')
+
+    axs.set_yscale('log')
+    plt.tight_layout()
+    plt.savefig(out_file.replace('.png', '.logscale.png'),
+                bbox_inches='tight')
 
 
 def plot_mean_runtime(df, plot, out_plot, out_csv):
@@ -108,8 +120,7 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
             color=[variant_caller_colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
-    # axs.grid(axis='x', linestyle='--', alpha=0.7)
-    axs.set_xscale('log')
+    axs.grid(axis='x', linestyle='--', alpha=0.7)
 
     max_width = axs.get_xlim()[1] * 0.5
     for bar in bars:
@@ -123,6 +134,9 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
 
     # plt.tight_layout()
     plt.savefig(out_plot)
+
+    axs.set_xscale('log')
+    plt.savefig(out_plot.replace('.png', '.logscale.png'))
 
     mean_runtime = mean_runtime_per_caller_sorted.reset_index()
     mean_runtime.columns = [plot.get('labelx'), plot.get('labely')]
@@ -173,6 +187,18 @@ def plot_common_variants_heatmap(df, plot, out_json, out_plot, out_cont_csv, out
 
     plt.tight_layout()
     plt.savefig(out_plot, bbox_inches='tight')
+    
+    axs = sns.heatmap(mean_data, annot=True, fmt='.0f',
+                      cmap=plot.get('cmap'), mask=mask, 
+                      ax=axs, norm=LogNorm())
+
+    axs.set_title(plot.get('cmap'))
+    axs.set_xlabel(plot.get('label'))
+    axs.set_ylabel(plot.get('label'))
+
+    plt.tight_layout()
+    plt.savefig(out_plot.replace('.png', '.logscale.png'),
+                bbox_inches='tight')
 
 
 def count_variants(vcf_file):
