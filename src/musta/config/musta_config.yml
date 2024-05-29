@@ -89,7 +89,7 @@ summary:
       legend: Variant Annotator
       x: SAMPLE
       y: PASS VARIANT COUNT
-      hue: VARIANT ANNOTATOR
+      groupby: VARIANT ANNOTATOR
       palette: Set2
       style: whitegrid
     plot_mean_pass_variants:
