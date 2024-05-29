@@ -111,7 +111,7 @@ class Workflow(object):
                     self.summary_conf.get('summary_for_each_sample_and_variant_caller_filename')),
             ),
             classification=dict(
-                summary_for_each_sample_and_variant_caller=os.path.join(
+                summary_for_each_sample_and_variant_annotator=os.path.join(
                     self.summary_paths.get('classification').get('summary_directory'),
                     self.summary_conf.get('summary_for_each_sample_and_variant_annotator_filename')),
                 gene_summary_all=os.path.join(
