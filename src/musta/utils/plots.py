@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib.colors import LogNorm
 from datetime import datetime, timedelta
 
-variant_caller_colors = {
+colors = {
     'musta': 'tab:red',
     'lofreq': 'tab:blue',
     'mutect': 'tab:green',
@@ -16,6 +16,8 @@ variant_caller_colors = {
     'muse': 'tab:purple',
     'varscan': 'tab:pink',
     'vardict': 'tab:brown',
+    'vep': 'lightblue',
+    'funcotator': 'lightcoral', 
 }
 
 
@@ -26,7 +28,7 @@ def plot_summary_for_each_sample_and_variant_tool(df, plot, out_file):
     for key, grp in df.groupby(plot.get('groupby')):
         axs.errorbar(grp[plot.get('x')], grp[plot.get('y')],
                      fmt='o', linestyle='-', label=key,
-                     color=variant_caller_colors.get(key, 'gray'))
+                     color=colors.get(key, 'gray'))
 
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
@@ -50,7 +52,7 @@ def plot_mean_pass_variants(df, plot, out_plot, out_csv):
     mean_snvs_per_caller_sorted = mean_snvs_per_caller.sort_values(ascending=False)
     axs.set_title(plot.get('title'))
     bars = axs.barh(mean_snvs_per_caller_sorted.index, mean_snvs_per_caller_sorted,
-                    color=[variant_caller_colors.get(key, 'black') for key in mean_snvs_per_caller_sorted.index])
+                    color=[colors.get(key, 'black') for key in mean_snvs_per_caller_sorted.index])
 
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
@@ -91,7 +93,7 @@ def plot_runtime_for_each_sample_and_variant_tool(df, plot, out_file):
     for key, grp in _df.groupby(plot.get('groupby')):
         axs.errorbar(grp[plot.get('x')], grp[plot.get('y')] / 60,
                      fmt='o', linestyle='-', label=key,
-                     color=variant_caller_colors.get(key, 'gray'))
+                     color=colors.get(key, 'gray'))
 
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
@@ -117,7 +119,7 @@ def plot_mean_runtime(df, plot, out_plot, out_csv):
     axs.set_title(plot.get('title'))
     bars = axs.barh(mean_runtime_per_caller_sorted.index, 
             mean_runtime_per_caller_sorted, 
-            color=[variant_caller_colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
+            color=[colors.get(key, 'black') for key in mean_runtime_per_caller_sorted.index])
     axs.set_xlabel(plot.get('labelx'))
     axs.set_ylabel(plot.get('labely'))
     axs.grid(axis='x', linestyle='--', alpha=0.7)
