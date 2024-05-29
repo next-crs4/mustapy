@@ -114,7 +114,7 @@ summary:
       legend: Variant Annotator
       x: SAMPLE
       y: RUNTIME (seconds)
-      hue: VARIANT ANNOTATOR
+      groupby: VARIANT ANNOTATOR
       palette: Set2
     plot_mean_runtime_variant_callers:
       title: Average Runtime per Sample for each Variant Caller
