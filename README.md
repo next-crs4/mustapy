@@ -5,7 +5,6 @@ A novel affordable and reliable framework for accurate detection and comprehensi
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
-- [Tutorial](#tutorial)
 
 ## Overview
 Accurate detection and comprehensive analysis of somatic variants are a major task in cancer sample data analysis,
@@ -31,105 +30,98 @@ or any individual step depending on the starting data.
 [Back](#contents)
 
 ## Requirements
-To install and run Musta, Docker must be presents in your computer.
-To install Docker, see [https://docs.docker.com/engine/install](https://docs.docker.com/engine/install) 
+To install and run **Musta**, it is essential to have Docker installed on your computer.
+Docker is a containerization platform that ensures consistency and compatibility in running **Musta**
+across different computing environments.
+
+If you do not have Docker installed,
+you can download and install it by following the instructions provided in the official Docker documentation:
+[Docker Installation Guide](https://docs.docker.com/engine/install).
+
+Please ensure that Docker is properly configured and running on your system before proceeding with the installation of **Musta**.
 
 [Back](#contents)
 
 ## Quick Start
-The installation could require several minutes
+The installation process may take several minutes.
 
-1 - Clone the repository:
+1. Clone the repository:
 
-```shell
-git clone https://github.com/next-crs4/musta.git
-````
+    ```shell
+    git clone https://github.com/next-crs4/musta.git
+    ```
 
-2 - Cd into the Musta directory:
-```shell
-cd musta
-```
+2. Change into the Musta directory:
 
-3 - Bring up the Musta framework
+    ```shell
+    cd musta
+    ```
 
-```shell
-make bootstrap
-```
+3. Initialize the Musta framework:
 
-[Back](#contents)
+    ```shell
+    make bootstrap
+    ```
 
+4. Confirm the Musta Docker image has been built:
 
-## Tutorial
-In order to test **Musta**, users can download demo dataset from [https://github.com/solida-core/test-data-somatic](https://github.com/solida-core/test-data-somatic)
+    ```shell
+    docker images
+    ```
 
-```yaml
-patientA:
-  normal_sample_name:
-    - N1
-  tumor_sample_name:
-    - A25
-  normal_bam:
-    - path/to/test-data-somatic/data/bam/N1.chr22.bam
-  tumor_bam:
-    - path/to/test-data-somatic/data/bam/A25.chr22.bam
-  vcf:
-    - path/to/test-data-somatic/data/bam/A25.chr22.vcf
-  maf:
-    - path/to/test-data-somatic/data/bam/A25.chr22.maf
-patientB:
-  normal_sample_name:
-  tumor_sample_name:
-    - B33
-  normal_bam:
-  tumor_bam:
-    - path/to/test-data-somatic/data/bam/B33.chr22.bam
-  vcf:
-    - path/to/test-data-somatic/data/bam/B33.chr22.vcf
-  maf:
-    - path/to/test-data-somatic/data/bam/B33.chr22.maf 
-```
-### Show help
+    You should see an output similar to:
 
-```shell
-musta -h
-```
+    ```text
+    REPOSITORY   TAG          IMAGE ID         CREATED       SIZE
+    musta        Dockerfile   bb170cfc6546     2 hours ago   2.48GB
+    ```
 
-```shell
-usage: musta [-h] [--config_file PATH] [--logfile PATH]
-             [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-             {detect,classify,interpret,end2end} ...
+    This indicates the Musta Docker image is successfully built.
 
-End-to-end pipeline to detect, classify and interpret mutations in cancer
+5. Verify the Musta Command Line Interface (CLI) installation:
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --config_file PATH, -c PATH
-                        configuration file
-  --logfile PATH        log file (default=stderr)
-  --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-                        logger level.
+    ```shell
+    musta --help
+    ```
 
-subcommands:
-  valid subcommands
+    You should see an output like this:
 
-  {detect,classify,interpret,end2end}
-                        sub-command description
-    detect              Somatic Mutations Detection.
-                            1.  Multiple Variant Calling: mutect, lofreq, varscan, vardict, muse, strelka.
-                            2.  Ensemble consensus approach to combine results and to improve the performance of variant calling
-                        
-    classify            Variant Annotation
-                        Functional annotation of called somatic variants 
-                        
-    interpret           Somatic Mutations Interpretation:
-                            1.  Identification of cancer driver genes 
-                            2.  Check for enrichment of known oncogenic pathways.
-                            3.  Infer tumor clonality by clustering variant allele frequencies.
-                            4.  Deconvolution of Mutational Signatures
+    ```text
+    usage: musta [-h] [--config_file PATH] [--logfile PATH]
+                 [--loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+                 {detect,classify,interpret} ...
+
+    End-to-end pipeline to detect, classify and interpret mutations in cancer
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --config_file PATH, -c PATH
+                            configuration file
+      --logfile PATH        log file (default=stderr)
+      --loglevel {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                            logger level.
+
+    subcommands:
+      valid subcommands
+
+      {detect,classify,interpret}
+                            sub-command description
+        detect              Somatic Mutations Detection.
+                                1.  Multiple Variant Calling: mutect, lofreq, varscan, 
+                                    vardict, muse, strelka.
+                                2.  Ensemble consensus approach to combine results and 
+                                    to improve the performance of variant calling
+        classify            Variant Annotation
+                            Functional annotation of called somatic variants 
                             
-    end2end             Run the whole workflow, 
-                        from Variant Calling to Deconvolution of Mutational Signatures
-```
+        interpret           Somatic Mutations Interpretation:
+                                1.  Identification of cancer driver genes 
+                                2.  Check for enrichment of known oncogenic pathways.
+                                3.  Infer tumor clonality by clustering variant allele frequencies.
+                                4.  Deconvolution of Mutational Signatures
+    ```
+
+    This indicates the Musta CLI is correctly installed and ready for use. You can now proceed with using Musta for somatic mutation analysis in cancer research by following the instructions provided in the [User Guide](https://next-crs4.github.io/mustapy/). 
 
 [Back](#contents)
 
