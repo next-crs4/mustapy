@@ -95,7 +95,6 @@ class DetectWorkflow(Workflow):
         if not self.summary_only:
             self.logger.info('Variant Calling')
             self.pipe_cfg.reset_run_mode()
-            self.pipe_cfg.reset_detection_mode()
             self.pipe_cfg.set_run_mode(run_mode='detect')
 
             if self.mutect:
