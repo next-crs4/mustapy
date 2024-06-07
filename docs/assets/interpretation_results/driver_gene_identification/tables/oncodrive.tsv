@@ -1,0 +1,4 @@
+"Hugo_Symbol"	"Frame_Shift_Del"	"Frame_Shift_Ins"	"In_Frame_Del"	"In_Frame_Ins"	"Missense_Mutation"	"Nonsense_Mutation"	"Nonstop_Mutation"	"Splice_Site"	"Translation_Start_Site"	"total"	"MutatedSamples"	"AlteredSamples"	"clusters"	"muts_in_clusters"	"clusterScores"	"protLen"	"zscore"	"pval"	"fdr"	"fract_muts_in_clusters"
+"PIK3CA"	0	0	0	0	9	0	0	0	0	9	6	6	3	7	0.777777777777778	1068	3.83675213675214	6.23360944761453e-05	0.000187008283428436	0.777777777777778
+"GATA3"	0	4	0	0	1	0	0	0	0	5	5	5	1	2	0.4	444	0.930769230769231	0.175986474596249	0.263979711894373	0.4
+"TP53"	1	0	0	0	3	2	0	0	0	6	6	6	1	2	0.333333333333333	393	0.417948717948718	0.337992305936284	0.337992305936284	0.333333333333333

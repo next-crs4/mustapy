@@ -1,0 +1,562 @@
+"Cohort1"	"Cohort2"	"Pval"
+"Uterus Corpus"	"Breast"	7.45918743757911e-97
+"Uterus Corpus"	"Thyroid"	1.41422407063768e-82
+"Uterus Corpus"	"Brain Glioma"	1.79894641455487e-78
+"Uterus Corpus"	"Prostate"	8.93484419827209e-78
+"Uterus Corpus"	"Kidney Clear Cell"	5.77360551420606e-65
+"Uterus Corpus"	"Ovary"	5.77360551420606e-65
+"Uterus Corpus"	"Head and Neck"	8.28916946543476e-62
+"Uterus Corpus"	"Brain Glioblastoma"	4.09021385473392e-60
+"Uterus Corpus"	"Liver"	9.68227334453555e-59
+"Uterus Corpus"	"Kidney Papilary"	1.02051226932027e-52
+"Uterus Corpus"	"Soft Tissue"	5.67221975218239e-48
+"Uterus Corpus"	"Bladder"	3.47649212286098e-45
+"Uterus Corpus"	"Adrenal Gland"	4.1524100626003e-45
+"Uterus Corpus"	"Lung Adeno"	8.55117905727387e-45
+"Uterus Corpus"	"Lung Squamous"	1.49975684947932e-44
+"Skin"	"Breast"	2.73730801075865e-43
+"Uterus Corpus"	"Cervix"	6.97473153075829e-42
+"Thyroid"	"Skin"	5.44956294519047e-40
+"Skin"	"Brain Glioma"	1.13686326924992e-36
+"Skin"	"Prostate"	1.1661248279239e-36
+"Uterus Corpus"	"Pancreas"	2.01100143570709e-35
+"Uterus Corpus"	"Testis"	3.2499738124477e-35
+"Uterus Corpus"	"Esophagus"	9.64000766829361e-35
+"Uterus Corpus"	"Bone Marrow"	1.30963740779719e-34
+"Uterus Corpus"	"Stomach"	4.29687360984451e-33
+"Uterus Corpus"	"Thymus"	9.46219561546412e-33
+"Skin"	"Kidney Clear Cell"	1.18920702605353e-30
+"Skin"	"Ovary"	8.1431922940391e-30
+"Skin"	"Brain Glioblastoma"	8.9244649940331e-27
+"Skin"	"Liver"	1.51244385117873e-26
+"Uterus Corpus"	"Colorectal Colon"	2.57593880263947e-26
+"Skin"	"Head and Neck"	4.86806226593976e-26
+"Skin"	"Kidney Papilary"	1.35112232085307e-24
+"Uterus Corpus"	"Eye"	2.6529327349962e-23
+"Uterus Corpus"	"Pleura"	3.29467967083514e-23
+"Uterus Corpus"	"Adrenal Gland Carcinoma"	5.79012302248442e-23
+"Soft Tissue"	"Skin"	1.10611405913763e-22
+"Skin"	"Adrenal Gland"	1.23032843198298e-22
+"Uterus Corpus"	"Colorectal Rectum"	2.15488038428995e-20
+"Uterus Corpus"	"Kidney Chromophobe"	3.02647242549806e-19
+"Testis"	"Skin"	1.05160315515843e-17
+"Skin"	"Cervix"	2.81803951538408e-17
+"Skin"	"Bladder"	3.20709420683353e-17
+"Skin"	"Bone Marrow"	4.13374984526151e-17
+"Thymus"	"Skin"	2.00241122069496e-16
+"Skin"	"Pancreas"	3.17695144633169e-16
+"Skin"	"Lung Squamous"	7.79033837054086e-16
+"Skin"	"Lung Adeno"	1.19712701208021e-15
+"Skin"	"Esophagus"	1.76793312005211e-15
+"Uterus Corpus"	"Uterus"	4.68264077301399e-14
+"Thyroid"	"Colorectal Colon"	2.68772335785424e-13
+"Colorectal Colon"	"Breast"	4.40173588160623e-12
+"Skin"	"Eye"	6.7700745361553e-12
+"Skin"	"Pleura"	1.00561843854214e-11
+"Prostate"	"Colorectal Colon"	1.60918370922146e-11
+"Colorectal Colon"	"Brain Glioma"	2.70836639694699e-11
+"Skin"	"Adrenal Gland Carcinoma"	4.43399754124084e-11
+"Uterus Corpus"	"Bile Duct"	1.226895816855e-10
+"Thyroid"	"Stomach"	2.52778358269562e-10
+"Stomach"	"Skin"	5.75786469065111e-10
+"Skin"	"Kidney Chromophobe"	8.52661673874506e-10
+"Uterus Corpus"	"Lymph Nodes"	1.17662054746715e-09
+"Kidney Clear Cell"	"Colorectal Colon"	1.48142638702754e-09
+"Stomach"	"Breast"	6.11743604320003e-09
+"Stomach"	"Prostate"	9.36148301677196e-09
+"Ovary"	"Colorectal Colon"	1.08735930602135e-08
+"Stomach"	"Brain Glioma"	1.56641277041082e-08
+"Colorectal Colon"	"Adrenal Gland"	5.23434320181327e-08
+"Uterus Corpus"	"Skin"	1.40586262605682e-07
+"Uterus Corpus"	"musta"	1.54815399540117e-07
+"Skin"	"Colorectal Rectum"	1.68218137102814e-07
+"Liver"	"Colorectal Colon"	1.71206512792316e-07
+"Kidney Papilary"	"Colorectal Colon"	1.89412370684972e-07
+"Colorectal Colon"	"Brain Glioblastoma"	2.62889238438449e-07
+"Stomach"	"Kidney Clear Cell"	3.45719619621253e-07
+"Thyroid"	"Lung Adeno"	4.13817958619927e-07
+"Soft Tissue"	"Colorectal Colon"	4.68931089805411e-07
+"Skin"	"Colorectal Colon"	7.07236603974373e-07
+"Uterus"	"Skin"	1.03743171490517e-06
+"Thyroid"	"Lung Squamous"	1.65971403522055e-06
+"Stomach"	"Ovary"	2.15484732956103e-06
+"Testis"	"Colorectal Colon"	2.18787195741003e-06
+"Stomach"	"Adrenal Gland"	3.12974408497086e-06
+"Head and Neck"	"Colorectal Colon"	3.74783433596619e-06
+"Colorectal Colon"	"Bone Marrow"	6.07420859718036e-06
+"Thymus"	"Colorectal Colon"	6.76274151997712e-06
+"Prostate"	"Lung Adeno"	8.36768658011723e-06
+"Lung Adeno"	"Breast"	1.27206331954462e-05
+"Lung Adeno"	"Brain Glioma"	1.38830654021544e-05
+"Stomach"	"Kidney Papilary"	1.62089703085083e-05
+"Skin"	"Bile Duct"	1.76481232693977e-05
+"Stomach"	"Liver"	1.93089093447691e-05
+"Prostate"	"Lung Squamous"	2.7158424795847e-05
+"Stomach"	"Soft Tissue"	2.93275931635011e-05
+"Stomach"	"Brain Glioblastoma"	3.03658286712088e-05
+"Lung Squamous"	"Brain Glioma"	4.41186919983334e-05
+"Lung Squamous"	"Breast"	5.01271015133892e-05
+"Testis"	"Stomach"	5.73473807991283e-05
+"Skin"	"Lymph Nodes"	9.28762109097533e-05
+"Pancreas"	"Colorectal Colon"	9.74227451605751e-05
+"Lung Adeno"	"Kidney Clear Cell"	0.000111668893636717
+"Thyroid"	"Bladder"	0.000140614421766472
+"Thymus"	"Stomach"	0.000140799173565954
+"Stomach"	"Bone Marrow"	0.000141479848849351
+"Eye"	"Colorectal Colon"	0.000167784990408387
+"Pleura"	"Colorectal Colon"	0.000243999152790574
+"Lung Adeno"	"Adrenal Gland"	0.000271269204293554
+"Lung Squamous"	"Kidney Clear Cell"	0.000275495936914026
+"Esophagus"	"Colorectal Colon"	0.000307083945289014
+"Stomach"	"Head and Neck"	0.000347499208741839
+"Lung Squamous"	"Adrenal Gland"	0.000523630587941518
+"Ovary"	"Lung Adeno"	0.000543548429210662
+"Skin"	"musta"	0.000559511264865232
+"Colorectal Colon"	"Cervix"	0.000681235788615795
+"Thyroid"	"Colorectal Rectum"	0.000987887210465455
+"Colorectal Colon"	"Adrenal Gland Carcinoma"	0.00100553969570932
+"Kidney Chromophobe"	"Colorectal Colon"	0.00104207493326227
+"Prostate"	"Bladder"	0.00122217957899621
+"Ovary"	"Lung Squamous"	0.00125597474351732
+"Stomach"	"Eye"	0.00157976557610015
+"Lung Adeno"	"Kidney Papilary"	0.00174382588855328
+"Brain Glioma"	"Bladder"	0.00186741073804348
+"Stomach"	"Pancreas"	0.0019550510100689
+"Testis"	"Lung Adeno"	0.00199210767059199
+"Stomach"	"Pleura"	0.00217197080552579
+"Soft Tissue"	"Lung Adeno"	0.00227486219364128
+"Lung Adeno"	"Liver"	0.00264350482812497
+"Testis"	"Lung Squamous"	0.00323928805709668
+"Lung Squamous"	"Kidney Papilary"	0.00334558273390845
+"Breast"	"Bladder"	0.003398772514373
+"Thymus"	"Lung Adeno"	0.00376049426034254
+"Prostate"	"Colorectal Rectum"	0.00381638770214144
+"Lung Adeno"	"Brain Glioblastoma"	0.00406578781272355
+"Soft Tissue"	"Lung Squamous"	0.00411809923632964
+"Lung Adeno"	"Bone Marrow"	0.00419213421150648
+"Colorectal Colon"	"Bladder"	0.00423192153641848
+"Bladder"	"Adrenal Gland"	0.00495465576939612
+"Colorectal Rectum"	"Brain Glioma"	0.00509769304613082
+"Stomach"	"Esophagus"	0.00509769304613082
+"Lung Squamous"	"Liver"	0.00509769304613082
+"Colorectal Rectum"	"Adrenal Gland"	0.00530374598435273
+"Kidney Clear Cell"	"Bladder"	0.00530374598435273
+"Thymus"	"Lung Squamous"	0.00552404329314171
+"Stomach"	"Kidney Chromophobe"	0.00613074926250131
+"Lung Squamous"	"Bone Marrow"	0.00636803860401938
+"Stomach"	"Adrenal Gland Carcinoma"	0.00758713103711046
+"Lung Squamous"	"Brain Glioblastoma"	0.00773655483116524
+"Kidney Clear Cell"	"Colorectal Rectum"	0.00861833981458983
+"Colorectal Rectum"	"Breast"	0.0104257463590776
+"Thyroid"	"Cervix"	0.0119424316322929
+"Testis"	"Colorectal Rectum"	0.0133829193438779
+"Stomach"	"Cervix"	0.0138076640147866
+"Lung Adeno"	"Eye"	0.0169669023939499
+"Testis"	"Bladder"	0.0175906482628291
+"Thyroid"	"Head and Neck"	0.0178405661597396
+"Ovary"	"Bladder"	0.0184156720716367
+"Thymus"	"Colorectal Rectum"	0.0191403831887748
+"Ovary"	"Colorectal Rectum"	0.022182489714186
+"Pleura"	"Lung Adeno"	0.0224668909362469
+"Lung Squamous"	"Eye"	0.0225651194699613
+"Colorectal Rectum"	"Bone Marrow"	0.0230420753754875
+"Lung Squamous"	"Colorectal Colon"	0.0251710996964007
+"Thymus"	"Bladder"	0.0267666251660007
+"Uterus"	"Colorectal Colon"	0.0267666251660007
+"Soft Tissue"	"Colorectal Rectum"	0.0267666251660007
+"Kidney Papilary"	"Colorectal Rectum"	0.0268165409889036
+"Lung Adeno"	"Head and Neck"	0.0290303541908602
+"Kidney Papilary"	"Bladder"	0.0291693098724109
+"Pleura"	"Lung Squamous"	0.0291693098724109
+"Soft Tissue"	"Bladder"	0.0310410355731622
+"Bone Marrow"	"Bladder"	0.0316179936838631
+"Colorectal Colon"	"Bile Duct"	0.0324973245026739
+"Lung Adeno"	"Colorectal Colon"	0.0350562952810394
+"Pancreas"	"Lung Adeno"	0.0393495484951877
+"Eye"	"Colorectal Rectum"	0.0405690108954536
+"Liver"	"Colorectal Rectum"	0.042917667736298
+"Lung Adeno"	"Kidney Chromophobe"	0.0438389810334353
+"Prostate"	"Cervix"	0.0450622317860524
+"Liver"	"Bladder"	0.0485491668218854
+"Lung Squamous"	"Head and Neck"	0.0504980292482452
+"Pleura"	"Colorectal Rectum"	0.051184690634376
+"Cervix"	"Adrenal Gland"	0.0531913122395303
+"Lung Squamous"	"Kidney Chromophobe"	0.0552357341394166
+"Pancreas"	"Lung Squamous"	0.056381935241252
+"Colorectal Rectum"	"Brain Glioblastoma"	0.0569559877066752
+"Cervix"	"Brain Glioma"	0.0604266882754463
+"Lung Adeno"	"Adrenal Gland Carcinoma"	0.0658679698115666
+"Eye"	"Bladder"	0.0660307682109816
+"Stomach"	"Bladder"	0.0678944501594662
+"Brain Glioblastoma"	"Bladder"	0.0687319599362365
+"Prostate"	"Head and Neck"	0.076155768352239
+"Kidney Chromophobe"	"Colorectal Rectum"	0.0788355926719875
+"Lung Squamous"	"Adrenal Gland Carcinoma"	0.0839157025526931
+"Pleura"	"Bladder"	0.0839157025526931
+"Lymph Nodes"	"Colorectal Colon"	0.0839157025526931
+"Lung Adeno"	"Esophagus"	0.0839157025526931
+"Stomach"	"Bile Duct"	0.0874157484721395
+"Uterus"	"Stomach"	0.0893424056026813
+"Head and Neck"	"Adrenal Gland"	0.091621318670095
+"Kidney Clear Cell"	"Cervix"	0.0931269885267011
+"musta"	"Colorectal Colon"	0.101601141407834
+"Head and Neck"	"Brain Glioma"	0.10279683999269
+"Testis"	"Cervix"	0.10279683999269
+"Lung Squamous"	"Esophagus"	0.115904725830033
+"Pancreas"	"Colorectal Rectum"	0.120767710260441
+"Cervix"	"Breast"	0.123100301159889
+"Colorectal Rectum"	"Adrenal Gland Carcinoma"	0.124771629344729
+"Kidney Chromophobe"	"Bladder"	0.131966532774481
+"Thymus"	"Cervix"	0.135970259414586
+"Cervix"	"Bone Marrow"	0.16923420657445
+"Kidney Clear Cell"	"Head and Neck"	0.170343537980879
+"Testis"	"Head and Neck"	0.179615276617296
+"Head and Neck"	"Colorectal Rectum"	0.181675066947624
+"Thyroid"	"Brain Glioblastoma"	0.188486699997661
+"Thyroid"	"Esophagus"	0.191474372926108
+"Stomach"	"Lymph Nodes"	0.204555952161294
+"Pancreas"	"Bladder"	0.204886940644197
+"Esophagus"	"Colorectal Rectum"	0.207379006999075
+"Stomach"	"musta"	0.20994062524845
+"Ovary"	"Cervix"	0.214749305685742
+"Bladder"	"Adrenal Gland Carcinoma"	0.215920369917436
+"Colorectal Rectum"	"Colorectal Colon"	0.216567132091456
+"Eye"	"Cervix"	0.216772821983772
+"Head and Neck"	"Breast"	0.219015543983511
+"Soft Tissue"	"Cervix"	0.222997832197627
+"Thymus"	"Head and Neck"	0.225808515657527
+"Lung Adeno"	"Cervix"	0.22625419556831
+"Kidney Papilary"	"Cervix"	0.232498544286544
+"Stomach"	"Lung Squamous"	0.255457829331591
+"Lung Adeno"	"Bile Duct"	0.257173647514274
+"Pleura"	"Cervix"	0.263421390944988
+"Head and Neck"	"Bone Marrow"	0.276223410900243
+"Head and Neck"	"Bladder"	0.286606459125012
+"Esophagus"	"Adrenal Gland"	0.289650750497712
+"Lung Squamous"	"Bile Duct"	0.289650750497712
+"Thyroid"	"Breast"	0.289650750497712
+"Thyroid"	"Liver"	0.289650750497712
+"Colorectal Rectum"	"Bile Duct"	0.296920608867424
+"Lung Squamous"	"Cervix"	0.305611264007619
+"Uterus"	"Lung Adeno"	0.321831752411274
+"Stomach"	"Lung Adeno"	0.328648528862827
+"Head and Neck"	"Eye"	0.330959843721115
+"Kidney Chromophobe"	"Cervix"	0.337419333448026
+"Brain Glioblastoma"	"Adrenal Gland"	0.348213267988436
+"Esophagus"	"Bladder"	0.351199115266836
+"Liver"	"Cervix"	0.358996653135591
+"Uterus"	"Lung Squamous"	0.367789957032408
+"Thyroid"	"Pancreas"	0.367789957032408
+"Ovary"	"Head and Neck"	0.37327508506558
+"Soft Tissue"	"Head and Neck"	0.378825386630243
+"Uterus"	"Colorectal Rectum"	0.384384216146547
+"Prostate"	"Esophagus"	0.384384216146547
+"Testis"	"Esophagus"	0.384384216146547
+"Pleura"	"Head and Neck"	0.392893386330904
+"Kidney Papilary"	"Head and Neck"	0.397573790569165
+"Colorectal Rectum"	"Cervix"	0.436553206252071
+"musta"	"Lung Adeno"	0.436553206252071
+"Thyroid"	"Ovary"	0.436553206252071
+"Thymus"	"Esophagus"	0.448360060630314
+"Liver"	"Adrenal Gland"	0.449228717330747
+"Bladder"	"Bile Duct"	0.449228717330747
+"Cervix"	"Brain Glioblastoma"	0.449228717330747
+"Prostate"	"Brain Glioblastoma"	0.449228717330747
+"Esophagus"	"Brain Glioma"	0.451284249050409
+"musta"	"Colorectal Rectum"	0.458291429257457
+"Pancreas"	"Adrenal Gland"	0.463307121363116
+"musta"	"Lung Squamous"	0.465861941727405
+"Testis"	"Brain Glioblastoma"	0.470235320772647
+"Kidney Chromophobe"	"Head and Neck"	0.473413326098096
+"Lymph Nodes"	"Lung Adeno"	0.473413326098096
+"Esophagus"	"Bone Marrow"	0.516839078205811
+"Lymph Nodes"	"Colorectal Rectum"	0.516839078205811
+"Eye"	"Esophagus"	0.516839078205811
+"Kidney Clear Cell"	"Esophagus"	0.516839078205811
+"Breast"	"Adrenal Gland"	0.517120474826129
+"Lymph Nodes"	"Lung Squamous"	0.519549754243514
+"Cervix"	"Adrenal Gland Carcinoma"	0.520230677832911
+"Brain Glioma"	"Brain Glioblastoma"	0.542987766992356
+"Thymus"	"Brain Glioblastoma"	0.544198569241158
+"Testis"	"Pancreas"	0.569087922756932
+"Stomach"	"Colorectal Colon"	0.570913644798429
+"Testis"	"Liver"	0.577824489364133
+"Thyroid"	"Kidney Papilary"	0.587628006093257
+"Ovary"	"Adrenal Gland"	0.589743711285666
+"Uterus"	"Bladder"	0.589876011658805
+"Pleura"	"Esophagus"	0.589876011658805
+"Liver"	"Head and Neck"	0.590975507159834
+"Prostate"	"Liver"	0.606211808315831
+"Pancreas"	"Cervix"	0.619842157789905
+"musta"	"Bladder"	0.628385878297926
+"Eye"	"Brain Glioblastoma"	0.628385878297926
+"Prostate"	"Pancreas"	0.628385878297926
+"Thymus"	"Pancreas"	0.628385878297926
+"Kidney Clear Cell"	"Brain Glioblastoma"	0.630089966577613
+"Brain Glioblastoma"	"Bone Marrow"	0.633854376379912
+"Stomach"	"Colorectal Rectum"	0.638058404769135
+"Uterus"	"Thyroid"	0.638058404769135
+"Thymus"	"Liver"	0.643603296350491
+"Kidney Chromophobe"	"Esophagus"	0.651669964559355
+"Uterus"	"Adrenal Gland"	0.658249710207238
+"Testis"	"Breast"	0.66275102507297
+"Lung Adeno"	"Bladder"	0.666234095861774
+"Pancreas"	"Eye"	0.680236150681624
+"Kidney Papilary"	"Adrenal Gland"	0.684378293167251
+"Cervix"	"Bile Duct"	0.694951414712448
+"Thyroid"	"Soft Tissue"	0.694951414712448
+"Prostate"	"Breast"	0.696423657363967
+"Esophagus"	"Breast"	0.698113913150737
+"Pleura"	"Brain Glioblastoma"	0.69999686538526
+"Liver"	"Brain Glioma"	0.69999686538526
+"Pancreas"	"Brain Glioma"	0.69999686538526
+"Soft Tissue"	"Esophagus"	0.69999686538526
+"Testis"	"Ovary"	0.69999686538526
+"Pancreas"	"Bone Marrow"	0.70011443971225
+"Liver"	"Eye"	0.70011443971225
+"Uterus"	"Testis"	0.701132101887476
+"Head and Neck"	"Adrenal Gland Carcinoma"	0.705203220984858
+"Lymph Nodes"	"Bladder"	0.705203220984858
+"Head and Neck"	"Brain Glioblastoma"	0.705203220984858
+"Cervix"	"Bladder"	0.720191576155977
+"Liver"	"Bone Marrow"	0.729005701151752
+"Thymus"	"Breast"	0.729005701151752
+"Kidney Papilary"	"Esophagus"	0.729005701151752
+"Thyroid"	"Lymph Nodes"	0.73637653607331
+"Lymph Nodes"	"Adrenal Gland"	0.737130792225012
+"Pleura"	"Pancreas"	0.737130792225012
+"Uterus"	"Thymus"	0.737130792225012
+"Pancreas"	"Kidney Clear Cell"	0.74071053442606
+"Soft Tissue"	"Adrenal Gland"	0.742250867439521
+"Ovary"	"Esophagus"	0.742250867439521
+"Uterus"	"Eye"	0.749894358534744
+"Kidney Chromophobe"	"Brain Glioblastoma"	0.751436095159738
+"Thyroid"	"Brain Glioma"	0.753055577532523
+"Liver"	"Kidney Clear Cell"	0.753055577532523
+"Thymus"	"Ovary"	0.753055577532523
+"Testis"	"Kidney Papilary"	0.761038742095414
+"Lung Squamous"	"Bladder"	0.764863051633282
+"Thyroid"	"Kidney Clear Cell"	0.764863051633282
+"Pleura"	"Liver"	0.764863051633282
+"Testis"	"Lymph Nodes"	0.764863051633282
+"Prostate"	"Ovary"	0.766128857585535
+"Thyroid"	"Adrenal Gland Carcinoma"	0.771093474367101
+"Eye"	"Breast"	0.771093474367101
+"Pancreas"	"Kidney Chromophobe"	0.775099834599035
+"Adrenal Gland Carcinoma"	"Adrenal Gland"	0.787790694714145
+"Uterus"	"Prostate"	0.787790694714145
+"Colorectal Rectum"	"Bladder"	0.78802306321166
+"Uterus"	"Bone Marrow"	0.78802306321166
+"Breast"	"Brain Glioma"	0.78802306321166
+"Ovary"	"Eye"	0.78802306321166
+"Thymus"	"Lymph Nodes"	0.78802306321166
+"Lymph Nodes"	"Eye"	0.790254564395087
+"Uterus"	"Pleura"	0.790254564395087
+"Esophagus"	"Cervix"	0.79267472084061
+"Head and Neck"	"Bile Duct"	0.797616564470223
+"musta"	"Cervix"	0.79839674199394
+"Breast"	"Bone Marrow"	0.805216454152722
+"Liver"	"Kidney Chromophobe"	0.805216454152722
+"Thymus"	"Kidney Papilary"	0.805216454152722
+"Testis"	"Soft Tissue"	0.807367647525068
+"Kidney Clear Cell"	"Adrenal Gland"	0.811874928142772
+"Brain Glioma"	"Adrenal Gland"	0.812956493906489
+"Soft Tissue"	"Brain Glioblastoma"	0.812956493906489
+"Uterus"	"Kidney Chromophobe"	0.812956493906489
+"Pancreas"	"Head and Neck"	0.816740578085278
+"Uterus"	"Brain Glioma"	0.819928236991282
+"Breast"	"Brain Glioblastoma"	0.820562203242709
+"Testis"	"Adrenal Gland Carcinoma"	0.824525671182435
+"Ovary"	"Bone Marrow"	0.824525671182435
+"Kidney Papilary"	"Eye"	0.824525671182435
+"Pleura"	"Lymph Nodes"	0.828460339565782
+"Lymph Nodes"	"Bone Marrow"	0.829604356994775
+"Pleura"	"Breast"	0.835542786504124
+"Uterus"	"Kidney Clear Cell"	0.83686918554216
+"Prostate"	"Lymph Nodes"	0.837948314319175
+"Uterus"	"Cervix"	0.840133118650753
+"Thyroid"	"Prostate"	0.840133118650753
+"Ovary"	"Brain Glioma"	0.841037094573345
+"Esophagus"	"Adrenal Gland Carcinoma"	0.841853406869382
+"Lymph Nodes"	"Kidney Chromophobe"	0.841853406869382
+"Pleura"	"Ovary"	0.841853406869382
+"Kidney Clear Cell"	"Breast"	0.84498570154508
+"Thymus"	"Soft Tissue"	0.84498570154508
+"Kidney Papilary"	"Brain Glioblastoma"	0.84571058365655
+"Prostate"	"Kidney Papilary"	0.84571058365655
+"Head and Neck"	"Cervix"	0.847051806300142
+"Thymus"	"Adrenal Gland Carcinoma"	0.852963415929086
+"Eye"	"Adrenal Gland Carcinoma"	0.856556206999833
+"Liver"	"Esophagus"	0.856556206999833
+"Soft Tissue"	"Eye"	0.856556206999833
+"Soft Tissue"	"Pancreas"	0.856556206999833
+"Lymph Nodes"	"Brain Glioma"	0.863544848101307
+"Prostate"	"Adrenal Gland"	0.864719233791968
+"Esophagus"	"Bile Duct"	0.864719233791968
+"Kidney Papilary"	"Bone Marrow"	0.864719233791968
+"Ovary"	"Brain Glioblastoma"	0.864719233791968
+"Kidney Chromophobe"	"Breast"	0.864719233791968
+"Testis"	"Kidney Clear Cell"	0.864719233791968
+"Testis"	"Brain Glioma"	0.869060430205407
+"Ovary"	"Kidney Chromophobe"	0.869060430205407
+"Lymph Nodes"	"Kidney Clear Cell"	0.869060430205407
+"Pleura"	"Kidney Papilary"	0.875101779677105
+"Ovary"	"Kidney Clear Cell"	0.876171300731782
+"musta"	"Head and Neck"	0.877952050363193
+"Pancreas"	"Breast"	0.885115072582207
+"Lymph Nodes"	"Cervix"	0.885115072582207
+"Pancreas"	"Kidney Papilary"	0.885115072582207
+"Soft Tissue"	"Liver"	0.90090308151934
+"Uterus"	"Soft Tissue"	0.905832002058261
+"Pleura"	"Adrenal Gland Carcinoma"	0.913559665250613
+"Kidney Papilary"	"Kidney Chromophobe"	0.913559665250613
+"Bone Marrow"	"Adrenal Gland Carcinoma"	0.915431451665812
+"Soft Tissue"	"Bone Marrow"	0.915431451665812
+"Kidney Papilary"	"Brain Glioma"	0.915431451665812
+"Thymus"	"Kidney Clear Cell"	0.915431451665812
+"Pancreas"	"Ovary"	0.915431451665812
+"Soft Tissue"	"Pleura"	0.915431451665812
+"Soft Tissue"	"Prostate"	0.915431451665812
+"musta"	"Adrenal Gland"	0.916570880314896
+"Prostate"	"Adrenal Gland Carcinoma"	0.916570880314896
+"Thymus"	"Brain Glioma"	0.916570880314896
+"Kidney Clear Cell"	"Eye"	0.916570880314896
+"Kidney Chromophobe"	"Adrenal Gland Carcinoma"	0.921106081360573
+"Eye"	"Brain Glioma"	0.921106081360573
+"Uterus"	"Kidney Papilary"	0.921106081360573
+"Thyroid"	"musta"	0.921106081360573
+"Bile Duct"	"Adrenal Gland"	0.922745067833299
+"Testis"	"Prostate"	0.922745067833299
+"Soft Tissue"	"Lymph Nodes"	0.923521368961293
+"Esophagus"	"Brain Glioblastoma"	0.925439586056776
+"Thyroid"	"Bile Duct"	0.9262355619755
+"Liver"	"Breast"	0.9262355619755
+"Uterus"	"Breast"	0.9262355619755
+"Soft Tissue"	"Kidney Chromophobe"	0.9262355619755
+"Liver"	"Kidney Papilary"	0.9262355619755
+"Testis"	"musta"	0.9262355619755
+"musta"	"Esophagus"	0.930510486273282
+"Brain Glioblastoma"	"Adrenal Gland Carcinoma"	0.93161738528577
+"Brain Glioblastoma"	"Bile Duct"	0.93161738528577
+"Uterus"	"Bile Duct"	0.93161738528577
+"musta"	"Eye"	0.93161738528577
+"Kidney Papilary"	"Kidney Clear Cell"	0.93161738528577
+"Uterus"	"Ovary"	0.93161738528577
+"Testis"	"Bile Duct"	0.932712639842406
+"Lymph Nodes"	"Kidney Papilary"	0.932712639842406
+"Pancreas"	"Bile Duct"	0.932831961338521
+"Thymus"	"musta"	0.933035177578849
+"Brain Glioma"	"Adrenal Gland Carcinoma"	0.939942032869522
+"Pancreas"	"Adrenal Gland Carcinoma"	0.939942032869522
+"Uterus"	"Adrenal Gland Carcinoma"	0.939942032869522
+"Eye"	"Bile Duct"	0.939942032869522
+"Lymph Nodes"	"Bile Duct"	0.939942032869522
+"Lymph Nodes"	"Breast"	0.939942032869522
+"Uterus"	"Head and Neck"	0.939942032869522
+"Pancreas"	"Esophagus"	0.941116314670006
+"Prostate"	"Eye"	0.941116314670006
+"Ovary"	"Liver"	0.941116314670006
+"Ovary"	"Lymph Nodes"	0.941116314670006
+"Thymus"	"Bile Duct"	0.942040108129442
+"Thymus"	"Prostate"	0.942040108129442
+"Bone Marrow"	"Adrenal Gland"	0.943168525112218
+"Lymph Nodes"	"Adrenal Gland Carcinoma"	0.945193498627728
+"Soft Tissue"	"Brain Glioma"	0.945193498627728
+"Pleura"	"Kidney Clear Cell"	0.945193498627728
+"Pleura"	"musta"	0.947204792617263
+"Kidney Clear Cell"	"Adrenal Gland Carcinoma"	0.947229587812734
+"Head and Neck"	"Esophagus"	0.947229587812734
+"Liver"	"Bile Duct"	0.950643827137301
+"Kidney Clear Cell"	"Bone Marrow"	0.950643827137301
+"Thyroid"	"Bone Marrow"	0.950643827137301
+"Pleura"	"Brain Glioma"	0.950643827137301
+"musta"	"Kidney Chromophobe"	0.950643827137301
+"musta"	"Bone Marrow"	0.953490027315453
+"Lymph Nodes"	"Head and Neck"	0.956654081816765
+"Brain Glioma"	"Bone Marrow"	0.961533983270493
+"Kidney Clear Cell"	"Kidney Chromophobe"	0.961533983270493
+"Liver"	"Adrenal Gland Carcinoma"	0.962720950871681
+"Kidney Chromophobe"	"Bile Duct"	0.962720950871681
+"Pleura"	"Bile Duct"	0.962720950871681
+"Testis"	"Bone Marrow"	0.962720950871681
+"Liver"	"Brain Glioblastoma"	0.962720950871681
+"musta"	"Brain Glioblastoma"	0.962720950871681
+"Kidney Chromophobe"	"Brain Glioma"	0.962720950871681
+"Soft Tissue"	"Breast"	0.962720950871681
+"Prostate"	"Kidney Clear Cell"	0.962720950871681
+"Soft Tissue"	"Kidney Clear Cell"	0.962720950871681
+"musta"	"Lymph Nodes"	0.962720950871681
+"Pancreas"	"musta"	0.962720950871681
+"Prostate"	"musta"	0.962720950871681
+"Uterus"	"musta"	0.962720950871681
+"Bone Marrow"	"Bile Duct"	0.962759909880331
+"Soft Tissue"	"Ovary"	0.962759909880331
+"Uterus"	"Liver"	0.963034656801624
+"Kidney Chromophobe"	"Adrenal Gland"	0.968069848493372
+"Pleura"	"Adrenal Gland"	0.968069848493372
+"Eye"	"Bone Marrow"	0.968069848493372
+"Prostate"	"Brain Glioma"	0.968069848493372
+"Lung Squamous"	"Colorectal Rectum"	0.968069848493372
+"Lymph Nodes"	"Liver"	0.968069848493372
+"Pancreas"	"Liver"	0.968069848493372
+"Lung Squamous"	"Lung Adeno"	0.968069848493372
+"Prostate"	"Pleura"	0.970783305590669
+"Breast"	"Bile Duct"	0.977729006116554
+"Ovary"	"Bile Duct"	0.977729006116554
+"Prostate"	"Bile Duct"	0.977729006116554
+"Thymus"	"Bone Marrow"	0.977729006116554
+"musta"	"Brain Glioma"	0.977729006116554
+"Uterus"	"Esophagus"	0.977729006116554
+"Prostate"	"Kidney Chromophobe"	0.977729006116554
+"Testis"	"Kidney Chromophobe"	0.977729006116554
+"Thyroid"	"Kidney Chromophobe"	0.977729006116554
+"musta"	"Kidney Clear Cell"	0.977729006116554
+"musta"	"Liver"	0.977729006116554
+"Thyroid"	"Pleura"	0.977729006116554
+"Thymus"	"Adrenal Gland"	0.979790416324563
+"Testis"	"Pleura"	0.979790416324563
+"Prostate"	"Bone Marrow"	0.982970196651076
+"Bile Duct"	"Adrenal Gland Carcinoma"	0.986676491522022
+"Soft Tissue"	"Adrenal Gland Carcinoma"	0.986676491522022
+"Kidney Papilary"	"Breast"	0.986676491522022
+"Lymph Nodes"	"Esophagus"	0.986676491522022
+"Kidney Chromophobe"	"Eye"	0.986676491522022
+"Pleura"	"Eye"	0.986676491522022
+"Ovary"	"Kidney Papilary"	0.986676491522022
+"Soft Tissue"	"Kidney Papilary"	0.986676491522022
+"Uterus"	"Brain Glioblastoma"	0.988198567277399
+"Thyroid"	"Adrenal Gland"	0.988611678870183
+"Brain Glioma"	"Bile Duct"	0.988611678870183
+"Kidney Papilary"	"Bile Duct"	0.988611678870183
+"Lymph Nodes"	"Brain Glioblastoma"	0.988611678870183
+"Eye"	"Adrenal Gland"	0.989662013339767
+"Kidney Clear Cell"	"Bile Duct"	0.989662013339767
+"musta"	"Bile Duct"	0.989662013339767
+"Pleura"	"Bone Marrow"	0.989662013339767
+"Thymus"	"Kidney Chromophobe"	0.989662013339767
+"Pancreas"	"Lymph Nodes"	0.989662013339767
+"Uterus"	"Pancreas"	0.989662013339767
+"Thymus"	"Pleura"	0.989662013339767
+"Thymus"	"Testis"	0.989662013339767
+"Thyroid"	"Thymus"	0.989662013339767
+"Testis"	"Adrenal Gland"	0.989808374811976
+"Lung Adeno"	"Colorectal Rectum"	0.991484832826375
+"Kidney Clear Cell"	"Brain Glioma"	0.992607488592655
+"Thymus"	"Eye"	0.992607488592655
+"Soft Tissue"	"musta"	0.992607488592655
+"Soft Tissue"	"Bile Duct"	0.994228082677835
+"Kidney Chromophobe"	"Bone Marrow"	0.994228082677835
+"Breast"	"Adrenal Gland Carcinoma"	0.994891804163062
+"Kidney Papilary"	"Adrenal Gland Carcinoma"	0.994891804163062
+"musta"	"Adrenal Gland Carcinoma"	0.994891804163062
+"Ovary"	"Adrenal Gland Carcinoma"	0.994891804163062
+"Pancreas"	"Brain Glioblastoma"	0.994891804163062
+"musta"	"Breast"	0.994891804163062
+"Ovary"	"Breast"	0.994891804163062
+"Testis"	"Eye"	0.994891804163062
+"Thyroid"	"Eye"	0.994891804163062
+"Pleura"	"Kidney Chromophobe"	0.994891804163062
+"musta"	"Kidney Papilary"	0.994891804163062
+"Uterus"	"Lymph Nodes"	0.994891804163062
+"Ovary"	"musta"	0.994891804163062
+"Thyroid"	"Testis"	0.994891804163062
