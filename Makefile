@@ -8,11 +8,20 @@ GROUPID=$(shell id -g)
 endif
 
 help:
-	@echo "Please use \`make <target>\` where <target> is one of"
-	@echo "  bootstrap               build the musta image"
-	@echo "  clean                   remove the musta image from your computer"
-	@echo "  purge                   remove all unused containers, networks, images and volumes"
-	@echo "  "
+	@echo "	MUSTA (MUtation and Somatic Tumor Analysis"
+	@echo "		A novel affordable and reliable framework for accurate detection "
+	@echo "		and comprehensive analysis of somatic mutations in cancer"
+	@echo "		https://github.com/next-crs4/mustapy"
+	@echo " "
+	@echo "	Please use \`make <target>\` where <target> is one of"
+	@echo "		bootstrap               build the musta image"
+	@echo "		clean                   remove the musta image from your computer"
+	@echo "		purge                   remove all unused containers, networks, images and volumes"
+	@echo " "
+	@echo "	usage:"
+	@echo "		make bootstrap"
+	@echo "	"
+	@echo "	Docs: https://next-crs4.github.io/mustapy"
 
 init:
 	@mkdir -p ~/.local/bin
