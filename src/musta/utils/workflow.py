@@ -175,7 +175,7 @@ class Workflow(object):
         self.samples = None
         self.pipe = None
 
-        self.cores = get_cores()
+        self.cores = get_cores(reserve_cores=1, max_cores=99)
 
     def init_config_file(self, base=None, gatk_params=None, vep_params=None):
         self.pipe_cfg = cfg(config_file=self.pipe_config_file,
