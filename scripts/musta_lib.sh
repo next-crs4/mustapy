@@ -276,29 +276,36 @@ process_samples_file() {
 
   if [ -f "$samples_file" ]; then
     keys=$(grep -E '^[a-zA-Z0-9_]+:' "$samples_file" | sed 's/:$//')
+  else
+    check_file "$samples_file"
+  fi
 
-    get_value() {
-      local key="$1"
-      local type="$2"
-      grep -A 1000 "^${key}:" "$samples_file" | awk -v type="$type" '/^[[:space:]]+[-]?[[:space:]]+'"$type"':/ {getline; print}' | sed -E 's/^[[:space:]]+-[[:space:]]+//'
-    }
+  check_detect=$(echo "${PARAMS}" | grep -wq "detect")
+  check_classify=$(echo "${PARAMS}" | grep -wq "classify")
+  check_interpret=$(echo "${PARAMS}" | grep -wq "interpret")
 
-    get_filename_and_extension() {
-      local file_path="$1"
-      file_path=$(echo $file_path | awk '{$1=$1};1')
+  get_value() {
+    local key="$1"
+    local type="$2"
+    grep -A 1000 "^${key}:" "$samples_file" | awk -v type="$type" '/^[[:space:]]+[-]?[[:space:]]+'"$type"':/ {getline; print}' | sed -E 's/^[[:space:]]+-[[:space:]]+//'
+  }
 
-      if [ -f "$file_path" ]; then
-        local filename=$(basename "$file_path")
-        local extension="${filename##*.}"
-        filename=$(echo "$filename" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-        extension=$(echo "$extension" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-        echo "$filename $extension"
-      else
-        log "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
-      fi
-    }
+  get_filename_and_extension() {
+    local file_path="$1"
+    file_path=$(echo $file_path | awk '{$1=$1};1')
 
-   mount_bam_file() {
+    if [ -f "$file_path" ]; then
+      local filename=$(basename "$file_path")
+      local extension="${filename##*.}"
+      filename=$(echo "$filename" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+      extension=$(echo "$extension" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+      echo "$filename $extension"
+    else
+      log "ERROR: $file_path does not exist or is not a file. Exiting..." && exit 1
+    fi
+  }
+
+  mount_bam_file() {
     local file_path="$1"
     local target_dir="$2"
 
@@ -364,22 +371,21 @@ process_samples_file() {
   }
 
 
-    for key in $keys; do
-      if grep -q "^${key}:" "$samples_file"; then
-        normal_bam=$(get_value "$key" "normal_bam" | head -n 1)
-        tumor_bam=$(get_value "$key" "tumor_bam" | head -n 1)
-        vcf=$(get_value "$key" "vcf" | head -n 1)
-        maf=$(get_value "$key" "maf" | head -n 1)
+  for key in $keys; do
+    if grep -q "^${key}:" "$samples_file"; then
+      [ "$check_detect" ] && normal_bam=$(get_value "$key" "normal_bam" | head -n 1)
+      [ "$check_detect" ] && tumor_bam=$(get_value "$key" "tumor_bam" | head -n 1)
+      [ "$check_classify" ] && vcf=$(get_value "$key" "vcf" | head -n 1)
+      [ "$check_interpret" ] && maf=$(get_value "$key" "maf" | head -n 1)
 
-        [ -n "$normal_bam" ] && mount_bam_file "$normal_bam" "/volumes/inputs"
-        [ -n "$tumor_bam" ] && mount_bam_file "$tumor_bam" "/volumes/inputs"
+      [ "$check_detect" ] && [ -n "$normal_bam" ] && mount_bam_file "$normal_bam" "/volumes/inputs"
+      [ "$check_detect" ] && [ -n "$tumor_bam" ] && mount_bam_file "$tumor_bam" "/volumes/inputs"
 
-        [ -n "$vcf" ] && mount_vcf_file "$vcf" "/volumes/inputs"
+      [ "$check_classify" ] && [ -n "$vcf" ] && mount_vcf_file "$vcf" "/volumes/inputs"
 
-        [ -n "$maf" ] && mount_maf_file "$maf" "/volumes/inputs"
-      fi
-    done
-  fi
+      [ "$check_interpret" ] && [ -n "$maf" ] && mount_maf_file "$maf" "/volumes/inputs"
+    fi
+  done
 }
 
 show_help() {

@@ -3,7 +3,7 @@ FROM python:3.8
 ARG USER_ID
 ARG GROUP_ID
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED="1"
 RUN mkdir /code
 WORKDIR /code
 COPY . /code
@@ -12,7 +12,7 @@ RUN mkdir /config
 
 ADD /config/* /config/
 
-ENV PATH /opt/conda/bin:$PATH
+ENV PATH="/opt/conda/bin:$PATH"
 
 RUN apt-get -qq update && \
     apt-get install --no-install-recommends -y dialog apt-utils software-properties-common git wget curl bzip2 && \
@@ -44,6 +44,6 @@ RUN sh /config/create_paths.sh
 RUN cd /code/src && make install && cd /code
 
 USER appuser
-ENV PATH /opt/conda/envs/musta/bin:$PATH
+ENV PATH="/opt/conda/envs/musta/bin:$PATH"
 RUN echo "source activate musta" > ~/.bashrc
 ENV  PATH="$PATH:/code/src/bin:/usr/local/bin"
