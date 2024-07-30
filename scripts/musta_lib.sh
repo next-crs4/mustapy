@@ -280,9 +280,24 @@ process_samples_file() {
     check_file "$samples_file"
   fi
 
-  check_detect=$(echo "${PARAMS}" | grep -wq "detect")
-  check_classify=$(echo "${PARAMS}" | grep -wq "classify")
-  check_interpret=$(echo "${PARAMS}" | grep -wq "interpret")
+  if echo "${PARAMS}" | grep -wq "detect"; then
+    check_detect=true
+  else
+    check_detect=false
+  fi
+
+  
+  if echo "${PARAMS}" | grep -wq "classify"; then
+    check_classify=true
+  else
+    check_classify=false
+  fi
+
+  if echo "${PARAMS}" | grep -wq "interpret"; then
+    check_interpret=true
+  else
+    check_interpret=false
+  fi
 
   get_value() {
     local key="$1"
@@ -373,17 +388,17 @@ process_samples_file() {
 
   for key in $keys; do
     if grep -q "^${key}:" "$samples_file"; then
-      [ "$check_detect" ] && normal_bam=$(get_value "$key" "normal_bam" | head -n 1)
-      [ "$check_detect" ] && tumor_bam=$(get_value "$key" "tumor_bam" | head -n 1)
-      [ "$check_classify" ] && vcf=$(get_value "$key" "vcf" | head -n 1)
-      [ "$check_interpret" ] && maf=$(get_value "$key" "maf" | head -n 1)
+      [ "$check_detect" = true ] && normal_bam=$(get_value "$key" "normal_bam" | head -n 1)
+      [ "$check_detect" = true ] && tumor_bam=$(get_value "$key" "tumor_bam" | head -n 1)
+      [ "$check_classify" = true ] && vcf=$(get_value "$key" "vcf" | head -n 1)
+      [ "$check_interpret" = true ] && maf=$(get_value "$key" "maf" | head -n 1)
 
-      [ "$check_detect" ] && [ -n "$normal_bam" ] && mount_bam_file "$normal_bam" "/volumes/inputs"
-      [ "$check_detect" ] && [ -n "$tumor_bam" ] && mount_bam_file "$tumor_bam" "/volumes/inputs"
+      [ "$check_detect" = true ] && [ -n "$normal_bam" ] && mount_bam_file "$normal_bam" "/volumes/inputs"
+      [ "$check_detect" = true ] && [ -n "$tumor_bam" ] && mount_bam_file "$tumor_bam" "/volumes/inputs"
 
-      [ "$check_classify" ] && [ -n "$vcf" ] && mount_vcf_file "$vcf" "/volumes/inputs"
+      [ "$check_classify" = true ] && [ -n "$vcf" ] && mount_vcf_file "$vcf" "/volumes/inputs"
 
-      [ "$check_interpret" ] && [ -n "$maf" ] && mount_maf_file "$maf" "/volumes/inputs"
+      [ "$check_interpret" = true ] && [ -n "$maf" ] && mount_maf_file "$maf" "/volumes/inputs"
     fi
   done
 }
